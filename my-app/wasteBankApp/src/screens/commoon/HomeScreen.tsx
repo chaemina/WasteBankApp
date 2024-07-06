@@ -1,5 +1,5 @@
 import { Button, Text, View } from 'react-native';
-import { useNav } from '../hooks/useNav';
+import { useNav } from '../../hooks/useNav';
 
 
 const HomeScreen = () => {
