@@ -27,7 +27,9 @@ function StackNavigation() {
         initialRouteName="Home"
         screenOptions={({ route }) => ({
           ...customStackNavigationOptions,
-          headerShown: false,
+          headerShown: !(
+            route.name === 'Home'
+          ),
         })}
       >
         <Stack.Screen name="Login" component={LoginScreen} />
