@@ -1,6 +1,7 @@
 import React, { FC } from "react";
 import { Text } from "react-native";
 import styled from 'styled-components/native';
+import { scale } from "../../../utils/Scale";
 
 export type Props = {
   children: string;
@@ -12,13 +13,13 @@ export type Props = {
 const getFontSize = (size: 'title' | 'body' | 'caption' | undefined): number => {
   switch (size) {
     case 'title':
-      return 20;
+      return scale(10);  // scale 함수를 사용하여 크기를 조정합니다.
     case 'body':
-      return 16;
+      return scale(8);  // scale 함수를 사용하여 크기를 조정합니다.
     case 'caption':
-      return 12;
+      return scale(5);  // scale 함수를 사용하여 크기를 조정합니다.
     default:
-      return 16;
+      return scale(8);  // 기본 크기를 scale 함수를 사용하여 조정합니다.
   }
 };
 

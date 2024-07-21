@@ -7,26 +7,18 @@ import ScrollContainer from '../../components/common/atoms/ScrollContainer';
 import CustomInput from '../../components/common/atoms/CustomInput';
 import CustomAlert from '../../components/common/atoms/CustomAlert';
 
+
 // Components Using Example Code 
 const HomeScreen = () => {
   const navigation = useNav();
-  const [modalVisible, setModalVisible] = useState(false);
-
-  const openModal = () => {
-    setModalVisible(true);
-  };
-
-  const closeModal = () => {
-    setModalVisible(false);
-  };
-
+  
   return (
     <ScrollContainer>
       <CustomText>HomeScreen</CustomText>
       <CustomButton 
         size='lg'
         label="Open Modal" 
-        onPress={openModal} 
+        onPress={()=> navigation.push('Login')} 
       />
       <CustomInput
         placeholder="Enter text"
@@ -37,15 +29,7 @@ const HomeScreen = () => {
         placeholder="Enter text"
         label="Full Width Input"
       />
-        <View style={styles.modalBackground}>
-          <CustomAlert
-            title="Alert Title"
-            text="This is an alert message."
-            visible={modalVisible}
-            onClose={closeModal}
-            
-          />
-        </View>
+    
     </ScrollContainer>
   );
 };
