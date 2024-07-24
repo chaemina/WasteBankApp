@@ -12,20 +12,22 @@ type CustomInputProps = {
   defaultValue?: string;
   keyboardType?: TextInputProps['keyboardType'];
   label?: string;
+  labelColor?: string;
+  inputColor?: string; 
 };
 
 const Container = styled.View`
   margin: ${scale(10)}px;
 `;
 
-const StyledInput = styled.TextInput<{ inputWidth: number }>`
+const StyledInput = styled.TextInput<{ inputWidth: number; inputColor: string }>`
   height: ${moderateScale(48, 0.3)}px;
   width: ${({ inputWidth }) => moderateScale(inputWidth, 0.3)}px;
   border-width: 2px;
   padding: ${scale(10)}px;
   border-radius: 8px;
-  border-color: #000000;
-  background-color: #fff;
+  border-color: ${({ inputColor }) => inputColor === '#40892d' ? 'white' : '#4C4C4C'};
+  background-color: ${({ inputColor }) => inputColor};
 `;
 
 const CustomInput: React.FC<CustomInputProps> = ({
@@ -36,15 +38,18 @@ const CustomInput: React.FC<CustomInputProps> = ({
   defaultValue,
   keyboardType,
   label,
+  labelColor = '#000', 
+  inputColor = '#fff', 
 }) => {
   const [value, setValue] = useState(defaultValue || '');
 
   return (
     <Container>
-      {label && <CustomText>{label}</CustomText>}
+      {label && <CustomText color={labelColor}>{label}</CustomText>}
       <StyledInput
         style={style}
         inputWidth={width}
+        inputColor={inputColor}
         onChangeText={setValue}
         value={value}
         placeholder={placeholder}

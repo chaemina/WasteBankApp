@@ -5,6 +5,8 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import LoginScreen from "../screens/commoon/LoginScreen"; 
 import RoleSelectScreen from '../screens/commoon/RoleSelectScreen';
 import SignupScreen from '../screens/commoon/SignupScreen';
+import AuthenticationSelectScreen from '../screens/commoon/AuthenticationSelectScreen';
+import AuthenticationScreen from '../screens/commoon/AuthenticationScreen';
 
 const Stack = createNativeStackNavigator();
 
@@ -36,6 +38,8 @@ function StackNavigation() {
         <Stack.Screen name="Login" component={LoginScreen} />
         <Stack.Screen name="RoleSelect" component={RoleSelectScreen} />
         <Stack.Screen name="Signup" component={SignupScreen} />
+        <Stack.Screen name="AuthenticationSelect" component={AuthenticationSelectScreen} />
+        <Stack.Screen name="Authentication" component={AuthenticationScreen} />
       </Stack.Navigator>
     </NavigationContainer>
   );
