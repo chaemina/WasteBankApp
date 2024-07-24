@@ -3,7 +3,7 @@ import React from 'react';
 import { NavigationContainer, DefaultTheme } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import LoginScreen from "../screens/commoon/LoginScreen"; 
-import HomeScreen from '../screens/commoon/HomeScreen';
+import RoleSelectScreen from '../screens/commoon/RoleSelectScreen';
 
 const Stack = createNativeStackNavigator();
 
@@ -24,16 +24,16 @@ function StackNavigation() {
   return (
     <NavigationContainer theme={navTheme}>
       <Stack.Navigator
-        initialRouteName="Home"
+        initialRouteName="Login"
         screenOptions={({ route }) => ({
           ...customStackNavigationOptions,
           headerShown: !(
-            route.name === 'Home'
+            route.name === 'Login'
           ),
         })}
       >
         <Stack.Screen name="Login" component={LoginScreen} />
-        <Stack.Screen name="Home" component={HomeScreen} />
+        <Stack.Screen name="RoleSelect" component={RoleSelectScreen} />
       </Stack.Navigator>
     </NavigationContainer>
   );

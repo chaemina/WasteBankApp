@@ -13,13 +13,13 @@ export type Props = {
 const getFontSize = (size: 'title' | 'body' | 'caption' | undefined): number => {
   switch (size) {
     case 'title':
-      return scale(10);  // scale 함수를 사용하여 크기를 조정합니다.
+      return scale(20);  
     case 'body':
-      return scale(8);  // scale 함수를 사용하여 크기를 조정합니다.
+      return scale(16);  
     case 'caption':
-      return scale(5);  // scale 함수를 사용하여 크기를 조정합니다.
+      return scale(12);  
     default:
-      return scale(8);  // 기본 크기를 scale 함수를 사용하여 조정합니다.
+      return scale(16);  
   }
 };
 
