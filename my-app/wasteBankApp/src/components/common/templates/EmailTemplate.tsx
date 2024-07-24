@@ -27,7 +27,7 @@ const EmailTemplate = () => {
     <ScrollContainer>
       <CustomTitle>VERIFIKASI AKUN</CustomTitle>
 
-      <CustomText>Kami sudah mengirimkan kode ke email anda</CustomText>
+      <CustomText size='caption' color='#4C4C4C'>Kami sudah mengirimkan kode ke email anda</CustomText>
       <InputContainer>
         <CustomInput label="kode" labelColor="white" inputColor="#40892d" keyboardType='numeric' />
         <CustomButton size="sm" color="white" label="VERIFIKASI"/>
