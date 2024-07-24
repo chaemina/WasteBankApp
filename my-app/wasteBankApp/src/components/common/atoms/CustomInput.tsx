@@ -1,17 +1,32 @@
 import React, { useState } from 'react';
+import styled from 'styled-components/native';
+import { TextInputProps, ViewStyle } from 'react-native';
 import CustomText from './CustomText';
-import { SafeAreaView, TextInput, StyleSheet, TextInputProps, ViewStyle } from 'react-native';
 import { moderateScale, scale } from '../../../utils/Scale';
 
 type CustomInputProps = {
   placeholder?: string;
-  width?: 150 | 250;
+  width?: number;
   style?: ViewStyle;
   autoFocus?: boolean;
   defaultValue?: string;
   keyboardType?: TextInputProps['keyboardType'];
   label?: string;
 };
+
+const Container = styled.View`
+  margin: ${scale(10)}px;
+`;
+
+const StyledInput = styled.TextInput<{ inputWidth: number }>`
+  height: ${moderateScale(48, 0.3)}px;
+  width: ${({ inputWidth }) => moderateScale(inputWidth, 0.3)}px;
+  border-width: 2px;
+  padding: ${scale(10)}px;
+  border-radius: 8px;
+  border-color: #000000;
+  background-color: #fff;
+`;
 
 const CustomInput: React.FC<CustomInputProps> = ({
   placeholder,
@@ -24,50 +39,20 @@ const CustomInput: React.FC<CustomInputProps> = ({
 }) => {
   const [value, setValue] = useState(defaultValue || '');
 
-  const inputStyle = StyleSheet.flatten([
-    styles.defaultInput,
-    { width: moderateScale(width, 0.3) },
-    style,
-  ]);
-
   return (
-    <SafeAreaView>
+    <Container>
       {label && <CustomText>{label}</CustomText>}
-      <TextInput
-        style={inputStyle}
+      <StyledInput
+        style={style}
+        inputWidth={width}
         onChangeText={setValue}
         value={value}
         placeholder={placeholder}
         autoFocus={autoFocus}
         keyboardType={keyboardType}
       />
-    </SafeAreaView>
+    </Container>
   );
 };
 
-const styles = StyleSheet.create({
-  defaultInput: {
-    height: moderateScale(48, 0.3),
-    borderWidth: 2,
-    padding: scale(10),
-    margin: scale(10),
-    borderRadius: 8,
-    borderColor: '#000000',
-    backgroundColor: '#fff',
-  },
-});
-
 export default CustomInput;
-
-// Using Input Component
-
-{/* <CustomInput
-  placeholder="Enter text"
-  label="Default Width (250)"
-/>
-
-<CustomInput
-  placeholder="Enter text"
-  label="Width 100"
-  width={100}
-/> */}

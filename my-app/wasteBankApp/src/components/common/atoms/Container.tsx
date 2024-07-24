@@ -17,6 +17,7 @@ const Container: React.FC<ContainerProps> = ({ children }) => {
     height: height,
     alignItems: 'center',
     padding: scale(10),
+    gap: scale(10),
   };
 
   return (

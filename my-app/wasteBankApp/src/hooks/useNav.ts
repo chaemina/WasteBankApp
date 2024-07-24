@@ -4,6 +4,7 @@ import { useNavigation } from '@react-navigation/native';
 type RootStackParam = {
   Login: undefined;
   RoleSelect: undefined;
+  Signup: undefined;
 };
 
 export const useNav = () => {

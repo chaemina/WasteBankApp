@@ -15,6 +15,7 @@ const ScrollContainer: React.FC<ScrollContainerProps> = ({ children }) => {
     height: `100%`,
     alignItems: 'center',
     padding: scale(10),
+    gap: scale(10),
   };
 
   // 디바이스가 태블릿인 경우 ScrollView 사용, 그렇지 않으면 View 사용

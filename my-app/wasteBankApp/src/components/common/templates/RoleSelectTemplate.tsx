@@ -2,18 +2,17 @@ import React from 'react';
 import { useNav } from '../../../hooks/useNav';
 import CustomTitle from '../atoms/CustomTitle';
 import CustomButton from '../atoms/CustomButton';
-import Container from '../atoms/Container';
 import ScrollContainer from '../atoms/ScrollContainer';
 
 const RoleSelectTemplate = () => {
   const navigation = useNav();
 
   return (
-    <Container>
+    <ScrollContainer>
         <CustomTitle >Select Your Role</CustomTitle>
-             <CustomButton size='lg' label='User'/>
-             <CustomButton size='lg' label='Collector'/>
-    </Container>
+             <CustomButton size='lg' label='User' onPress={() => { navigation.push('Signup') }}/>
+             <CustomButton size='lg' label='Collector' onPress={() => { navigation.push('Signup') }}/>
+    </ScrollContainer>
   );
 };
 
