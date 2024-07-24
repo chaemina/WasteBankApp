@@ -7,6 +7,8 @@ import RoleSelectScreen from '../screens/commoon/RoleSelectScreen';
 import SignupScreen from '../screens/commoon/SignupScreen';
 import AuthenticationSelectScreen from '../screens/commoon/AuthenticationSelectScreen';
 import AuthenticationScreen from '../screens/commoon/AuthenticationScreen';
+import TrashInfoScreen from '../screens/collector/TrashInfoScreen';
+
 
 const Stack = createNativeStackNavigator();
 
@@ -27,7 +29,7 @@ function StackNavigation() {
   return (
     <NavigationContainer theme={navTheme}>
       <Stack.Navigator
-        initialRouteName="Login"
+        initialRouteName="TrashInfo"
         screenOptions={({ route }) => ({
           ...customStackNavigationOptions,
           headerShown: !(
@@ -40,6 +42,7 @@ function StackNavigation() {
         <Stack.Screen name="Signup" component={SignupScreen} />
         <Stack.Screen name="AuthenticationSelect" component={AuthenticationSelectScreen} />
         <Stack.Screen name="Authentication" component={AuthenticationScreen} />
+        <Stack.Screen name="TrashInfo" component={TrashInfoScreen} />
       </Stack.Navigator>
     </NavigationContainer>
   );

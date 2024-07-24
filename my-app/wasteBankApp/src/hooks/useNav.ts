@@ -7,6 +7,7 @@ export type RootStackParam = {
   Signup: undefined;
   AuthenticationSelect: undefined;
   Authentication: { method: string };
+  TrashInfo: undefined;
 };
 
 export const useNav = () => {
