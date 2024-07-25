@@ -1,6 +1,6 @@
 import React, { ReactNode } from 'react';
 import { View, SafeAreaView, ScrollView, ViewStyle } from 'react-native';
-import { scale, width } from '../../../utils/Scale';
+import { scale, width, height } from '../../../utils/Scale';
 
 type ScrollContainerProps = {
   children: ReactNode;
@@ -12,10 +12,10 @@ const ScrollContainer: React.FC<ScrollContainerProps> = ({ children }) => {
 
   const customStyle: ViewStyle = {
     width: width,
-    height: '100%',
+    height: `100%`,
     alignItems: 'center',
-    justifyContent: 'center',
     padding: scale(10),
+    gap: scale(10),
   };
 
   // 디바이스가 태블릿인 경우 ScrollView 사용, 그렇지 않으면 View 사용
@@ -23,7 +23,7 @@ const ScrollContainer: React.FC<ScrollContainerProps> = ({ children }) => {
 
   return (
     <SafeAreaView style={{ flex: 1 }}>
-      <ScrollViewComponent style={{ flex: 1 }}>
+      <ScrollViewComponent contentContainerStyle={isTablet ? { flexGrow: 1 } : undefined} style={{ flex: 1 }}>
         <View style={{ flexGrow: 1, justifyContent: 'center', alignItems: 'center' }}>
           <View style={customStyle}>
             {children}

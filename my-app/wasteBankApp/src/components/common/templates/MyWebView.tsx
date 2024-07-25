@@ -1,32 +1,13 @@
 import React, { useRef, useState, ReactNode } from 'react';
 import { WebView } from 'react-native-webview';
 import styled from 'styled-components/native';
-import Container from '../atoms/Container';
+import CustomText from '../atoms/CustomText';
 import { width, height } from '../../../utils/Scale';
 
 interface MyWebViewProps {
   children?: ReactNode;
+  url?: string;
 }
-
-const MyWebView: React.FC<MyWebViewProps> = ({ children }) => {
-  const webviewRef = useRef<WebView>(null);
-  const [navState, setNavState] = useState<any>(null);
-
-  return (
-    <>
-      <Wrapper>
-        <StyledWebView
-          ref={webviewRef}
-          source={{ uri: 'http://localhost:5173/' }}
-          onNavigationStateChange={e => setNavState(e)}
-        />
-        {children && <Overlay>{children}</Overlay>}
-      </Wrapper>
-    </>
-  );
-};
-
-export default MyWebView;
 
 const Wrapper = styled.View`
   flex: 1;
@@ -47,3 +28,27 @@ const Overlay = styled.View`
   justify-content: center;
   align-items: center;
 `;
+
+const MyWebView: React.FC<MyWebViewProps> = ({ children, url }) => {
+  const webviewRef = useRef<WebView>(null);
+  const [navState, setNavState] = useState<any>(null);
+
+  return (
+    <Wrapper>
+      {url ? (
+        <StyledWebView
+          ref={webviewRef}
+          source={{ uri: url as string }} 
+          onNavigationStateChange={e => setNavState(e)}
+        />
+      ) : (
+        <Overlay>
+          <CustomText>URL이 제공되지 않았습니다.</CustomText>
+        </Overlay>
+      )}
+      {children && <Overlay>{children}</Overlay>}
+    </Wrapper>
+  );
+};
+
+export default MyWebView;
