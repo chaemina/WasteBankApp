@@ -1,8 +1,15 @@
-import React, { useRef, useState, ReactNode } from 'react';
-import { WebView } from 'react-native-webview';
+import React, {
+  useRef,
+  useState,
+  ReactNode,
+  useCallback,
+  useEffect,
+} from 'react';
+import {BackHandler} from 'react-native';
+import {WebView} from 'react-native-webview';
 import styled from 'styled-components/native';
 import CustomText from '../atoms/CustomText';
-import { width, height } from '../../../utils/Scale';
+import {width, height} from '../../../utils/Scale';
 
 interface MyWebViewProps {
   children?: ReactNode;
@@ -29,17 +36,40 @@ const Overlay = styled.View`
   align-items: center;
 `;
 
-const MyWebView: React.FC<MyWebViewProps> = ({ children, url }) => {
+const MyWebView: React.FC<MyWebViewProps> = ({children, url}) => {
   const webviewRef = useRef<WebView>(null);
   const [navState, setNavState] = useState<any>(null);
+
+  const backPress = useCallback(() => {
+    if (webviewRef.current) {
+      webviewRef.current.goBack();
+      return true; // prevent default behavior (exit app)
+    }
+    return false;
+  }, []);
+
+  useEffect(() => {
+    BackHandler.addEventListener('hardwareBackPress', backPress);
+    return () => {
+      BackHandler.removeEventListener('hardwareBackPress', backPress);
+    };
+  }, [backPress]);
 
   return (
     <Wrapper>
       {url ? (
         <StyledWebView
           ref={webviewRef}
-          source={{ uri: url as string }} 
+          source={{uri: url as string}}
           onNavigationStateChange={e => setNavState(e)}
+          originWhitelist={['*']}
+          javaScriptEnabled={true}
+          domStorageEnabled={true}
+          startInLoadingState={true}
+          onError={syntheticEvent => {
+            const {nativeEvent} = syntheticEvent;
+            console.warn('WebView error: ', nativeEvent);
+          }}
         />
       ) : (
         <Overlay>
