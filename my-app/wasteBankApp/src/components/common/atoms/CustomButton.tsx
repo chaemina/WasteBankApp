@@ -1,5 +1,6 @@
 import React, { FC } from "react";
 import { TouchableOpacity, TouchableOpacityProps } from "react-native";
+import { moderateScale } from "../../../utils/Scale";
 import styled from 'styled-components/native';
 import CustomText from "./CustomText";
 
@@ -15,8 +16,8 @@ const CustomButton: FC<Props> = ({ label, onPress, color, size = 'md', rounded =
   const getTextSize = (size: 'xs' | 'sm' | 'md' | 'lg') => {
     switch (size) {
       case 'xs':
-      case 'sm':
         return 'caption';
+      case 'sm':
       case 'md':
         return 'body';
       case 'lg':
@@ -30,7 +31,9 @@ const CustomButton: FC<Props> = ({ label, onPress, color, size = 'md', rounded =
 
   return (
     <StyledButton onPress={onPress} color={color} size={size} rounded={rounded} {...rest}>
-      <CustomText color="white" bold={true} size={textSize}>{label}</CustomText>
+     <CustomText color={color === '#40892d' ? 'white' : (color === 'white' ? 'black' : 'white')} bold={true} size={textSize}>
+        {label}
+      </CustomText>
     </StyledButton>
   );
 };
@@ -38,35 +41,36 @@ const CustomButton: FC<Props> = ({ label, onPress, color, size = 'md', rounded =
 export default CustomButton;
 
 const getButtonDimensions = (size: 'xs' | 'sm' | 'md' | 'lg') => {
+  const unit = 'px';
   switch (size) {
     // Modal Button
     case 'xs':
       return {
-        width: '56px',
-        height: '40px'
+        width: `${moderateScale(56, 0.3)}${unit}`,
+        height: `${moderateScale(40, 0.3)}${unit}`
       };
     // Normal Button
     case 'sm':
       return {
-        width: '284px',
-        height: '59px'
+        width: `${moderateScale(258, 0.3)}${unit}`,
+        height: `${moderateScale(40, 0.3)}${unit}`
       };
     // Home List Button
     case 'md':
       return {
-        width: '154px',
-        height: '154px'
+        width: `${moderateScale(154, 0.3)}${unit}`,
+        height: `${moderateScale(154, 0.3)}${unit}`
       };
     // Using in SignUp
     case 'lg':
       return {
-        width: '280px',
-        height: '120px'
+        width: `${moderateScale(250, 0.3)}${unit}`,
+        height: `${moderateScale(100, 0.3)}${unit}`
       };
     default:
       return {
-        width: '154px',
-        height: '154px'
+        width: `${moderateScale(154, 0.3)}${unit}`,
+        height: `${moderateScale(154, 0.3)}${unit}`
       };
   }
 };
@@ -81,9 +85,7 @@ const StyledButton = styled(TouchableOpacity)<{ color?: string; size: 'xs' | 'sm
   }}
   align-items: center;
   justify-content: center;
-  background-color: ${({ color }) => (color ? color : 'green')};
+  background-color: ${({ color }) => (color ? color : '#40892d')};
+  border : 2px #40892d;
   border-radius: ${({ rounded }) => (rounded ? '25px' : '12px')};
 `;
-
-// Using Button Component
-// <CustomButton size='xs' label="Cancel" onPress={() => navigation.navigate('Login')} />

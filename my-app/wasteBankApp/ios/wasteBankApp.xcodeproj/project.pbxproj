@@ -40,6 +40,7 @@
 		13B07FB71A68108700A75B9A /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = main.m; path = wasteBankApp/main.m; sourceTree = "<group>"; };
 		13B07FB81A68108700A75B9A /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = PrivacyInfo.xcprivacy; path = wasteBankApp/PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
 		19F6CBCC0A4E27FBF8BF4A61 /* libPods-wasteBankApp-wasteBankAppTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-wasteBankApp-wasteBankAppTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		22869403AD9F4E0B9ED76F28 /* Inter-Regular.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = "Inter-Regular.ttf"; path = "../src/assets/fonts/Inter-Regular.ttf"; sourceTree = "<group>"; };
 		3B4392A12AC88292D35C810B /* Pods-wasteBankApp.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-wasteBankApp.debug.xcconfig"; path = "Target Support Files/Pods-wasteBankApp/Pods-wasteBankApp.debug.xcconfig"; sourceTree = "<group>"; };
 		5709B34CF0A7D63546082F79 /* Pods-wasteBankApp.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-wasteBankApp.release.xcconfig"; path = "Target Support Files/Pods-wasteBankApp/Pods-wasteBankApp.release.xcconfig"; sourceTree = "<group>"; };
 		5B7EB9410499542E8C5724F5 /* Pods-wasteBankApp-wasteBankAppTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-wasteBankApp-wasteBankAppTests.debug.xcconfig"; path = "Target Support Files/Pods-wasteBankApp-wasteBankAppTests/Pods-wasteBankApp-wasteBankAppTests.debug.xcconfig"; sourceTree = "<group>"; };
@@ -48,7 +49,6 @@
 		89C6BE57DB24E9ADA2F236DE /* Pods-wasteBankApp-wasteBankAppTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-wasteBankApp-wasteBankAppTests.release.xcconfig"; path = "Target Support Files/Pods-wasteBankApp-wasteBankAppTests/Pods-wasteBankApp-wasteBankAppTests.release.xcconfig"; sourceTree = "<group>"; };
 		9E3618AC7CAB241AB742D48F /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; includeInIndex = 1; name = PrivacyInfo.xcprivacy; path = wasteBankApp/PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
 		ED297162215061F000B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
-		22869403AD9F4E0B9ED76F28 /* Inter-Regular.ttf */ = {isa = PBXFileReference; name = "Inter-Regular.ttf"; path = "../src/assets/fonts/Inter-Regular.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -145,6 +145,15 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
+		893F4C066FE74624BED6614B /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				22869403AD9F4E0B9ED76F28 /* Inter-Regular.ttf */,
+			);
+			name = Resources;
+			path = "";
+			sourceTree = "<group>";
+		};
 		BBD78D7AC51CEA395F1C20DB /* Pods */ = {
 			isa = PBXGroup;
 			children = (
@@ -155,15 +164,6 @@
 			);
 			path = Pods;
 			sourceTree = "<group>";
-		};
-		893F4C066FE74624BED6614B /* Resources */ = {
-			isa = "PBXGroup";
-			children = (
-				22869403AD9F4E0B9ED76F28 /* Inter-Regular.ttf */,
-			);
-			name = Resources;
-			sourceTree = "<group>";
-			path = "";
 		};
 /* End PBXGroup section */
 

@@ -1,12 +1,12 @@
-import { Button, Text, View } from 'react-native';
-
+import React from 'react';
+import LoginTemplate from '../../components/common/templates/LoginTemplate';
 
 const LoginScreen = () => {
 
   return (
-    <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-      <Text style={{ color: 'black', fontSize: 30 }}>LoginScreen</Text>
-    </View>
+    <>
+      <LoginTemplate/>
+   </>
   );
 };
 
