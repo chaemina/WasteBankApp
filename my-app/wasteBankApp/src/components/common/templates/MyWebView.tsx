@@ -1,8 +1,8 @@
-import React, { useRef, useState, useEffect } from 'react';
+import React, { useRef, useState, useEffect,useCallback } from 'react';
 import { WebView } from 'react-native-webview';
 import styled from 'styled-components/native';
 import { useNavigation } from '@react-navigation/native';
-import { TouchableOpacity, Text } from 'react-native';
+import { TouchableOpacity, Text,BackHandler} from 'react-native';
 
 interface MyWebViewProps {
   initialUrl: string;
@@ -54,6 +54,21 @@ const MyWebView: React.FC<MyWebViewProps> = ({ initialUrl, children }) => {
       ),
     });
   }, [navigation, canGoBack]);
+
+  const backPress = useCallback(() => {
+    if (webviewRef.current) {
+      webviewRef.current.goBack();
+      return true; // prevent default behavior (exit app)
+    }
+    return false;
+  }, []);
+
+  useEffect(() => {
+    BackHandler.addEventListener('hardwareBackPress', backPress);
+    return () => {
+      BackHandler.removeEventListener('hardwareBackPress', backPress);
+    };
+  }, [backPress]);
 
   return (
     <Wrapper>

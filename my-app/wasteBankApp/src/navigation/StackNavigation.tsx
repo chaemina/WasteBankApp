@@ -1,8 +1,8 @@
 import 'react-native-gesture-handler';
 import React from 'react';
-import { NavigationContainer, DefaultTheme } from '@react-navigation/native';
-import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import LoginScreen from "../screens/commoon/LoginScreen"; 
+import {NavigationContainer, DefaultTheme} from '@react-navigation/native';
+import {createNativeStackNavigator} from '@react-navigation/native-stack';
+import LoginScreen from '../screens/commoon/LoginScreen';
 import RoleSelectScreen from '../screens/commoon/RoleSelectScreen';
 import SignupScreen from '../screens/commoon/SignupScreen';
 import AuthenticationSelectScreen from '../screens/commoon/AuthenticationSelectScreen';
@@ -10,7 +10,6 @@ import AuthenticationScreen from '../screens/commoon/AuthenticationScreen';
 import TrashInfoScreen from '../screens/collector/TrashInfoScreen';
 import GarbagebinScreen from '../screens/user/GarbagebinScreen';
 import MainScreen from '../screens/commoon/MainScreen';
-
 
 const Stack = createNativeStackNavigator();
 
@@ -31,19 +30,19 @@ function StackNavigation() {
   return (
     <NavigationContainer theme={navTheme}>
       <Stack.Navigator
-        initialRouteName="Login"
+        initialRouteName="Main"
         screenOptions={({ route }) => ({
           ...customStackNavigationOptions,
-          headerShown: !(
-            route.name === 'Login'
-          ),
-        })}
-      >
+          headerShown: !(route.name === 'Login'),
+        })}>
         <Stack.Screen name="Login" component={LoginScreen} />
         <Stack.Screen name="Main" component={MainScreen} />
         <Stack.Screen name="RoleSelect" component={RoleSelectScreen} />
         <Stack.Screen name="Signup" component={SignupScreen} />
-        <Stack.Screen name="AuthenticationSelect" component={AuthenticationSelectScreen} />
+        <Stack.Screen
+          name="AuthenticationSelect"
+          component={AuthenticationSelectScreen}
+        />
         <Stack.Screen name="Authentication" component={AuthenticationScreen} />
         <Stack.Screen name="Garbagebin" component={GarbagebinScreen as React.ComponentType<any>} />
         <Stack.Screen name="TrashInfo" component={TrashInfoScreen} />
