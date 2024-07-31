@@ -1,12 +1,12 @@
-import React, { useRef, useState, ReactNode } from 'react';
+import React, { useRef, useState, useEffect } from 'react';
 import { WebView } from 'react-native-webview';
 import styled from 'styled-components/native';
-import CustomText from '../atoms/CustomText';
-import { width, height } from '../../../utils/Scale';
+import { useNavigation } from '@react-navigation/native';
+import { TouchableOpacity, Text } from 'react-native';
 
 interface MyWebViewProps {
-  children?: ReactNode;
-  url?: string;
+  initialUrl: string;
+  children?: React.ReactNode;
 }
 
 const Wrapper = styled.View`
@@ -15,38 +15,56 @@ const Wrapper = styled.View`
 
 const StyledWebView = styled(WebView)`
   flex: 1;
-  width: ${width}px;
-  height: ${height}px;
 `;
 
-const Overlay = styled.View`
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  justify-content: center;
-  align-items: center;
+const BackButton = styled.Text`
+  font-size: 25px;
+  color: #000;
+  padding-left: 10px;
 `;
 
-const MyWebView: React.FC<MyWebViewProps> = ({ children, url }) => {
+const MyWebView: React.FC<MyWebViewProps> = ({ initialUrl, children }) => {
   const webviewRef = useRef<WebView>(null);
-  const [navState, setNavState] = useState<any>(null);
+  const navigation = useNavigation();
+  const [canGoBack, setCanGoBack] = useState(false);
+
+  const handleNavigationStateChange = (navState: any) => {
+    setCanGoBack(navState.canGoBack);
+    if (navState.url !== initialUrl) {
+      navigation.setOptions({ headerShown: true });
+    } else {
+      navigation.setOptions({ headerShown: false });
+    }
+  };
+
+  const goBack = () => {
+    if (webviewRef.current && canGoBack) {
+      webviewRef.current.goBack();
+    } else {
+      navigation.goBack();
+    }
+  };
+
+  useEffect(() => {
+    navigation.setOptions({
+      headerLeft: () => (
+        <TouchableOpacity onPress={goBack}>
+          <BackButton>{'<'}</BackButton>
+        </TouchableOpacity>
+      ),
+    });
+  }, [navigation, canGoBack]);
 
   return (
     <Wrapper>
-      {url ? (
-        <StyledWebView
-          ref={webviewRef}
-          source={{ uri: url as string }} 
-          onNavigationStateChange={e => setNavState(e)}
-        />
-      ) : (
-        <Overlay>
-          <CustomText>URL이 제공되지 않았습니다.</CustomText>
-        </Overlay>
-      )}
-      {children && <Overlay>{children}</Overlay>}
+      <StyledWebView
+        ref={webviewRef}
+        source={{ uri: initialUrl as string }}
+        onNavigationStateChange={handleNavigationStateChange}
+        javaScriptEnabled={true}
+        domStorageEnabled={true}
+      />
+      {children}
     </Wrapper>
   );
 };

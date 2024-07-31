@@ -4,10 +4,12 @@ import { useNavigation } from '@react-navigation/native';
 export type RootStackParam = {
   Login: undefined;
   RoleSelect: undefined;
+  Main: undefined;
   Signup: undefined;
   AuthenticationSelect: undefined;
   Authentication: { method: string };
   TrashInfo: undefined;
+  Garbagebin : { url: string };
 };
 
 export const useNav = () => {

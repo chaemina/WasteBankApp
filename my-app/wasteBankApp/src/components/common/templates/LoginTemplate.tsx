@@ -12,7 +12,7 @@ const ScreenContainer = styled.View`
 
 const AppViewContainer = styled.View`
   position: absolute;
-  bottom: ${scale(120)}px;
+  bottom: ${scale(350)}px;
   width: 100%;
   align-items: center;
   justify-content: center;
@@ -25,7 +25,7 @@ const LoginTemplate = () => {
   return (
     <>
       {/* 웹뷰 */}
-      <MyWebView>
+      <MyWebView initialUrl='http://localhost:5173/login/'>
         {/* 앱인 경우만 출력 */}
         <AppViewContainer>
           <CustomText bold color="#4C4C4C" size="caption">계정이 없으신가요?</CustomText>
