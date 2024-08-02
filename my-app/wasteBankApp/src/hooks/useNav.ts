@@ -10,6 +10,7 @@ export type RootStackParam = {
   Authentication: { method: string };
   TrashInfo: undefined;
   Garbagebin : { url: string };
+  AdminMapView: undefined;
 };
 
 export const useNav = () => {

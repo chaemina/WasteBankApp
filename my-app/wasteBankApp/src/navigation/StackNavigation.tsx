@@ -10,6 +10,7 @@ import AuthenticationScreen from '../screens/commoon/AuthenticationScreen';
 import TrashInfoScreen from '../screens/collector/TrashInfoScreen';
 import GarbagebinScreen from '../screens/user/GarbagebinScreen';
 import MainScreen from '../screens/commoon/MainScreen';
+import AdminNotMatchedScreen from '../screens/admin/AdminNotMatchedScreen';
 
 const Stack = createNativeStackNavigator();
 
@@ -30,7 +31,7 @@ function StackNavigation() {
   return (
     <NavigationContainer theme={navTheme}>
       <Stack.Navigator
-        initialRouteName="Main"
+        initialRouteName="AdminMapView"
         screenOptions={({ route }) => ({
           ...customStackNavigationOptions,
           headerShown: !(route.name === 'Login'),
@@ -44,8 +45,15 @@ function StackNavigation() {
           component={AuthenticationSelectScreen}
         />
         <Stack.Screen name="Authentication" component={AuthenticationScreen} />
+
+          {/* user */}
         <Stack.Screen name="Garbagebin" component={GarbagebinScreen as React.ComponentType<any>} />
+
+          {/* collector */}
         <Stack.Screen name="TrashInfo" component={TrashInfoScreen} />
+
+          {/* admin */}
+        <Stack.Screen name="AdminMapView" component={AdminNotMatchedScreen} />
       </Stack.Navigator>
     </NavigationContainer>
   );

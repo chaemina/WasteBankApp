@@ -25,11 +25,7 @@ const LoginTemplate = () => {
   return (
     <>
       {/* 웹뷰 */}
-<<<<<<< HEAD
       <MyWebView initialUrl='http://localhost:5173/login/'>
-=======
-      <MyWebView url="http://www.naver.com">
->>>>>>> 622a51f5a9a79049c1bf594b6247974469dfb58b
         {/* 앱인 경우만 출력 */}
         <AppViewContainer>
           <CustomText bold color="#4C4C4C" size="caption">
