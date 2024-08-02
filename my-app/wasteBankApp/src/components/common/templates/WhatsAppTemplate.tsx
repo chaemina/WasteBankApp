@@ -23,6 +23,10 @@ const InputContainer = styled.View`
 const WhatsAppTemplate = () => {
   const navigation = useNav();
 
+  const handleGoLogin = () => {
+    navigation.push("Login")
+  }
+
   return (
     <ScrollContainer>
       <CustomTitle>VERIFIKASI AKUN</CustomTitle>
@@ -30,7 +34,7 @@ const WhatsAppTemplate = () => {
       <CustomText size='caption' color='#4C4C4C'>Kami sudah mengirimkan kode ke whatsapp anda</CustomText>
       <InputContainer>
         <CustomInput label="kode" labelColor="white" inputColor="#40892d" keyboardType='numeric' />
-        <CustomButton size="sm" color="white" label="VERIFIKASI"/>
+        <CustomButton size="sm" color="white" label="VERIFIKASI" onPress={handleGoLogin}/>
       </InputContainer>
     </ScrollContainer>
   );

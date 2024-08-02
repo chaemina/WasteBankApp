@@ -32,13 +32,12 @@ function StackNavigation() {
   return (
     <NavigationContainer theme={navTheme}>
       <Stack.Navigator
-        initialRouteName="CollectorMapView"
+        initialRouteName="Main"
         screenOptions={({ route }) => ({
           ...customStackNavigationOptions,
           headerShown: !(route.name === 'Login'),
         })}>
         <Stack.Screen name="Login" component={LoginScreen} />
-        <Stack.Screen name="Main" component={MainScreen} />
         <Stack.Screen name="RoleSelect" component={RoleSelectScreen} />
         <Stack.Screen name="Signup" component={SignupScreen} />
         <Stack.Screen
@@ -46,9 +45,11 @@ function StackNavigation() {
           component={AuthenticationSelectScreen}
         />
         <Stack.Screen name="Authentication" component={AuthenticationScreen} />
+        <Stack.Screen name="Main" component={MainScreen} />
 
           {/* user */}
         <Stack.Screen name="Garbagebin" component={GarbagebinScreen as React.ComponentType<any>} />
+          {/* 수거관 위치 확인 Map View 필요  */}
 
           {/* collector */}
         <Stack.Screen name="CollectorMapView" component={CollectorMapScreen} />

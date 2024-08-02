@@ -1,8 +1,9 @@
-import React, { useRef, useState, useEffect,useCallback } from 'react';
+import React, { useRef, useState, useEffect, useCallback } from 'react';
 import { WebView } from 'react-native-webview';
 import styled from 'styled-components/native';
 import { useNavigation } from '@react-navigation/native';
-import { TouchableOpacity, Text,BackHandler} from 'react-native';
+import { TouchableOpacity, Text, BackHandler } from 'react-native';
+import { useNav } from '../../../hooks/useNav';
 
 interface MyWebViewProps {
   initialUrl: string;
@@ -25,7 +26,7 @@ const BackButton = styled.Text`
 
 const MyWebView: React.FC<MyWebViewProps> = ({ initialUrl, children }) => {
   const webviewRef = useRef<WebView>(null);
-  const navigation = useNavigation();
+  const navigation = useNav();
   const [canGoBack, setCanGoBack] = useState(false);
 
   const handleNavigationStateChange = (navState: any) => {
@@ -63,12 +64,19 @@ const MyWebView: React.FC<MyWebViewProps> = ({ initialUrl, children }) => {
     return false;
   }, []);
 
+  // 애니메이션 효과나 다른 방법 생각 필요 
   useEffect(() => {
-    BackHandler.addEventListener('hardwareBackPress', backPress);
+     BackHandler.addEventListener('hardwareBackPress', backPress);
     return () => {
       BackHandler.removeEventListener('hardwareBackPress', backPress);
     };
   }, [backPress]);
+
+  const handleMessage = (event: any) => {
+    const message = event.nativeEvent.data;
+    console.log("Received message:", message); // 콘솔 로그 출력
+    navigation.push(message);  // 이동하지 않는 경우도 생각해봐야함, navigate라는 문자열 포함 혹은 token 문자열 포함 여부.. 등등
+  };
 
   return (
     <Wrapper>
@@ -78,6 +86,7 @@ const MyWebView: React.FC<MyWebViewProps> = ({ initialUrl, children }) => {
         onNavigationStateChange={handleNavigationStateChange}
         javaScriptEnabled={true}
         domStorageEnabled={true}
+        onMessage={handleMessage} // 메시지 수신 핸들러
       />
       {children}
     </Wrapper>
