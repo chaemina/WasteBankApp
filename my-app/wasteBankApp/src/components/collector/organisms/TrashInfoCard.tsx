@@ -2,6 +2,7 @@ import React from 'react';
 import styled from 'styled-components/native';
 import CustomText from '../../common/atoms/CustomText';
 import { scale } from '../../../utils/Scale';
+import TrashCanImage from "../../../assets/Imgaes/TrashCan.svg"
 
 const Card = styled.View`
   width: 100%;
@@ -31,6 +32,7 @@ const TrashInfoCard: React.FC<TrashInfoCardProps> = ({ data, type }) => {
   const { RP, Breat } = data;
   return (
     <Card>
+       <TrashCanImage height={scale(40)}/>
       <LeftContainer>
         <CustomText color='white'>{type}</CustomText>
         <CustomText color='white'>{`RP. ${RP}`}</CustomText>

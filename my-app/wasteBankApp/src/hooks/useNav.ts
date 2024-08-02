@@ -8,7 +8,7 @@ export type RootStackParam = {
   Signup: undefined;
   AuthenticationSelect: undefined;
   Authentication: { method: string };
-  TrashInfo: undefined;
+  TrashInfo: { matched: boolean }; 
   Garbagebin : { url: string };
   AdminMapView: undefined;
   CollectorMapView : undefined;

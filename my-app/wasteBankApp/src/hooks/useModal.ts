@@ -1,31 +1,34 @@
 import { useState, useCallback } from 'react';
 
-const useModal = () => {
-  const [modalVisible, setModalVisible] = useState(false);
+interface UseModalReturn {
+  modalVisible: boolean;
+  selectedId: string | null;
+  openModal: (id?: string) => void;
+  closeModal: () => void;
+}
 
-  const openModal = useCallback(() => {
+const useModal = (): UseModalReturn => {
+  const [modalVisible, setModalVisible] = useState(false);
+  const [selectedId, setSelectedId] = useState<string | null>(null);
+
+  const openModal = useCallback((id?: string) => {
+    if (id) {
+      setSelectedId(id);
+    }
     setModalVisible(true);
   }, []);
 
   const closeModal = useCallback(() => {
     setModalVisible(false);
+    setSelectedId(null);
   }, []);
 
   return {
     modalVisible,
+    selectedId,
     openModal,
     closeModal,
   };
 };
 
 export default useModal;
-
-//  const { modalVisible, openModal, closeModal } = useModal();
-//  <CustomButton size='xs' label="Cancel" onPress={openModal} />
-
-//  <CustomAlert
-//    title="Alert"
-//    text="Do you want to proceed?"
-//    visible={modalVisible}
-//    onClose={closeModal}
-// />

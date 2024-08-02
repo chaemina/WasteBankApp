@@ -1,16 +1,32 @@
 import React from 'react';
-import { View, Alert } from 'react-native';
+import { View } from 'react-native';
 import MapView, { Marker } from 'react-native-maps';
 import { getIcon } from '../../../utils/GetIcon';
+import CustomAlert from '../atoms/CustomAlert';
 import { GarbageData } from '../../../types/type';
+import { useNav } from '../../../hooks/useNav';
+import useModal from '../../../hooks/useModal';
 
 interface MyMapProps {
   data: GarbageData[];
 }
 
 const MyMap: React.FC<MyMapProps> = ({ data }) => {
-  const handleMarkerPress = (garbageId: number) => {
-    Alert.alert(`Marker ${garbageId} pressed`);
+  const { modalVisible, selectedId, openModal, closeModal } = useModal();
+  const navigation = useNav();
+
+  const handleMarkerPress = (location: string, matched: boolean) => {
+    if (matched) {
+      navigation.push('TrashInfo', { matched });
+    } else {
+      openModal(location);
+    }
+  };
+
+  const handleAlertClick = () => {
+    console.log('Okay clicked');
+    navigation.push('TrashInfo', { matched: false });
+    closeModal();
   };
 
   return (
@@ -31,12 +47,22 @@ const MyMap: React.FC<MyMapProps> = ({ data }) => {
             coordinate={{ latitude: item.latitude, longitude: item.longitude }}
             title={`Garbage ID: ${item.garbageId}`}
             description={`Location: ${item.location}`}
-            onPress={item.matched ? undefined : () => handleMarkerPress(item.garbageId)}
+            onPress={() => handleMarkerPress(item.location, item.matched)}
           >
             {getIcon(item.daysSinceRegistration)}
           </Marker>
         ))}
       </MapView>
+
+      {selectedId !== null && (
+        <CustomAlert
+          title={`${selectedId}`}
+          text={``}
+          visible={modalVisible}
+          onClose={closeModal}
+          onClick={handleAlertClick}
+        />
+      )}
     </View>
   );
 }
