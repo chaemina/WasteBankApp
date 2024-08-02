@@ -11,6 +11,7 @@ export type RootStackParam = {
   TrashInfo: undefined;
   Garbagebin : { url: string };
   AdminMapView: undefined;
+  CollectorMapView : undefined;
 };
 
 export const useNav = () => {

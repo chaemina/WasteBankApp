@@ -1,41 +1,18 @@
 import React from 'react';
-import { View } from 'react-native';
+import { View, Alert } from 'react-native';
 import MapView, { Marker } from 'react-native-maps';
 import { getIcon } from '../../../utils/GetIcon';
+import { GarbageData } from '../../../types/type';
 
-const data = {
-  "success": true,
-  "response": [
-      {
-          "garbageId": 1,
-          "location": "광주광역시 북구 123로 45",
-          "latitude":  37.541,
-          "longitude": 126.985,
-          "matched": false,
-          "daysSinceRegistration": 0
-      },
-      {
-          "garbageId": 2,
-          "location": "광주광역시 북구 123로 45",
-          "latitude":  37.541,
-          "longitude": 126.986,
-          "matched": false,
-          "daysSinceRegistration": 1
-      },
-      {
-          "garbageId": 3,
-          "location": "광주광역시 북구 123로 45",
-          "latitude":  37.541,
-          "longitude": 126.987,
-          "matched": false,
-          "daysSinceRegistration": 2
-      }
-  ],
-  "error": null
-};
+interface MyMapProps {
+  data: GarbageData[];
+}
 
+const MyMap: React.FC<MyMapProps> = ({ data }) => {
+  const handleMarkerPress = (garbageId: number) => {
+    Alert.alert(`Marker ${garbageId} pressed`);
+  };
 
-export default function MyMap() {
   return (
     <View style={{ flexDirection: 'row', width: '100%', height: '70%' }}>
       <MapView
@@ -48,12 +25,13 @@ export default function MyMap() {
         }}
         provider="google"
       >
-        {data.response.map((item) => (
+        {data.map((item) => (
           <Marker
             key={item.garbageId}
             coordinate={{ latitude: item.latitude, longitude: item.longitude }}
             title={`Garbage ID: ${item.garbageId}`}
             description={`Location: ${item.location}`}
+            onPress={item.matched ? undefined : () => handleMarkerPress(item.garbageId)}
           >
             {getIcon(item.daysSinceRegistration)}
           </Marker>
@@ -62,3 +40,5 @@ export default function MyMap() {
     </View>
   );
 }
+
+export default MyMap;
