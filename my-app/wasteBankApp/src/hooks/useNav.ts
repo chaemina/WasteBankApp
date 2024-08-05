@@ -4,10 +4,14 @@ import { useNavigation } from '@react-navigation/native';
 export type RootStackParam = {
   Login: undefined;
   RoleSelect: undefined;
+  Main: undefined;
   Signup: undefined;
   AuthenticationSelect: undefined;
   Authentication: { method: string };
-  TrashInfo: undefined;
+  TrashInfo: { matched: boolean }; 
+  Garbagebin : { url: string };
+  AdminMapView: undefined;
+  CollectorMapView : undefined;
 };
 
 export const useNav = () => {

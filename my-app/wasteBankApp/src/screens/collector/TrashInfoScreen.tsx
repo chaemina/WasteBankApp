@@ -1,11 +1,15 @@
 import React from 'react';
-import TrashInfoTemplate from '../../components/collector/templates/TrashInfoTemplate';
+import { useRoute } from '@react-navigation/native';
+import NotMatchedTrashInfoTemplate from '../../components/collector/templates/NotMatchedTrashInfoTemplate';
+import MatchedTrashInfoTemplate from '../../components/collector/templates/MatchedTrashInfoTemplate';
 
 const TrashInfoScreen = () => {
+  const route = useRoute();
+  const { matched } = route.params as { matched: boolean };
 
   return (
     <>
-        <TrashInfoTemplate/>
+      {matched ? <MatchedTrashInfoTemplate /> : <NotMatchedTrashInfoTemplate />}
     </>
   );
 };

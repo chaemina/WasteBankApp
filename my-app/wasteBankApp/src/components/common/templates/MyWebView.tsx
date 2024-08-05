@@ -1,12 +1,13 @@
-import React, { useRef, useState, ReactNode } from 'react';
+import React, { useRef, useState, useEffect, useCallback } from 'react';
 import { WebView } from 'react-native-webview';
 import styled from 'styled-components/native';
-import CustomText from '../atoms/CustomText';
-import { width, height } from '../../../utils/Scale';
+import { useNavigation } from '@react-navigation/native';
+import { TouchableOpacity, Text, BackHandler } from 'react-native';
+import { useNav } from '../../../hooks/useNav';
 
 interface MyWebViewProps {
-  children?: ReactNode;
-  url?: string;
+  initialUrl: string;
+  children?: React.ReactNode;
 }
 
 const Wrapper = styled.View`
@@ -15,38 +16,79 @@ const Wrapper = styled.View`
 
 const StyledWebView = styled(WebView)`
   flex: 1;
-  width: ${width}px;
-  height: ${height}px;
 `;
 
-const Overlay = styled.View`
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  justify-content: center;
-  align-items: center;
+const BackButton = styled.Text`
+  font-size: 25px;
+  color: #000;
+  padding-left: 10px;
 `;
 
-const MyWebView: React.FC<MyWebViewProps> = ({ children, url }) => {
+const MyWebView: React.FC<MyWebViewProps> = ({ initialUrl, children }) => {
   const webviewRef = useRef<WebView>(null);
-  const [navState, setNavState] = useState<any>(null);
+  const navigation = useNav();
+  const [canGoBack, setCanGoBack] = useState(false);
+
+  const handleNavigationStateChange = (navState: any) => {
+    setCanGoBack(navState.canGoBack);
+    if (navState.url !== initialUrl) {
+      navigation.setOptions({ headerShown: true });
+    } else {
+      navigation.setOptions({ headerShown: false });
+    }
+  };
+
+  const goBack = () => {
+    if (webviewRef.current && canGoBack) {
+      webviewRef.current.goBack();
+    } else {
+      navigation.goBack();
+    }
+  };
+
+  useEffect(() => {
+    navigation.setOptions({
+      headerLeft: () => (
+        <TouchableOpacity onPress={goBack}>
+          <BackButton>{'<'}</BackButton>
+        </TouchableOpacity>
+      ),
+    });
+  }, [navigation, canGoBack]);
+
+  const backPress = useCallback(() => {
+    if (webviewRef.current) {
+      webviewRef.current.goBack();
+      return true; // prevent default behavior (exit app)
+    }
+    return false;
+  }, []);
+
+  // 애니메이션 효과나 다른 방법 생각 필요 
+  useEffect(() => {
+     BackHandler.addEventListener('hardwareBackPress', backPress);
+    return () => {
+      BackHandler.removeEventListener('hardwareBackPress', backPress);
+    };
+  }, [backPress]);
+
+  const handleMessage = (event: any) => {
+    const message = event.nativeEvent.data;
+    console.log("Received message:", message); // 콘솔 로그 출력
+    navigation.push(message);  // 이동하지 않는 경우도 생각해봐야함, navigate라는 문자열 포함 혹은 token 문자열 포함 여부.. 등등
+  };
 
   return (
     <Wrapper>
-      {url ? (
-        <StyledWebView
-          ref={webviewRef}
-          source={{ uri: url as string }} 
-          onNavigationStateChange={e => setNavState(e)}
-        />
-      ) : (
-        <Overlay>
-          <CustomText>URL이 제공되지 않았습니다.</CustomText>
-        </Overlay>
-      )}
-      {children && <Overlay>{children}</Overlay>}
+      <StyledWebView
+        ref={webviewRef}
+        source={{ uri: initialUrl as string }}
+        onNavigationStateChange={handleNavigationStateChange}
+        javaScriptEnabled={true}
+        domStorageEnabled={true}
+        onMessage={handleMessage} // 메시지 수신 핸들러
+      />
+      {children}
     </Wrapper>
   );
 };

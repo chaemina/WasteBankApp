@@ -1,47 +1,26 @@
-import React, { useState } from 'react';
-import { SafeAreaView, View, Text, Button } from 'react-native';
+import React from 'react';
 import DateTimePickerModal from 'react-native-modal-datetime-picker';
 
-const DatePicker: React.FC = () => {
-  const [selectedDate, setSelectedDate] = useState<Date | null>(new Date());
-  const [datePickerVisible, setDatePickerVisible] = useState<boolean>(false);
+interface DatePickerProps {
+  visible: boolean;
+  onConfirm: (date: Date) => void;
+  onCancel: () => void;
+  date?: Date;
+}
 
-  const showDatePicker = (): void => {
-    setDatePickerVisible(true);
-  };
+const DatePicker: React.FC<DatePickerProps> = ({ visible, onConfirm, onCancel, date }) => {
+  const today = new Date();
 
-  const hideDatePicker = (): void => {
-    setDatePickerVisible(false);
-  };
-
-  const handleConfirm = (date: Date): void => {
-    setSelectedDate(date);
-    hideDatePicker();
-  };
 
   return (
-    <SafeAreaView style={{ flex: 1 }}>
-      <View
-        style={{
-          padding: 20,
-          flex: 1,
-          justifyContent: 'center',
-          alignItems: 'center',
-        }}
-      >
-        {/* <Text style={{ fontSize: 24, fontWeight: 'bold', marginBottom: 20 }}>
-          {selectedDate ? selectedDate.toLocaleDateString() : 'No date selected'}
-        </Text> */}
-        <Button title="penerimaan" onPress={showDatePicker} />
-        <DateTimePickerModal
-          date={selectedDate || new Date()}
-          isVisible={datePickerVisible}
-          mode="date"
-          onConfirm={handleConfirm}
-          onCancel={hideDatePicker}
-        />
-      </View>
-    </SafeAreaView>
+    <DateTimePickerModal
+      isVisible={visible}
+      mode="date"
+      onConfirm={onConfirm}
+      onCancel={onCancel}
+      date={date || new Date()} // 기본값을 여기서 설정
+      minimumDate={today} // 최소 선택 가능 날짜 설정
+    />
   );
 };
 
