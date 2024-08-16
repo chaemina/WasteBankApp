@@ -3,7 +3,7 @@ import ScrollContainer from '../../common/atoms/ScrollContainer';
 import { useNav } from '../../../hooks/useNav';
 import CustomTitle from '../../common/atoms/CustomTitle';
 import SignupForm from '../../common/organisms/SinupForm';
-import { inputFields } from '../../../constants/UserInfo';
+import { UserinputFields } from '../../../constants/UserInfo';
 import CustomButton from '../../common/atoms/CustomButton';
 
 const UserSignupTemplate = () => {
@@ -13,7 +13,7 @@ const UserSignupTemplate = () => {
   return (
     <ScrollContainer>
       <CustomTitle>Create User Account</CustomTitle>
-      <SignupForm inputFields={inputFields} />
+      <SignupForm inputFields={UserinputFields} />
       <CustomButton size="sm" label='Sign Up' onPress={() => { navigation.push('AuthenticationSelect') }}/>
     </ScrollContainer>
   );
