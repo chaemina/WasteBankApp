@@ -1,7 +1,10 @@
 import React from 'react';
 import { useForm, FormProvider } from 'react-hook-form';
+import { useDispatch } from 'react-redux';
 import InputBox from '../molecules/InputBox';
-import CustomButton from '../atoms/CustomButton'; 
+import CustomButton from '../atoms/CustomButton';
+import { setUser } from '../../../redux/slice/TemplateUserSlice'; // TemplateUserSlice에서 setUser 가져오기
+import { useNav } from '../../../hooks/useNav';
 
 type SignupFormProps = {
   inputFields: Array<{
@@ -16,10 +19,16 @@ type SignupFormProps = {
 };
 
 const SignupForm: React.FC<SignupFormProps> = ({ inputFields }) => {
+  const navigation = useNav();
   const methods = useForm();
+  const dispatch = useDispatch(); 
 
   const onSubmit = (data: any) => {
-    console.log('Form Data:', data); // 폼 데이터 콘솔 출력
+    console.log('Form Data:', data); 
+
+
+    dispatch(setUser(data)); 
+    navigation.push("AuthenticationSelect");
   };
 
   return (

@@ -1,38 +1,32 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { UserState } from "../../types/type";
 
-// User에서 관리해야하는 Slice
-const initialState = {
-    email: '',
-    phone_number: '',
+const initialState: UserState = {
+  email: '',
+  phone: '',
+  name: '',
+  password: '',
+  location: '',
+  account: '',
+  bank: '',
 };
 
-/**
- * TemplateSlice에서 관리할 상태를 지정합니다.
- */
 export const TemplateUserSlice = createSlice({
-    name: 'templateUser',
-    initialState,
-    reducers: {
-        // 모든 사용자 정보를 상태에 저장합니다.
-        setUser(state, action) {
-            state.email = action.payload.email;
-            state.phone_number = action.payload.phone_number;
-        },
-
-        // 사용자 이메일을 상태에 저장합니다.
-        setEmail(state, action) {
-            state.email = action.payload;
-        },
-
-        // 접근 토큰을 상태에 저장합니다.
-        setNumber(state, action) {
-            state.phone_number = action.payload;
-        },
-
+  name: 'templateUser',
+  initialState,
+  reducers: {
+    setUser(state, action: PayloadAction<Partial<UserState>>) {
+      return { ...state, ...action.payload };
     },
+    setEmail(state, action: PayloadAction<string>) {
+      state.email = action.payload;
+    },
+    setNumber(state, action: PayloadAction<string>) {
+      state.phone = action.payload;
+    },
+    // 추가적인 개별 필드 업데이트 리듀서가 필요하면 추가할 수 있습니다.
+  },
 });
 
-// Action creators are generated for each case reducer function
-export const { setUser, setEmail, setNumber } = TemplateUserSlice.actions
-
-export default TemplateUserSlice.reducer
+export const { setUser, setEmail, setNumber } = TemplateUserSlice.actions;
+export default TemplateUserSlice.reducer;

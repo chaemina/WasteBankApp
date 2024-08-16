@@ -23,7 +23,7 @@ export const UserinputFields: Array<{
     width: 250,
     keyboardType: 'email-address',
     label: 'Email',
-    name: 'userEmail', 
+    name: 'email', 
   }, 
 // Password must be between 8 and 20 characters
   {
@@ -87,7 +87,7 @@ export const CollectorinputFields: Array<{
     width: 250,
     keyboardType: 'email-address',
     label: 'Email',
-    name: 'userEmail', 
+    name: 'email', 
   }, 
 // Password must be between 8 and 20 characters
   {
