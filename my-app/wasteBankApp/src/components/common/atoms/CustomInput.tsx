@@ -1,19 +1,22 @@
-import React, { useState } from 'react';
+import React from 'react';
 import styled from 'styled-components/native';
 import { TextInputProps, ViewStyle } from 'react-native';
 import CustomText from './CustomText';
 import { moderateScale, scale } from '../../../utils/Scale';
+import { Controller } from 'react-hook-form';
 
 type CustomInputProps = {
   placeholder?: string;
   width?: number;
   style?: ViewStyle;
   autoFocus?: boolean;
+  name: string;
+  control: any;
   defaultValue?: string;
   keyboardType?: TextInputProps['keyboardType'];
   label?: string;
   labelColor?: string;
-  inputColor?: string; 
+  inputColor?: string;
 };
 
 const Container = styled.View`
@@ -26,7 +29,7 @@ const StyledInput = styled.TextInput<{ inputWidth: number; inputColor: string }>
   border-width: 2px;
   padding: ${scale(10)}px;
   border-radius: 8px;
-  border-color: ${({ inputColor }) => inputColor === '#40892d' ? 'white' : '#4C4C4C'};
+  border-color: ${({ inputColor }) => (inputColor === '#40892d' ? 'white' : '#4C4C4C')};
   background-color: ${({ inputColor }) => inputColor};
 `;
 
@@ -35,26 +38,34 @@ const CustomInput: React.FC<CustomInputProps> = ({
   width = 250,
   style,
   autoFocus,
-  defaultValue,
+  name,
+  control,
+  defaultValue = '',
   keyboardType,
   label,
-  labelColor = '#000', 
-  inputColor = '#fff', 
+  labelColor = '#000',
+  inputColor = '#fff',
 }) => {
-  const [value, setValue] = useState(defaultValue || '');
-
   return (
     <Container>
       {label && <CustomText color={labelColor}>{label}</CustomText>}
-      <StyledInput
-        style={style}
-        inputWidth={width}
-        inputColor={inputColor}
-        onChangeText={setValue}
-        value={value}
-        placeholder={placeholder}
-        autoFocus={autoFocus}
-        keyboardType={keyboardType}
+      <Controller
+        control={control}
+        render={({ field: { onChange, onBlur, value } }) => (
+          <StyledInput
+            style={style}
+            inputWidth={width}
+            inputColor={inputColor}
+            onBlur={onBlur}
+            onChangeText={onChange}
+            value={value}
+            placeholder={placeholder}
+            autoFocus={autoFocus}
+            keyboardType={keyboardType}
+          />
+        )}
+        name={name}
+        defaultValue={defaultValue}
       />
     </Container>
   );
