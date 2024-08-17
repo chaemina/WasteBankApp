@@ -1,20 +1,18 @@
 import React from 'react';
 import ScrollContainer from '../../common/atoms/ScrollContainer';
-import { useNav } from '../../../hooks/useNav';
 import CustomTitle from '../../common/atoms/CustomTitle';
-import SignupForm from '../../common/organisms/SinupForm';
-import { inputFields } from '../../../constants/UserInfo';
-import CustomButton from '../../common/atoms/CustomButton';
+import SignupForm from '../../common/organisms/SignupForm';
+import { UserinputFields } from '../../../constants/Info';
 
-const UserSignupTemplate = () => {
-  const navigation = useNav();
+type UserSignupTemplateProps = {
+  role: string; 
+};
 
-
+const UserSignupTemplate: React.FC<UserSignupTemplateProps> = ({ role }) => {
   return (
     <ScrollContainer>
       <CustomTitle>Create User Account</CustomTitle>
-      <SignupForm inputFields={inputFields} />
-      <CustomButton size="sm" label='Sign Up' onPress={() => { navigation.push('AuthenticationSelect') }}/>
+      <SignupForm inputFields={UserinputFields} role={role} />
     </ScrollContainer>
   );
 };

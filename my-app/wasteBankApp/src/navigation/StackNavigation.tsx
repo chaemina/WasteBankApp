@@ -12,6 +12,7 @@ import GarbagebinScreen from '../screens/user/GarbagebinScreen';
 import MainScreen from '../screens/commoon/MainScreen';
 import AdminMapScreen from '../screens/admin/AdminMapScreen';
 import CollectorMapScreen from '../screens/collector/CollectorMapScreen';
+import IndividualTrashMapScreen from '../screens/collector/IndividualTrashMapScreen';
 
 const Stack = createNativeStackNavigator();
 
@@ -32,10 +33,10 @@ function StackNavigation() {
   return (
     <NavigationContainer theme={navTheme}>
       <Stack.Navigator
-        initialRouteName="Main"
+        initialRouteName="RoleSelect"
         screenOptions={({ route }) => ({
           ...customStackNavigationOptions,
-          headerShown: !(route.name === 'Login'),
+          headerShown: !(route.name === 'Login') && !(route.name === 'IndividualTrashMapView')
         })}>
         <Stack.Screen name="Login" component={LoginScreen} />
         <Stack.Screen name="RoleSelect" component={RoleSelectScreen} />
@@ -54,6 +55,7 @@ function StackNavigation() {
           {/* collector */}
         <Stack.Screen name="CollectorMapView" component={CollectorMapScreen} />
         <Stack.Screen name="TrashInfo" component={TrashInfoScreen} />
+        <Stack.Screen name="IndividualTrashMapView" component={IndividualTrashMapScreen} />
 
           {/* admin */}
         <Stack.Screen name="AdminMapView" component={AdminMapScreen} />
