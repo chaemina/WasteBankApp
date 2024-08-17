@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, KeyboardTypeOptions } from 'react-native';
+import { View } from 'react-native';
 import CustomInput from '../atoms/CustomInput';
 import CustomButton from '../atoms/CustomButton';
 import CountryPicker from 'react-native-country-picker-modal';
@@ -14,7 +14,7 @@ type InputBoxProps = {
     width?: number;
     autoFocus?: boolean;
     defaultValue?: string;
-    keyboardType?: KeyboardTypeOptions;
+    keyboardType?: React.ComponentProps<typeof CustomInput>['keyboardType'];
     label?: string;
     name: string;
   }>;
@@ -25,20 +25,19 @@ const InputBox: React.FC<InputBoxProps> = ({ inputs }) => {
   const [countryCode, setCountryCode] = React.useState<CountryCode>('KR');
   const [callingCode, setCallingCode] = React.useState('+82');
   
-  // 기본값 설정 및 useWatch로 값 감시
   const email = useWatch({
     control,
     name: 'email', 
-    defaultValue: '',  // 기본값을 빈 문자열로 설정
+    defaultValue: '',  
   });
 
   React.useEffect(() => {
-    console.log('Watched email:', email); // email 값 확인
+    console.log('Watched email:', email); 
   }, [email]);
 
   const onSubmit = async () => {
     try {
-      console.log('Email before submit:', email); // onSubmit 시점의 email 값 확인
+      console.log('Email before submit:', email); 
       const response = await emailCheck(email);
       if (response.response === "email available") {
         console.log('Email is available:', email);
@@ -95,7 +94,9 @@ const InputBox: React.FC<InputBoxProps> = ({ inputs }) => {
             </View>
          ) 
           : input.label === 'Address' ? (
-            <LocationSearch/>
+               <View style={{ alignItems: 'center' }}>
+                <LocationSearch />
+              </View>
           )
            : (
             <CustomInput
