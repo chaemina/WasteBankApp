@@ -5,7 +5,7 @@ import CustomButton from '../atoms/CustomButton';
 import ScrollContainer from '../atoms/ScrollContainer';
 import { useSelector } from 'react-redux';
 import { RootState } from '../../../redux/RootReducer';
-import { sendEmail } from '../../../service/user';
+import { sendEmail,sendWhatsAPP } from '../../../service/user';
 
 const AuthenticationSelectTemplate = () => {
   const navigation = useNav();
@@ -15,7 +15,7 @@ const AuthenticationSelectTemplate = () => {
   const handleSendCodeToEmail = async () => {
 
     const output = {
-      tempKey: email,
+      email: email,
       role: role,
       code : null,
     };
@@ -32,7 +32,7 @@ const AuthenticationSelectTemplate = () => {
       console.error('Send Code failed:', error);
     }
     
-
+    navigation.push('Authentication', { method: 'Email' }) 
     console.log(output); 
     
   }
@@ -41,14 +41,14 @@ const AuthenticationSelectTemplate = () => {
   const handleSendCodeToWhatsApp = async () => {
 
     const output = {
-      tempKey: email,
+      email: email,
       role: role,
       code : null,
     };
 
     try {
       // 왓츠앱 인증 코드 보내기
-      const response = await sendEmail(output);
+      const response = await sendWhatsAPP(output);
       console.log('Send Code Response:', response);
   
       // 인증 요청 성공 시 인증 코드 입력 화면 이동 
@@ -57,7 +57,7 @@ const AuthenticationSelectTemplate = () => {
       console.error('Send Code failed:', error);
     }
     
-
+    navigation.push('Authentication', { method: 'WHATSAPP' }) 
     console.log(output); 
     
   }

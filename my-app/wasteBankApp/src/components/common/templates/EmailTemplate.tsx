@@ -10,7 +10,7 @@ import ScrollContainer from '../atoms/ScrollContainer';
 import { scale } from '../../../utils/Scale';
 import { useSelector } from 'react-redux';
 import { RootState } from '../../../redux/RootReducer';
-import { signupUser } from '../../../service/user';
+import { signupUser,verifyEmail } from '../../../service/user';
 
 const InputContainer = styled.View`
   width: 100%;
@@ -30,42 +30,52 @@ const WhatsAppTemplate = () => {
 
   const handleGoLogin = async () => {
 
-    // 1. 코드 인증 
+    // 코드 요청 데이터 
     const code = methods.getValues('code');
 
     const output = {
-      tempKey: email,
+      email: email,
       role: role,
       code: code,
     };
-
+    
+      
     console.log(output); 
 
-    // 2. 코드 인증 성공 시 회원 가입 요청 
+    // 회원 가입 요청 데이터 
     const signupData = {
-      email,
-      phone,
-      name,
-      password,
-      location,
-      account,
-      bank
+        email,
+        phone,
+        name,
+        password,
+        location,
+        account,
+        bank
     };
 
+    
+    console.log(signupData); 
 
     try {
-      // 회원 가입 요청
-      const response = await signupUser(signupData);
-      console.log('Signup Response:', response);
+      // 1. 코드 인증 요청 
+      const response = await verifyEmail(output);
+      console.log('verifyEmail Response:', response);
   
-      // 회원 가입 성공 시 로그인 페이지로 이동
-      navigation.push("Login");
-    } catch (error) {
-      console.error('Signup failed:', error);
-    }
+      // 2. 코드 인증 성공 시 회원 가입 요청 
+      try {
+        // 회원 가입 요청
+        const response = await signupUser(signupData);
+        console.log('Signup Response:', response);
     
-    // 3. 회원 가입 요청 성공 시 로그인 화면 이동 
-  //  navigation.push("Login");
+         // 3. 회원 가입 요청 성공 시 로그인 화면 이동 
+        navigation.push("Login");
+      } catch (error) {
+        console.error('Signup failed:', error);
+      }
+      
+    } catch (error) {
+      console.error('verifyEmail failed:', error);
+    }
   };
 
   return (

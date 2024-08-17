@@ -24,13 +24,13 @@ export interface GarbageData {
   };
   
   export type SendType = {
-    tempKey: string;
+    email: string;
     role: string;
     code: null;
   };
   
   export type VerifyType = {
-    tempKey: string;
+    email: string;
     role: string;
     code: string;
   };

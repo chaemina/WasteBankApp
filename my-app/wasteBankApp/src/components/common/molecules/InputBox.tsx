@@ -27,7 +27,7 @@ const InputBox: React.FC<InputBoxProps> = ({ inputs }) => {
   // 기본값 설정 및 useWatch로 값 감시
   const email = useWatch({
     control,
-    name: 'userEmail', 
+    name: 'email', 
     defaultValue: '',  // 기본값을 빈 문자열로 설정
   });
 
