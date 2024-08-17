@@ -4,12 +4,15 @@ import CustomTitle from '../../common/atoms/CustomTitle';
 import SignupForm from '../../common/organisms/SignupForm';
 import { CollectorinputFields } from '../../../constants/Info';
 
-const CollectorSignupTemplate = () => {
+type CollectorSignupTemplateProps = {
+  role: string; 
+};
 
+const CollectorSignupTemplate: React.FC<CollectorSignupTemplateProps> = ({ role }) => {
   return (
     <ScrollContainer>
       <CustomTitle>Create Collector Account</CustomTitle>
-      <SignupForm inputFields={CollectorinputFields} />
+      <SignupForm inputFields={CollectorinputFields} role={role} />
     </ScrollContainer>
   );
 };

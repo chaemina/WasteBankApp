@@ -5,13 +5,12 @@ import { useSelector } from 'react-redux';
 import { RootState } from '../../redux/RootReducer';
 
 const SignupScreen = () => {
-  // Redux 상태에서 role 값을 가져옵니다.
   const role = useSelector((state: RootState) => state.templateRole.role);
 
   return (
     <>
-      {/* role 값에 따라 다른 컴포넌트를 렌더링 */}
-      {role === 'user' ? <UserSignupTemplate /> : <CollectorSignupTemplate />}
+      {/* role 값을 SignupForm에 전달 */}
+      {role === 'user' ? <UserSignupTemplate role={role} /> : <CollectorSignupTemplate role={role} />}
     </>
   );
 };

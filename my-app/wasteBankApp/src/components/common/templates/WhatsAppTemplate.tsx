@@ -10,7 +10,7 @@ import ScrollContainer from '../atoms/ScrollContainer';
 import { scale } from '../../../utils/Scale';
 import { useSelector } from 'react-redux';
 import { RootState } from '../../../redux/RootReducer';
-import { signupUser,verifyWhatsAPP } from '../../../service/user';
+import { verifyWhatsAPP } from '../../../service/user';
 
 const InputContainer = styled.View`
   width: 100%;
@@ -25,7 +25,7 @@ const InputContainer = styled.View`
 const WhatsAppTemplate = () => {
   const methods = useForm();
   const navigation = useNav();
-  const { email, phone, name, password, location, account, bank } = useSelector((state: RootState) => state.templateUser);
+  const {email} = useSelector((state: RootState) => state.templateUser);
   const role = useSelector((state: RootState) => state.templateRole.role);
 
   const handleGoLogin = async () => {
@@ -38,41 +38,16 @@ const WhatsAppTemplate = () => {
       role: role,
       code: code,
     };
-    
       
     console.log(output); 
 
-    // 회원 가입 요청 데이터 
-    const signupData = {
-        email,
-        phone,
-        name,
-        password,
-        location,
-        account,
-        bank
-    };
-
-    
-    console.log(signupData); 
 
     try {
-      // 1. 코드 인증 요청 
+      // 코드 인증 요청 
       const response = await verifyWhatsAPP(output);
       console.log('verifyWhatsAPP Response:', response);
-  
-      // 2. 코드 인증 성공 시 회원 가입 요청 
-      try {
-        // 회원 가입 요청
-        const response = await signupUser(signupData);
-        console.log('Signup Response:', response);
-    
-         // 3. 회원 가입 요청 성공 시 로그인 화면 이동 
-        navigation.push("Login");
-      } catch (error) {
-        console.error('Signup failed:', error);
-      }
-      
+      navigation.push("Login");
+
     } catch (error) {
       console.error('verifyWhatsAPP failed:', error);
     }
@@ -84,7 +59,7 @@ const WhatsAppTemplate = () => {
         <CustomTitle>VERIFIKASI AKUN</CustomTitle>
 
         <CustomText size='caption' color='#4C4C4C'>
-          Kami sudah mengirimkan kode ke WhatsAPP anda
+          Kami sudah mengirimkan kode ke WHATSAPP anda
         </CustomText>
         <InputContainer>
           <CustomInput 

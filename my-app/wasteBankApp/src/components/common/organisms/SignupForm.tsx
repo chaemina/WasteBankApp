@@ -3,8 +3,9 @@ import { useForm, FormProvider } from 'react-hook-form';
 import { useDispatch } from 'react-redux';
 import InputBox from '../molecules/InputBox';
 import CustomButton from '../atoms/CustomButton';
-import { setUser } from '../../../redux/slice/TemplateUserSlice'; // TemplateUserSlice에서 setUser 가져오기
+import { setUser } from '../../../redux/slice/TemplateUserSlice'; 
 import { useNav } from '../../../hooks/useNav';
+import { signupUser, signupCollector } from '../../../service/user';
 
 type SignupFormProps = {
   inputFields: Array<{
@@ -16,19 +17,33 @@ type SignupFormProps = {
     label?: string;
     name: string;
   }>;
+  role: string; 
 };
 
-const SignupForm: React.FC<SignupFormProps> = ({ inputFields }) => {
+const SignupForm: React.FC<SignupFormProps> = ({ inputFields, role }) => {
   const navigation = useNav();
   const methods = useForm();
   const dispatch = useDispatch(); 
 
-  const onSubmit = (data: any) => {
+  const onSubmit = async (data: any)  => {
     console.log('Form Data:', data); 
 
-
     dispatch(setUser(data)); 
-    navigation.push("AuthenticationSelect");
+
+    try {
+      let response;
+      if (role === 'user') {
+        response = await signupUser(data);
+      } else if (role === 'collector') {
+        response = await signupCollector(data);
+      }
+
+      console.log('Signup Response:', response);
+    
+      navigation.push("AuthenticationSelect");
+    } catch (error) {
+      console.error('Signup failed:', error);
+    }
   };
 
   return (

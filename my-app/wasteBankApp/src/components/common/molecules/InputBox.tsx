@@ -6,6 +6,7 @@ import CountryPicker from 'react-native-country-picker-modal';
 import { CountryCode, Country } from 'react-native-country-picker-modal';
 import { useFormContext, useWatch } from 'react-hook-form';
 import { emailCheck } from '../../../service/user';
+import LocationSearch from './LocationSearch';
 
 type InputBoxProps = {
   inputs: Array<{
@@ -64,7 +65,7 @@ const InputBox: React.FC<InputBoxProps> = ({ inputs }) => {
                 placeholder={input.placeholder}
                 width={input.width}
                 autoFocus={input.autoFocus}
-                name={input.name} // 여기서 'userEmail'이 전달되어야 함
+                name={input.name} 
                 control={control}
                 defaultValue={input.defaultValue}
                 keyboardType={input.keyboardType}
@@ -74,13 +75,6 @@ const InputBox: React.FC<InputBoxProps> = ({ inputs }) => {
             </View>
           ) : input.label === 'Phone Number' ? (
             <View style={{ alignItems: 'center' }}>
-              <CountryPicker
-                countryCode={countryCode}
-                withFilter
-                withCountryNameButton={true}
-                withCallingCode
-                onSelect={onSelect}
-              />
               <CustomInput
                 placeholder={input.placeholder}
                 width={input.width}
@@ -91,8 +85,19 @@ const InputBox: React.FC<InputBoxProps> = ({ inputs }) => {
                 keyboardType={input.keyboardType}
                 label={input.label}
               />
+                <CountryPicker
+                countryCode={countryCode}
+                withFilter
+                withCountryNameButton={true}
+                withCallingCode
+                onSelect={onSelect}
+              />
             </View>
-          ) : (
+         ) 
+          : input.label === 'Address' ? (
+            <LocationSearch/>
+          )
+           : (
             <CustomInput
               placeholder={input.placeholder}
               width={input.width}
