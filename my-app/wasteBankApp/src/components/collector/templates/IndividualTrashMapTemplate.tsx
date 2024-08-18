@@ -18,10 +18,14 @@ const CustomBox = styled(View)`
 
 
 const IndividualTrashMapTemplate: React.FC<CollectorMapTemplateProps> = ({ data }) => {
+  
+  const handleIndividualNavigation = (location: string, matched: boolean) => {
+    // 개별 사용자 전용 네비게이션 동작 정의
+  };
 
   return (
     <>
-      <MyMap data={data} />
+      <MyMap data={data} navigationHook={handleIndividualNavigation} />
       <CustomBox>
          {data.map((item) => (
           <CustomText bold>{item.location}</CustomText>
@@ -30,5 +34,6 @@ const IndividualTrashMapTemplate: React.FC<CollectorMapTemplateProps> = ({ data 
     </>
   );
 };
+
 
 export default IndividualTrashMapTemplate;

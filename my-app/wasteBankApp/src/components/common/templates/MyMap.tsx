@@ -2,18 +2,16 @@ import React, { useEffect, useState } from 'react';
 import { View } from 'react-native';
 import MapView, { Marker, Region, Polyline } from 'react-native-maps';
 import { getIcon } from '../../../utils/GetIcon';
-import CustomAlert from '../atoms/CustomAlert';
 import { GarbageData } from '../../../types/type';
 import { useNav } from '../../../hooks/useNav';
-import useModal from '../../../hooks/useModal';
 
 interface MyMapProps {
   data: GarbageData[];
+  navigationHook: (location: string, matched: boolean) => void; 
 }
 
-const MyMap: React.FC<MyMapProps> = ({ data }) => {
-  const { modalVisible, selectedId, openModal, closeModal } = useModal();
-  const navigation = useNav();
+const MyMap: React.FC<MyMapProps> = ({ data, navigationHook }) => {
+
   const [region, setRegion] = useState<Region | null>(null);
 
   useEffect(() => {
@@ -38,25 +36,15 @@ const MyMap: React.FC<MyMapProps> = ({ data }) => {
         longitudeDelta,
       });
     } else {
-      setRegion(null); // 데이터를 초기화하여 지도 대신 메시지를 표시
+      setRegion(null); 
     }
   }, [data]);
 
   const handleMarkerPress = (location: string, matched: boolean) => {
-    if (matched) {
-      navigation.push('TrashInfo', { matched });
-    } else {
-      openModal(location);
-    }
+    navigationHook(location, matched); // 전달받은 navigationHook 사용
   };
 
-  const handleAlertClick = () => {
-    console.log('Okay clicked');
-    navigation.push('TrashInfo', { matched: false });
-    closeModal();
-  };
-
-  const userLocation = data.find(item => item.daysSinceRegistration === -1); // 사용자의 위치를 찾음
+  const userLocation = data.find(item => item.daysSinceRegistration === -1);
 
   if (!region) {
     return null;
@@ -73,17 +61,15 @@ const MyMap: React.FC<MyMapProps> = ({ data }) => {
           <Marker
             key={item.garbageId}
             coordinate={{ latitude: item.latitude, longitude: item.longitude }}
-            title={`Garbage ID: ${item.garbageId}`}
-            description={`Location: ${item.location}`}
+            title={`${item.location}`}
             onPress={() => handleMarkerPress(item.location, item.matched)}
           >
             {getIcon(item.daysSinceRegistration)}
           </Marker>
         ))}
 
-        {/* Polyline으로 사용자 위치와 쓰레기 위치를 연결 */}
         {userLocation && data.map((item) => {
-          if (item.daysSinceRegistration !== -1) { // 쓰레기 위치와 사용자 위치를 연결
+          if (item.daysSinceRegistration !== -1) {
             return (
               <Polyline
                 key={`polyline-${item.garbageId}`}
@@ -91,24 +77,14 @@ const MyMap: React.FC<MyMapProps> = ({ data }) => {
                   { latitude: userLocation.latitude, longitude: userLocation.longitude },
                   { latitude: item.latitude, longitude: item.longitude }
                 ]}
-                strokeColor="#8000FF" // 선 색상
-                strokeWidth={2} // 선 두께
+                strokeColor="#8000FF"
+                strokeWidth={2}
               />
             );
           }
           return null;
         })}
       </MapView>
-
-      {selectedId !== null && (
-        <CustomAlert
-          title={`${selectedId}`}
-          text={``}
-          visible={modalVisible}
-          onClose={closeModal}
-          onClick={handleAlertClick}
-        />
-      )}
     </View>
   );
 }

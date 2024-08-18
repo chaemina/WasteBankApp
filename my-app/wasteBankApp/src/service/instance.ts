@@ -13,7 +13,7 @@ instance.interceptors.request.use(
   async config => {
     console.log('[API REQUEST]', config);
 
-    const token = await getItem('token');
+    const token = await getItem('auth');
     if (token) {
       config.headers['Authorization'] = `${token}`;
     } else {
@@ -34,7 +34,7 @@ instance.interceptors.response.use(
     
     const token = response.headers['authorization'];
     if (token) {
-      await setItem('token', token); 
+      await setItem('auth', token); 
     }
     
     return response;
