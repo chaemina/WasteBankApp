@@ -33,7 +33,7 @@ function StackNavigation() {
   return (
     <NavigationContainer theme={navTheme}>
       <Stack.Navigator
-        initialRouteName="Login"
+        initialRouteName="IndividualTrashMapView"
         screenOptions={({ route }) => ({
           ...customStackNavigationOptions,
           headerShown: !(route.name === 'Login') && !(route.name === 'IndividualTrashMapView')
