@@ -1,16 +1,18 @@
 import React, { useEffect, useState } from 'react';
 import MyWebView from '../../components/common/templates/MyWebView';
-import AsyncStorage from '@react-native-async-storage/async-storage';
+import { removeItem,getItem } from '../../hooks/useAsyncStorage';
 
 const MainScreen = () => {
 
   const [url, setUrl] = useState<string | null>(null);
 
   useEffect(() => {
+
     const loadInitialUrl = async () => {
       try {
 
-        const token = await AsyncStorage.getItem('auth');
+        
+        const token = await getItem('auth');
         
         if (token) {
           setUrl("http://localhost:5173/:role"); 

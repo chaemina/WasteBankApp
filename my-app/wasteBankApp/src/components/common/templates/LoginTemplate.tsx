@@ -7,7 +7,6 @@ const LoginTemplate = () => {
 
   return (
     <>
-      {/* 웹뷰 */}
       <MyWebView initialUrl='http://localhost:5173/login'>
       </MyWebView>
     </>

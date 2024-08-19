@@ -1,8 +1,8 @@
 import React, { useRef, useState, useEffect, useCallback } from 'react';
 import { WebView } from 'react-native-webview';
 import styled from 'styled-components/native';
-import { useNavigation } from '@react-navigation/native';
-import { TouchableOpacity, Text, BackHandler } from 'react-native';
+import { TouchableOpacity, BackHandler } from 'react-native';
+import { setItem,removeItem } from '../../../hooks/useAsyncStorage';
 import { useNav } from '../../../hooks/useNav';
 
 interface MyWebViewProps {
@@ -64,18 +64,50 @@ const MyWebView: React.FC<MyWebViewProps> = ({ initialUrl, children }) => {
     return false;
   }, []);
 
-  // 애니메이션 효과나 다른 방법 생각 필요 
   useEffect(() => {
-     BackHandler.addEventListener('hardwareBackPress', backPress);
+    BackHandler.addEventListener('hardwareBackPress', backPress);
     return () => {
       BackHandler.removeEventListener('hardwareBackPress', backPress);
     };
   }, [backPress]);
 
-  const handleMessage = (event: any) => {
+  const handleMessage = async (event: any) => {
     const message = event.nativeEvent.data;
-    console.log("Received message:", message); // 콘솔 로그 출력
-    navigation.push(message);  // 이동하지 않는 경우도 생각해봐야함, navigate라는 문자열 포함 혹은 token 문자열 포함 여부.. 등등
+    console.log("Received message:", message);
+
+    try {
+      const parsedMessage = JSON.parse(message);
+
+      switch (parsedMessage.type) {
+        case "TOKEN":
+          if (parsedMessage.token) {
+            await setItem('auth', parsedMessage.token);
+            console.log('Token saved to AsyncStorage');
+            navigation.push("Main");
+          }
+          break;
+        
+          case "REMOVE_TOKEN":
+            await removeItem('auth');
+            console.log('Token removed from AsyncStorage');
+            
+            if (webviewRef.current) {
+              webviewRef.current.reload();
+            }
+            break;
+
+        case "NAVIGATE":
+          if (parsedMessage.destination) {
+            navigation.navigate(parsedMessage.destination);
+          }
+          break;
+
+        default:
+          console.warn('Unknown message type received:', parsedMessage.type);
+      }
+    } catch (error) {
+      console.error('Failed to process message:', error);
+    }
   };
 
   return (
