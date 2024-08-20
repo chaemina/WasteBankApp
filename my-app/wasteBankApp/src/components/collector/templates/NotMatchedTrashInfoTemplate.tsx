@@ -6,7 +6,8 @@ import styled from 'styled-components/native';
 import DatePicker from '../../common/atoms/DatePicker';
 import useModal from '../../../hooks/useModal';
 import TrashInfo from './TrashInfo';
-
+import { useNav } from '../../../hooks/useNav';
+import { garbageAccept } from '../../../service/garbage';
 
 const DateBox = styled.View`
   width: 90%;
@@ -14,19 +15,35 @@ const DateBox = styled.View`
   align-items: center;
 `;
 
-const NotMatchedTrashInfoTemplate = () => {
+interface NotMatchedTrashInfoTemplateProps {
+  garbageId: number;
+}
+
+const NotMatchedTrashInfoTemplate: React.FC<NotMatchedTrashInfoTemplateProps> = ({ garbageId }) => {
+  const navigation = useNav();
   const { modalVisible, openModal, closeModal } = useModal();
   const [selectedDate, setSelectedDate] = useState<string | null>(null);
 
-
-  const handleButtonPress = () => {
+  const SelectDateButtonPress = () => {
     openModal();
+  };
+
+  const handleAcceptButton = async () => {
+    if (garbageId && selectedDate) {
+      try {
+        await garbageAccept({ garbageId, collectionDate: selectedDate });
+        navigation.push('Main');
+      } catch (error) {
+        console.error('Failed to accept garbage:', error);
+      }
+    } else {
+      console.error('Garbage ID or selected date is missing');
+    }
   };
 
   const handleConfirmDate = (date: Date) => {
     const isoString = date.toISOString();
     setSelectedDate(isoString);
-    console.log('Selected date:', isoString);
     closeModal();
   };
 
@@ -36,14 +53,14 @@ const NotMatchedTrashInfoTemplate = () => {
 
   return (
     <ScrollContainer>
-      <TrashInfo/>
-      <CustomButton size="sm" color='white' label='Select Date' onPress={handleButtonPress} />
-      <CustomButton size="sm" label='Penerimaan' /> 
-      
+      <TrashInfo garbageId={garbageId} /> 
+      <CustomButton size="sm" color="white" label="Select Date" onPress={SelectDateButtonPress} />
+      <CustomButton size="sm" label="Penerimaan" onPress={handleAcceptButton} />
+
       <DateBox>
         {selectedDate && (
-          <CustomText size='body' color='#000'>
-           {`Selected Date: ${formatDate(selectedDate)}`} 
+          <CustomText size="body" color="#000">
+            {`Selected Date: ${formatDate(selectedDate)}`}
           </CustomText>
         )}
       </DateBox>

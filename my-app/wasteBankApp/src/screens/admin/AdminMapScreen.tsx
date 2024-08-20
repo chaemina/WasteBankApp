@@ -1,12 +1,25 @@
 import React from 'react';
+import CustomText from '../../components/common/atoms/CustomText';
+import { useQuery } from '@tanstack/react-query';
 import AdminMapTemplate from '../../components/admin/templates/AdminMapTemplate';
-import { data } from '../../constants/MarkerInfo';
+import { adminGarbagesList } from '../../service/garbage';
+import { GarbageData } from '../../types/type';
 
 const AdminMapScreen = () => {
 
+  const { data, isError, isLoading, isSuccess } = useQuery({
+    queryKey: ['admingarbages'],
+    queryFn: adminGarbagesList,
+  });
+
+  if (isLoading) {
+    return <CustomText>Loading...</CustomText>;
+  }
+
+
   return (
     <>
-        <AdminMapTemplate data={data.response} />
+      {data?.response && <AdminMapTemplate data={data.response as GarbageData[]} />}
     </>
   );
 };

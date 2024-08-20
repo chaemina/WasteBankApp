@@ -10,7 +10,7 @@ interface AdminMapTemplateProps {
 
 const AdminMapTemplate: React.FC<AdminMapTemplateProps> = ({ data }) => {
   const handleAdminNavigation = (location: string, matched: boolean) => {
-    // 관리자 전용 네비게이션 동작 정의
+    
   };
   return (
     <>

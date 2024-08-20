@@ -18,19 +18,16 @@ const CollectorMapTemplate: React.FC<CollectorMapTemplateProps> = ({ data }) => 
 
   const isFirstItemMatched = data[0].matched;
 
-  const handleCollectorNavigation = (location: string, matched: boolean) => {
-    if (matched) {
-      navigation.push('TrashInfo', { matched });
-    } else {
-      navigation.push('TrashInfo', { matched: false });
-    }
+  const handleCollectorNavigation = (location: string, matched: boolean, garbageId: number) => {
+    navigation.push('TrashInfo', { matched, garbageId });
   };
-
+  
   return (
     <>
       <CustomTitle>
         {isFirstItemMatched ? "Menunggu untuk memulai..." : "You Can Select Trash"}
       </CustomTitle>
+      {/* 수정된 부분: 각 마커의 고유한 garbageId를 전달하도록 함 */}
       <MyMap data={data} navigationHook={handleCollectorNavigation} />
       <StateBox />
     </>

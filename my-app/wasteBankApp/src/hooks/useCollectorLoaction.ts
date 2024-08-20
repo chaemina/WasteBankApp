@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { GarbageData } from '../types/type';
 
-export const useUserLocation = () => {
+export const useCollectorLocation = () => {
   const [userLocation, setUserLocation] = useState<GarbageData | null>(null);
 
   const handleLocationChange = (location: { latitude: number; longitude: number }) => {
@@ -21,3 +21,4 @@ export const useUserLocation = () => {
     handleLocationChange,
   };
 };
+

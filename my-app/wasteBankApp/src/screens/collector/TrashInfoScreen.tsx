@@ -5,11 +5,15 @@ import MatchedTrashInfoTemplate from '../../components/collector/templates/Match
 
 const TrashInfoScreen = () => {
   const route = useRoute();
-  const { matched } = route.params as { matched: boolean };
+  const { matched, garbageId } = route.params as { matched: boolean; garbageId: number };
 
   return (
     <>
-      {matched ? <MatchedTrashInfoTemplate /> : <NotMatchedTrashInfoTemplate />}
+      {matched ? (
+        <MatchedTrashInfoTemplate garbageId={garbageId} />
+      ) : (
+        <NotMatchedTrashInfoTemplate garbageId={garbageId} />
+      )}
     </>
   );
 };

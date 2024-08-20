@@ -11,7 +11,7 @@ const MainScreen = () => {
     const loadInitialUrl = async () => {
       try {
 
-        
+
         const token = await getItem('auth');
         
         if (token) {
