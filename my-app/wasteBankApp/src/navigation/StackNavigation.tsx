@@ -14,6 +14,8 @@ import AdminMapScreen from '../screens/admin/AdminMapScreen';
 import CollectorNotMatchedMapScreen from '../screens/collector/CollectorNotMatchedMapScreen';
 import CollectorMatchedMapScreen from '../screens/collector/CollectorMatchedMapScreen';
 import IndividualTrashMapScreen from '../screens/collector/IndividualTrashMapScreen';
+import CollectorLocationScreen from '../screens/user/CollectorLoactionScreen';
+
 
 const Stack = createNativeStackNavigator();
 
@@ -51,7 +53,7 @@ function StackNavigation() {
 
           {/* user */}
         <Stack.Screen name="Garbagebin" component={GarbagebinScreen as React.ComponentType<any>} />
-          {/* 수거관 위치 확인 Map View 필요  */}
+        <Stack.Screen name="CollectorLocation" component={CollectorLocationScreen} />
 
           {/* collector */}
         <Stack.Screen name="CollectorNotMatched" component={CollectorNotMatchedMapScreen} />

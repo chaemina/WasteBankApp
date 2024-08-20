@@ -74,8 +74,6 @@ const MyMap: React.FC<MyMapProps> = ({ data, navigationHook }) => {
     {getIcon(item.daysSinceRegistration)}
   </Marker>
 ))}
-
-
         {userLocation && data.map((item) => {
           if (item.daysSinceRegistration !== -1) {
             return (

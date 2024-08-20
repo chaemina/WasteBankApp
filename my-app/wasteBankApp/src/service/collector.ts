@@ -48,3 +48,19 @@ export const collectDone = async ({ garbageId }: { garbageId: number}) => {
       throw error;
     }
 };
+
+
+// 수거관 실시간 위치 (사용자)
+export const collectorLocationGet = async ({ garbageId }: { garbageId: number }) => {
+  try {
+    const response = await instance.get(`/api/garbages/${garbageId}/location`);
+    if (response.data.success) {
+      return response.data.response;
+    } else {
+      throw new Error('Failed to fetch data');
+    }
+  } catch (error) {
+    console.error('Error fetching chat data:', error);
+    throw error;
+  }
+};

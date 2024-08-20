@@ -96,11 +96,18 @@ const MyWebView: React.FC<MyWebViewProps> = ({ initialUrl, children }) => {
             }
             break;
 
-        case "NAVIGATE":
-          if (parsedMessage.destination) {
-            navigation.navigate(parsedMessage.destination);
-          }
-          break;
+            case "NAVIGATE":
+              if (parsedMessage.destination) {
+                // garbageId가 포함된 경우와 아닌 경우를 처리
+                if (parsedMessage.garbageId) {
+                  // garbageId가 있는 경우
+                  navigation.navigate(parsedMessage.destination, { garbageId: parsedMessage.garbageId });
+                } else {
+                  // garbageId가 없는 경우
+                  navigation.navigate(parsedMessage.destination);
+                }
+              }
+              break;
 
         default:
           console.warn('Unknown message type received:', parsedMessage.type);

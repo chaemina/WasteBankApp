@@ -53,3 +53,5 @@ export const adminGarbagesList = async () => {
   const response = await instance.get('/api/admin/status');
   return response.data;
 };
+
+
