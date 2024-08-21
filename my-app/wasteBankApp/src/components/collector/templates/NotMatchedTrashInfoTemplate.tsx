@@ -54,13 +54,13 @@ const NotMatchedTrashInfoTemplate: React.FC<NotMatchedTrashInfoTemplateProps> = 
   return (
     <ScrollContainer>
       <TrashInfo garbageId={garbageId} /> 
-      <CustomButton size="sm" color="white" label="Select Date" onPress={SelectDateButtonPress} />
+      <CustomButton size="sm" color="white" label="pilih tanggal" onPress={SelectDateButtonPress} />
       <CustomButton size="sm" label="Penerimaan" onPress={handleAcceptButton} />
 
       <DateBox>
         {selectedDate && (
           <CustomText size="body" color="#000">
-            {`Selected Date: ${formatDate(selectedDate)}`}
+            {`tanggal yang dipilih: ${formatDate(selectedDate)}`}
           </CustomText>
         )}
       </DateBox>

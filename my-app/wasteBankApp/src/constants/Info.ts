@@ -27,7 +27,7 @@ export const UserinputFields: Array<{
   }, 
 // Password must be between 8 and 20 characters
   {
-    placeholder: 'Between 8 and 20 characters',
+    placeholder: 'Antara 8 dan 20 karakter',
     width: 250,
     label: 'Password',
     name: 'password', 
@@ -48,7 +48,7 @@ export const UserinputFields: Array<{
   },
  // without "-"
   {
-    placeholder: 'Enter your account without "-"',
+    placeholder: 'Masukkan akun Anda tanpa "-"',
     width: 250,
     label: 'Account',
     keyboardType: 'phone-pad',
@@ -91,7 +91,7 @@ export const CollectorinputFields: Array<{
   }, 
 // Password must be between 8 and 20 characters
   {
-    placeholder: 'Between 8 and 20 characters',
+    placeholder: 'Antara 8 dan 20 karakter',
     width: 250,
     label: 'Password',
     name: 'password', 

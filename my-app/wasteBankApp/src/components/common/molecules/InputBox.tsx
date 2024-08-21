@@ -70,7 +70,7 @@ const InputBox: React.FC<InputBoxProps> = ({ inputs }) => {
                 keyboardType={input.keyboardType}
                 label={input.label}
               />
-              <CustomButton size="sm" label="Check for Duplicates" onPress={onSubmit} />
+              <CustomButton size="sm" label="Periksa duplikat" onPress={onSubmit} />
             </View>
           ) : input.label === 'Phone Number' ? (
             <View style={{ alignItems: 'center' }}>

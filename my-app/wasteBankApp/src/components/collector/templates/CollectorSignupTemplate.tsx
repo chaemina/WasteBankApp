@@ -11,7 +11,7 @@ type CollectorSignupTemplateProps = {
 const CollectorSignupTemplate: React.FC<CollectorSignupTemplateProps> = ({ role }) => {
   return (
     <ScrollContainer>
-      <CustomTitle>Create Collector Account</CustomTitle>
+      <CustomTitle>Buat Akun Baru</CustomTitle>
       <SignupForm inputFields={CollectorinputFields} role={role} />
     </ScrollContainer>
   );

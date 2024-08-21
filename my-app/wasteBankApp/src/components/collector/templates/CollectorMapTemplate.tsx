@@ -25,7 +25,7 @@ const CollectorMapTemplate: React.FC<CollectorMapTemplateProps> = ({ data }) => 
   return (
     <>
       <CustomTitle>
-        {isFirstItemMatched ? "Menunggu untuk memulai..." : "You Can Select Trash"}
+        {isFirstItemMatched ? "Menunggu untuk memulai..." : "Anda dapat memilih sampah"}
       </CustomTitle>
       {/* 수정된 부분: 각 마커의 고유한 garbageId를 전달하도록 함 */}
       <MyMap data={data} navigationHook={handleCollectorNavigation} />

@@ -49,7 +49,7 @@ const SignupForm: React.FC<SignupFormProps> = ({ inputFields, role }) => {
   return (
     <FormProvider {...methods}>
       <InputBox inputs={inputFields} />
-      <CustomButton size="sm" label="Sign Up" onPress={methods.handleSubmit(onSubmit)} />
+      <CustomButton size="sm" label="DAFTAR" onPress={methods.handleSubmit(onSubmit)} />
     </FormProvider>
   );
 };

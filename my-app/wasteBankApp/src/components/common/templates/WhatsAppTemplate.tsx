@@ -70,9 +70,12 @@ const WhatsAppTemplate = () => {
             inputColor="#40892d" 
             keyboardType='numeric' 
           />
-          <CustomButton size="sm" color="white" label="인증하기" onPress={handleGoLogin}/>
-          <CustomButton size="sm" label="다시 보내기" onPress={handleGoLogin}/>
-        </InputContainer>
+          <CustomButton size="sm" color="white" label="VERIFIKASI" onPress={handleGoLogin}/>
+          </InputContainer>
+          <CustomText size='caption' color='#4C4C4C'>
+              Belum menerima kode?
+          </CustomText>
+          <CustomButton size="sm" label="KIRIM ULANG" onPress={handleGoLogin}/>
       </ScrollContainer>
     </FormProvider>
   );

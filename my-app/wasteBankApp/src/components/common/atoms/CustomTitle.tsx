@@ -11,7 +11,8 @@ const StyledText = styled.Text`
   font-weight: bold;
   color: #40892D;
   font-size: ${scale(30)}px;
-  margin-top: ${scale(30)}px;
+  margin: ${scale(10)}px;
+  margin-bottom: ${scale(10)}px;
 `;
 
 const CustomTitle: FC<Props> = ({ children, ...rest }) => {

@@ -64,10 +64,10 @@ const AuthenticationSelectTemplate = () => {
 
   return (
     <ScrollContainer>
-        <CustomTitle >Verify your account With</CustomTitle>
+        <CustomTitle >VERIFIKASI AKUN MENGGUNAKAN</CustomTitle>
         <CustomButton
         size='lg'
-        label='Email'
+        label='EMAIL'
         onPress={handleSendCodeToEmail}
       />
       <CustomButton

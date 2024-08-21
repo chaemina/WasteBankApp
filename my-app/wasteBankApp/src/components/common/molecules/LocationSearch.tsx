@@ -13,7 +13,7 @@ const LocationSearch: React.FC = () => {
             <CustomText>Address</CustomText>
             <GooglePlacesAutocomplete
                 minLength={2}
-                placeholder="장소를 검색해보세요!"
+                placeholder="Cari lokasi!"
                 query={{
                     key: 'AIzaSyAqcGBl-o7vEpBZSv03qzrKLq4zGVl7zA4',
                     language: 'id',

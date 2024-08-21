@@ -11,7 +11,7 @@ type UserSignupTemplateProps = {
 const UserSignupTemplate: React.FC<UserSignupTemplateProps> = ({ role }) => {
   return (
     <ScrollContainer>
-      <CustomTitle>Create User Account</CustomTitle>
+      <CustomTitle>Buat Akun Baru</CustomTitle>
       <SignupForm inputFields={UserinputFields} role={role} />
     </ScrollContainer>
   );
