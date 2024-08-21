@@ -1,34 +1,21 @@
 import React, {useState, useEffect} from 'react';
 import {View, Animated, Image} from 'react-native';
+import Container from './Container';
 import CustomText from '../atoms/CustomText';
 import {styled} from 'styled-components';
+import { scale,moderateScale } from '../../../utils/Scale';
 
 const ToastContainer = styled(Animated.View)`
   flex-direction: row;
-  position: absolute;
-  border-radius: 16px;
+  border-radius: 7px;
   justify-content: center;
   align-items: center;
   background-color: rgba(100, 183, 59, 0.5);
   width: 90%;
-  height: 80px;
-  left: 5%;
-  padding: 15px;
+  height: ${moderateScale(50,0.3)}px;
+  margin: ${scale(20)}px;
 `;
 
-const ToastIcon = styled(View)`
-  width: 35px;
-  height: 35px;
-  justify-content: center;
-  align-items: center;
-  margin-right: 10px;
-`;
-
-const ToastText = styled(CustomText)`
-  flex: 1;
-  flex-wrap: wrap;
-  font-size: 16px;
-`;
 type CustomToastProps = {
   message: string;
   visible: boolean;
@@ -63,8 +50,7 @@ const CustomToast: React.FC<CustomToastProps> = ({message, visible}) => {
 
   return (
     <ToastContainer style={{opacity}}>
-      <ToastIcon></ToastIcon>
-      <ToastText>{message}</ToastText>
+      <CustomText>{message}</CustomText>
     </ToastContainer>
   );
 };

@@ -5,6 +5,9 @@ import TrashInfoCard from '../organisms/TrashInfoCard';
 import styled from 'styled-components/native';
 import { garbageDetail } from '../../../service/garbage';
 import { useQuery } from '@tanstack/react-query';
+import Loading from '../../common/atoms/Loading';
+import Container from '../../common/atoms/Container';
+import CustomButton from '../../common/atoms/CustomButton';
 
 const CardBox = styled.View`
   width: 100%;
@@ -21,17 +24,27 @@ interface TrashInfoProps {
 }
 
 const TrashInfo: React.FC<TrashInfoProps> = ({ garbageId }) => {
-  const { data, isError, isLoading } = useQuery({
+  const { data, isError, isLoading,refetch } = useQuery({
     queryKey: ['garbageinfo', garbageId],
     queryFn: () => garbageDetail({ garbageId }), 
   });
 
   if (isLoading) {
-    return <CustomText>Loading...</CustomText>;
+    return  <Loading width={100} height={100} loop={true} />;
   }
 
   if (isError) {
-    return <CustomText>Error loading data.</CustomText>;
+    return (
+      <Container>
+        <CustomText>데이터를 불러오는 중에 오류가 발생했습니다.</CustomText>
+        <CustomText>다시 시도해주세요.</CustomText>
+        <CustomButton 
+          label='Refresh' 
+          size='lg' 
+          onPress={() => refetch()}  
+        />
+      </Container>
+    );
   }
 
   return (

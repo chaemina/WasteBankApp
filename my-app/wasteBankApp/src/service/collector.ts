@@ -53,7 +53,7 @@ export const collectDone = async ({ garbageId }: { garbageId: number}) => {
 // 수거관 실시간 위치 (사용자)
 export const collectorLocationGet = async ({ garbageId }: { garbageId: number }) => {
   try {
-    const response = await instance.get(`/api/garbages/${garbageId}/location`);
+    const response = await instance.get(`/api/garbages/${garbageId}/collectorLocation`);
     if (response.data.success) {
       return response.data.response;
     } else {

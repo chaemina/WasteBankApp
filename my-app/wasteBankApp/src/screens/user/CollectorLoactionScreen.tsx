@@ -6,6 +6,10 @@ import { collectorLocationGet } from '../../service/collector';
 import { GarbageData } from '../../types/type';
 import MyMap from '../../components/common/templates/MyMap';
 import { useRoute } from '@react-navigation/native';
+import Loading from '../../components/common/atoms/Loading';
+import Container from '../../components/common/atoms/Container';
+import CustomButton from '../../components/common/atoms/CustomButton';
+
 
 interface RouteParams {
   garbageId: number;
@@ -32,11 +36,21 @@ const CollectorLocationScreen = () => {
   }, [refetch]);
 
   if (isLoading) {
-    return <CustomText>Loading...</CustomText>;
+    return  <Loading width={100} height={100} loop={true} />;
   }
 
-  if (isError || !data) {
-    return <CustomText>Error loading data</CustomText>;
+  if (isError && !data) {
+    return (
+      <Container>
+        <CustomText>데이터를 불러오는 중에 오류가 발생했습니다.</CustomText>
+        <CustomText>다시 시도해주세요.</CustomText>
+        <CustomButton 
+          label='Refresh' 
+          size='lg' 
+          onPress={() => refetch()}  
+        />
+      </Container>
+    );
   }
 
   const handleIndividualNavigation = (location: string, matched: boolean, garbageId: number) => {

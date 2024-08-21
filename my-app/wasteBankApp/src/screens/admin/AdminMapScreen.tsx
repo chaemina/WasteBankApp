@@ -4,22 +4,45 @@ import { useQuery } from '@tanstack/react-query';
 import AdminMapTemplate from '../../components/admin/templates/AdminMapTemplate';
 import { adminGarbagesList } from '../../service/garbage';
 import { GarbageData } from '../../types/type';
+import Loading from '../../components/common/atoms/Loading';
+import Container from '../../components/common/atoms/Container';
+import CustomButton from '../../components/common/atoms/CustomButton';
 
 const AdminMapScreen = () => {
 
-  const { data, isError, isLoading, isSuccess } = useQuery({
+  const { data, isError, isLoading, refetch } = useQuery({
     queryKey: ['admingarbages'],
     queryFn: adminGarbagesList,
   });
 
   if (isLoading) {
-    return <CustomText>Loading...</CustomText>;
+    return  <Loading width={100} height={100} loop={true} />;
   }
 
+  if (isError) {
+    return (
+      <Container>
+        <CustomText>데이터를 불러오는 중에 오류가 발생했습니다.</CustomText>
+        <CustomText>다시 시도해주세요.</CustomText>
+        <CustomButton 
+          label='Refresh' 
+          size='lg' 
+          onPress={() => refetch()}  
+        />
+      </Container>
+    );
+  }
 
+  if (!data?.response || data.response.length === 0) {
+    return  ( 
+      <Container>
+                <CustomText>등록된 쓰레기가 없습니다.</CustomText>
+      </Container>
+    )
+  }
   return (
     <>
-      {data?.response && <AdminMapTemplate data={data.response as GarbageData[]} />}
+       <AdminMapTemplate data={data.response as GarbageData[]} />
     </>
   );
 };

@@ -4,6 +4,7 @@ import styled from 'styled-components/native';
 import { TouchableOpacity, BackHandler } from 'react-native';
 import { setItem,removeItem } from '../../../hooks/useAsyncStorage';
 import { useNav } from '../../../hooks/useNav';
+import CustomToast from '../atoms/CustomToast';
 
 interface MyWebViewProps {
   initialUrl: string;
@@ -28,6 +29,12 @@ const MyWebView: React.FC<MyWebViewProps> = ({ initialUrl, children }) => {
   const webviewRef = useRef<WebView>(null);
   const navigation = useNav();
   const [canGoBack, setCanGoBack] = useState(false);
+  const [toastVisible, setToastVisible] = useState(false); 
+
+  const showToast = () => {
+    setToastVisible(true);
+    setTimeout(() => setToastVisible(false), 5500); // 토스트를 5.5초 동안 표시
+  };
 
   const handleNavigationStateChange = (navState: any) => {
     setCanGoBack(navState.canGoBack);
@@ -113,11 +120,13 @@ const MyWebView: React.FC<MyWebViewProps> = ({ initialUrl, children }) => {
           console.warn('Unknown message type received:', parsedMessage.type);
       }
     } catch (error) {
+      showToast(); 
       console.error('Failed to process message:', error);
     }
   };
 
   return (
+    <>
     <Wrapper>
       <StyledWebView
         ref={webviewRef}
@@ -129,6 +138,8 @@ const MyWebView: React.FC<MyWebViewProps> = ({ initialUrl, children }) => {
       />
       {children}
     </Wrapper>
+    <CustomToast message="오류가 발생했습니다. 다시 시도하세요." visible={toastVisible} />
+    </>
   );
 };
 

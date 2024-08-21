@@ -5,6 +5,7 @@ import { scale, moderateScale } from '../../../utils/Scale';
 import { GooglePlacesAutocomplete } from 'react-native-google-places-autocomplete';
 import { useFormContext } from 'react-hook-form';
 
+
 const LocationSearch: React.FC = () => {
     const { setValue } = useFormContext();
 

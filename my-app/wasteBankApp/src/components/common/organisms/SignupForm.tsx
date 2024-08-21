@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useForm, FormProvider } from 'react-hook-form';
 import { useDispatch } from 'react-redux';
 import InputBox from '../molecules/InputBox';
@@ -6,6 +6,7 @@ import CustomButton from '../atoms/CustomButton';
 import { setUser } from '../../../redux/slice/TemplateUserSlice'; 
 import { useNav } from '../../../hooks/useNav';
 import { signupUser, signupCollector } from '../../../service/user';
+import Loading from '../atoms/Loading'; 
 
 type SignupFormProps = {
   inputFields: Array<{
@@ -24,6 +25,7 @@ const SignupForm: React.FC<SignupFormProps> = ({ inputFields, role }) => {
   const navigation = useNav();
   const methods = useForm();
   const dispatch = useDispatch(); 
+  const [isLoading, setIsLoading] = useState(false); 
 
   const onSubmit = async (data: any)  => {
     console.log('Form Data:', data); 
@@ -31,6 +33,7 @@ const SignupForm: React.FC<SignupFormProps> = ({ inputFields, role }) => {
     dispatch(setUser(data)); 
 
     try {
+      setIsLoading(true); 
       let response;
       if (role === 'user') {
         response = await signupUser(data);
@@ -43,14 +46,27 @@ const SignupForm: React.FC<SignupFormProps> = ({ inputFields, role }) => {
       navigation.push("AuthenticationSelect");
     } catch (error) {
       console.error('Signup failed:', error);
+    } finally {
+      setIsLoading(false);
     }
   };
 
   return (
+    <>    
+    {isLoading ? (
+      <Loading width={100} height={100} loop={true} /> 
+    ) : (
     <FormProvider {...methods}>
       <InputBox inputs={inputFields} />
-      <CustomButton size="sm" label="DAFTAR" onPress={methods.handleSubmit(onSubmit)} />
+    
+        <CustomButton 
+          size="sm" 
+          label="DAFTAR" 
+          onPress={methods.handleSubmit(onSubmit)} 
+        />
     </FormProvider>
+          )}
+    </>
   );
 };
 

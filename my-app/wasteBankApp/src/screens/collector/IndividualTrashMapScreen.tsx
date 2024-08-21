@@ -11,6 +11,8 @@ import { collectDone } from '../../service/collector';
 import { useNav } from '../../hooks/useNav';
 import { useRoute } from '@react-navigation/native';
 import { GarbageData } from '../../types/type';
+import Loading from '../../components/common/atoms/Loading';
+import CustomToast from '../../components/common/atoms/CustomToast';
 
 const CustomBox = styled(View)`
   width: 100%;
@@ -38,16 +40,30 @@ const IndividualTrashMapScreen = () => {
 
   const { data } = params;
 
+  const [isLoading, setIsLoading] = useState(false);
+  const [toastVisible, setToastVisible] = useState(false); 
+
+  const showToast = () => {
+    setToastVisible(true);
+    setTimeout(() => setToastVisible(false), 5500); // 토스트를 5.5초 동안 표시
+  };
+
+
   const handleOnPress = async () => {
     if (data.garbageId) {
       try {
+        setIsLoading(true);
         await collectDone({ garbageId: data.garbageId });
         setIsTracking(false);  // 위치 전송 멈춤
         navigation.push("Main");  
       } catch (error) {
+        showToast();
         console.error('Failed to complete collect:', error);
+      }finally {
+        setIsLoading(false);
       }
     } else {
+      showToast();
       console.error('Garbage ID is missing');
     }
   };
@@ -56,6 +72,10 @@ const IndividualTrashMapScreen = () => {
 
   return (
     <>
+      {isLoading ? (
+        <Loading width={100} height={100} loop={true} />
+      ) : (
+        <>
       <IndividualTrashMapTemplate data={combinedData} />
       {isTracking && (
         <WatchLocation 
@@ -67,7 +87,10 @@ const IndividualTrashMapScreen = () => {
       <CustomBox>
         <CustomButton size="sm" label="Done" onPress={handleOnPress} /> 
       </CustomBox>
-    </>
+      </>
+    )}
+  <CustomToast message="오류가 발생했습니다." visible={toastVisible} />
+</>
   );
 };
 

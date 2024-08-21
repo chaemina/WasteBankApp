@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components/native';
 import { useForm, FormProvider } from 'react-hook-form';
 import { useNav } from '../../../hooks/useNav';
@@ -11,6 +11,8 @@ import { scale } from '../../../utils/Scale';
 import { useSelector } from 'react-redux';
 import { RootState } from '../../../redux/RootReducer';
 import { verifyEmail } from '../../../service/user';
+import Loading from '../atoms/Loading';
+import CustomToast from '../atoms/CustomToast';
 
 const InputContainer = styled.View`
   width: 100%;
@@ -27,6 +29,14 @@ const EmailTemplate = () => {
   const navigation = useNav();
   const {email} = useSelector((state: RootState) => state.templateUser);
   const role = useSelector((state: RootState) => state.templateRole.role);
+  const [isLoading, setIsLoading] = useState(false);
+  const [toastVisible, setToastVisible] = useState(false); 
+
+  const showToast = () => {
+    setToastVisible(true);
+    setTimeout(() => setToastVisible(false), 5500); // 토스트를 5.5초 동안 표시
+  };
+
 
   const handleGoLogin = async () => {
 
@@ -43,6 +53,7 @@ const EmailTemplate = () => {
 
 
     try {
+      setIsLoading(true);
       // 코드 인증 요청 
       const response = await verifyEmail(output);
       console.log('verifyEmail Response:', response);
@@ -50,10 +61,17 @@ const EmailTemplate = () => {
 
     } catch (error) {
       console.error('verifyEmail failed:', error);
+      showToast(); 
+    }finally {
+      setIsLoading(false);
     }
   };
 
   return (
+    <>
+    {isLoading ? (
+      <Loading width={100} height={100} loop={true} />
+    ) : (
     <FormProvider {...methods}>
       <ScrollContainer>
         <CustomTitle>VERIFIKASI AKUN</CustomTitle>
@@ -80,6 +98,9 @@ const EmailTemplate = () => {
 
       </ScrollContainer>
     </FormProvider>
+    )}
+     <CustomToast message="인증에 실패했습니다." visible={toastVisible} />
+    </>
   );
 };
 

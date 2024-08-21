@@ -15,7 +15,7 @@ instance.interceptors.request.use(
 
     const token = await getItem('auth');
     if (token) {
-      config.headers['Authorization'] = `Bearer ${token}`;
+      config.headers['Authorization'] = `${token}`;
     } else {
       console.log('요청에 토큰이 담기지 않았습니다.');
     }
