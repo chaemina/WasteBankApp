@@ -16,8 +16,8 @@ const LocationSearch: React.FC = () => {
                 placeholder="장소를 검색해보세요!"
                 query={{
                     key: 'AIzaSyAqcGBl-o7vEpBZSv03qzrKLq4zGVl7zA4',
-                    language: 'ko',
-                    components: 'country:kr',
+                    language: 'id',
+                    components: 'country:id',
                 }}
                 keyboardShouldPersistTaps={'handled'}
                 fetchDetails={true}

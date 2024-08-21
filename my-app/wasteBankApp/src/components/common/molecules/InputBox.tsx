@@ -22,8 +22,8 @@ type InputBoxProps = {
 
 const InputBox: React.FC<InputBoxProps> = ({ inputs }) => {
   const { control } = useFormContext(); 
-  const [countryCode, setCountryCode] = React.useState<CountryCode>('KR');
-  const [callingCode, setCallingCode] = React.useState('+82');
+  const [countryCode, setCountryCode] = React.useState<CountryCode>('ID');
+  const [callingCode, setCallingCode] = React.useState('+62');
   
   const email = useWatch({
     control,
