@@ -60,7 +60,7 @@ const EmailTemplate = () => {
       navigation.push("Login");
 
     } catch (error) {
-      console.error('verifyEmail failed:', error);
+      // console.error('verifyEmail failed:', error);
       showToast(); 
     }finally {
       setIsLoading(false);
@@ -99,7 +99,7 @@ const EmailTemplate = () => {
       </ScrollContainer>
     </FormProvider>
     )}
-     <CustomToast message="인증에 실패했습니다." visible={toastVisible} />
+     <CustomToast message="Otentikasi gagal." visible={toastVisible} />
     </>
   );
 };

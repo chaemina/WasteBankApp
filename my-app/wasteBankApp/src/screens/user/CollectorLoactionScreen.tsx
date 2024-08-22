@@ -42,8 +42,8 @@ const CollectorLocationScreen = () => {
   if (isError && !data) {
     return (
       <Container>
-        <CustomText>데이터를 불러오는 중에 오류가 발생했습니다.</CustomText>
-        <CustomText>다시 시도해주세요.</CustomText>
+        <CustomText>Terjadi kesalahan saat memuat data.</CustomText>
+        <CustomText>Silakan coba lagi.</CustomText>
         <CustomButton 
           label='Refresh' 
           size='lg' 

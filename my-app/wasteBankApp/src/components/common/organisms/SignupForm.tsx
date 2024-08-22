@@ -19,18 +19,23 @@ type SignupFormProps = {
     name: string;
   }>;
   role: string; 
+  showToast: (message: string) => void; 
 };
 
-const SignupForm: React.FC<SignupFormProps> = ({ inputFields, role }) => {
+const SignupForm: React.FC<SignupFormProps> = ({ inputFields, role, showToast }) => {
   const navigation = useNav();
   const methods = useForm();
   const dispatch = useDispatch(); 
   const [isLoading, setIsLoading] = useState(false); 
+  const [emailVerified, setEmailVerified] = useState(false); 
 
   const onSubmit = async (data: any)  => {
-    console.log('Form Data:', data); 
+    if (!emailVerified) {
+      showToast('Silakan periksa duplikat email terlebih dahulu.');
+      return;
+    }
 
-    dispatch(setUser(data)); 
+    console.log('Form Data:', data); 
 
     try {
       setIsLoading(true); 
@@ -42,10 +47,12 @@ const SignupForm: React.FC<SignupFormProps> = ({ inputFields, role }) => {
       }
 
       console.log('Signup Response:', response);
-    
+      dispatch(setUser(data)); 
+
       navigation.push("AuthenticationSelect");
     } catch (error) {
       console.error('Signup failed:', error);
+      showToast('Pendaftaran gagal. Coba lagi.');
     } finally {
       setIsLoading(false);
     }
@@ -53,19 +60,18 @@ const SignupForm: React.FC<SignupFormProps> = ({ inputFields, role }) => {
 
   return (
     <>    
-    {isLoading ? (
-      <Loading width={100} height={100} loop={true} /> 
-    ) : (
-    <FormProvider {...methods}>
-      <InputBox inputs={inputFields} />
-    
-        <CustomButton 
-          size="sm" 
-          label="DAFTAR" 
-          onPress={methods.handleSubmit(onSubmit)} 
-        />
-    </FormProvider>
-          )}
+      {isLoading ? (
+        <Loading width={100} height={100} loop={true} /> 
+      ) : (
+        <FormProvider {...methods}>
+          <InputBox inputs={inputFields} setEmailVerified={setEmailVerified} />
+          <CustomButton 
+            size="sm" 
+            label="DAFTAR" 
+            onPress={methods.handleSubmit(onSubmit)} 
+          />
+        </FormProvider>
+      )}
     </>
   );
 };

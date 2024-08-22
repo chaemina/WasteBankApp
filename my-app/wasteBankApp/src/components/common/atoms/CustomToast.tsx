@@ -1,19 +1,21 @@
-import React, {useState, useEffect} from 'react';
-import {View, Animated, Image} from 'react-native';
-import Container from './Container';
+import React, { useState, useEffect } from 'react';
+import { View, Animated } from 'react-native';
 import CustomText from '../atoms/CustomText';
-import {styled} from 'styled-components';
-import { scale,moderateScale } from '../../../utils/Scale';
+import styled from 'styled-components/native';
+import { scale, moderateScale } from '../../../utils/Scale';
 
 const ToastContainer = styled(Animated.View)`
+  position: absolute;  
+  top: ${scale(10)}px;  
   flex-direction: row;
   border-radius: 7px;
   justify-content: center;
   align-items: center;
-  background-color: rgba(100, 183, 59, 0.5);
+  background-color: rgba(200, 50, 50, 1);
   width: 90%;
-  height: ${moderateScale(50,0.3)}px;
-  margin: ${scale(20)}px;
+  height: ${moderateScale(50, 0.3)}px;
+  margin-horizontal: ${scale(20)}px;
+  z-index: 9999;  
 `;
 
 type CustomToastProps = {
@@ -21,7 +23,7 @@ type CustomToastProps = {
   visible: boolean;
 };
 
-const CustomToast: React.FC<CustomToastProps> = ({message, visible}) => {
+const CustomToast: React.FC<CustomToastProps> = ({ message, visible }) => {
   const [opacity] = useState(new Animated.Value(0));
 
   useEffect(() => {
@@ -49,8 +51,8 @@ const CustomToast: React.FC<CustomToastProps> = ({message, visible}) => {
   }
 
   return (
-    <ToastContainer style={{opacity}}>
-      <CustomText>{message}</CustomText>
+    <ToastContainer style={{ opacity }}>
+      <CustomText color="white">{message}</CustomText>
     </ToastContainer>
   );
 };

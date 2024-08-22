@@ -86,7 +86,7 @@ const NotMatchedTrashInfoTemplate: React.FC<NotMatchedTrashInfoTemplateProps> = 
       <DatePicker visible={modalVisible} onConfirm={handleConfirmDate} onCancel={closeModal} />
     </ScrollContainer>
      )}
-     <CustomToast message="요청에 실패했습니다." visible={toastVisible} />
+     <CustomToast message="Permintaan gagal." visible={toastVisible} />
    </>
   );
 };

@@ -86,7 +86,7 @@ const AuthenticationSelectTemplate = () => {
           />
         </ScrollContainer>
       )}
-      <CustomToast message="전송에 실패했습니다." visible={toastVisible} />
+      <CustomToast message="Pengiriman telah gagal." visible={toastVisible} />
     </>
   );
 };

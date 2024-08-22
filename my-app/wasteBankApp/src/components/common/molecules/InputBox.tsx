@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { View } from 'react-native';
 import CustomInput from '../atoms/CustomInput';
 import CustomButton from '../atoms/CustomButton';
@@ -8,7 +8,7 @@ import { CountryCode, Country } from 'react-native-country-picker-modal';
 import { useFormContext, useWatch } from 'react-hook-form';
 import { emailCheck } from '../../../service/user';
 import LocationSearch from './LocationSearch';
-import useEmailVerification from '../../../hooks/useEmailVerification';
+import CustomToast from '../atoms/CustomToast';
 
 type InputBoxProps = {
   inputs: Array<{
@@ -19,15 +19,23 @@ type InputBoxProps = {
     keyboardType?: React.ComponentProps<typeof CustomInput>['keyboardType'];
     label?: string;
     name: string;
-    rules?: object; // 유효성 검사 규칙 추가
+    rules?: object; 
   }>;
+  setEmailVerified: (verified: boolean) => void; // 이메일 중복 검사 결과를 전달하는 함수
 };
 
-const InputBox: React.FC<InputBoxProps> = ({ inputs }) => {
+const InputBox: React.FC<InputBoxProps> = ({ inputs, setEmailVerified }) => {
   const { control } = useFormContext(); 
-  const [countryCode, setCountryCode] = React.useState<CountryCode>('ID');
-  const [callingCode, setCallingCode] = React.useState('+62');
-  const [emailVerified, setEmailVerified] = React.useState<boolean>(false); // 상태 추가
+  const [countryCode, setCountryCode] = useState<CountryCode>('ID');
+  const [callingCode, setCallingCode] = useState('+62');
+  const [toastVisible, setToastVisible] = useState(false); 
+  const [toastMessage, setToastMessage] = useState(''); 
+
+  const showToast = (message: string) => {
+    setToastMessage(message); 
+    setToastVisible(true);
+    setTimeout(() => setToastVisible(false), 5500); 
+  };
 
   const email = useWatch({
     control,
@@ -35,24 +43,18 @@ const InputBox: React.FC<InputBoxProps> = ({ inputs }) => {
     defaultValue: '',  
   });
 
-  React.useEffect(() => {
-    console.log('Watched email:', email); 
-  }, [email]);
-
-  const onSubmit = async () => {
+  const onCheckEmail = async () => {
     try {
-      console.log('Email before submit:', email); 
       const response = await emailCheck(email);
       if (response.response === "email available") {
-        console.log('Email is available:', email);
-        setEmailVerified(true); // 이메일 인증 성공 시 상태 업데이트
+        setEmailVerified(true); 
       } else {
-        console.error('Request failed:', response.error);
-        setEmailVerified(false); // 실패 시 상태 초기화
+        setEmailVerified(false);
+        showToast('Ini adalah email yang sudah digunakan.'); 
       }
     } catch (error) {
-      console.error('Error during Request:', error);
-      setEmailVerified(false); // 오류 시 상태 초기화
+      setEmailVerified(false);
+      showToast('Terjadi kesalahan saat memeriksa email.'); 
     }
   };
 
@@ -76,9 +78,9 @@ const InputBox: React.FC<InputBoxProps> = ({ inputs }) => {
                 defaultValue={input.defaultValue}
                 keyboardType={input.keyboardType}
                 label={input.label}
+                rules={input.rules} 
               />
-              <CustomButton size="sm" label="Periksa duplikat" onPress={onSubmit} />
-              {emailVerified && <CustomText>이메일 인증 성공</CustomText>} 
+              <CustomButton size="sm" label="Periksa duplikat" onPress={onCheckEmail} />
             </View>
           ) : input.label === 'Phone Number' ? (
             <View style={{ alignItems: 'center' }}>
@@ -91,6 +93,7 @@ const InputBox: React.FC<InputBoxProps> = ({ inputs }) => {
                 defaultValue={callingCode}
                 keyboardType={input.keyboardType}
                 label={input.label}
+                rules={input.rules} 
               />
               <CountryPicker
                 countryCode={countryCode}
@@ -116,10 +119,12 @@ const InputBox: React.FC<InputBoxProps> = ({ inputs }) => {
               defaultValue={input.defaultValue}
               keyboardType={input.keyboardType}
               label={input.label}
+              rules={input.rules} 
             />
           )}
         </View>
       ))}
+      <CustomToast message={toastMessage} visible={toastVisible} /> 
     </>
   );
 };

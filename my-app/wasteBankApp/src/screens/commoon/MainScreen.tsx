@@ -15,7 +15,7 @@ const MainScreen = () => {
         const token = await getItem('auth');
         
         if (token) {
-          setUrl("http://localhost:5173/:role"); 
+          setUrl("http://localhost:5173/"); 
         } else {
           setUrl("http://localhost:5173/login"); 
         }

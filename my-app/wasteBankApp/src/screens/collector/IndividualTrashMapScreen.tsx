@@ -68,7 +68,8 @@ const IndividualTrashMapScreen = () => {
     }
   };
 
-  const combinedData = userLocation ? [data, userLocation] : [data];
+  const combinedData = userLocation ? [userLocation, data] : [data];
+
 
   return (
     <>
@@ -85,11 +86,11 @@ const IndividualTrashMapScreen = () => {
         />
       )}
       <CustomBox>
-        <CustomButton size="sm" label="Done" onPress={handleOnPress} /> 
+        <CustomButton size="sm" label="Selesai" onPress={handleOnPress} /> 
       </CustomBox>
       </>
     )}
-  <CustomToast message="오류가 발생했습니다." visible={toastVisible} />
+  <CustomToast message="Terjadi kesalahan." visible={toastVisible} />
 </>
   );
 };

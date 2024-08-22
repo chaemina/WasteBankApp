@@ -70,7 +70,7 @@ const MatchedTrashInfoTemplate: React.FC<MatchedTrashInfoTemplateProps> = ({ gar
       <CustomButton size="sm" label="Awal" onPress={handleOnPress} />
     </ScrollContainer>
      )}
-     <CustomToast message="요청에 실패했습니다." visible={toastVisible} />
+     <CustomToast message="Permintaan gagal." visible={toastVisible} />
    </>
   );
 };

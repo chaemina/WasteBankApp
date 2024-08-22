@@ -1,10 +1,11 @@
 import React, { useRef, useState, useEffect, useCallback } from 'react';
 import { WebView } from 'react-native-webview';
 import styled from 'styled-components/native';
-import { TouchableOpacity, BackHandler } from 'react-native';
-import { setItem,removeItem } from '../../../hooks/useAsyncStorage';
+import { TouchableOpacity, BackHandler, View } from 'react-native';
+import { setItem, removeItem } from '../../../hooks/useAsyncStorage';
 import { useNav } from '../../../hooks/useNav';
 import CustomToast from '../atoms/CustomToast';
+import ArrowBackButton from '../atoms/ArrowBackButton';
 
 interface MyWebViewProps {
   initialUrl: string;
@@ -17,12 +18,6 @@ const Wrapper = styled.View`
 
 const StyledWebView = styled(WebView)`
   flex: 1;
-`;
-
-const BackButton = styled.Text`
-  font-size: 25px;
-  color: #000;
-  padding-left: 10px;
 `;
 
 const MyWebView: React.FC<MyWebViewProps> = ({ initialUrl, children }) => {
@@ -38,11 +33,15 @@ const MyWebView: React.FC<MyWebViewProps> = ({ initialUrl, children }) => {
 
   const handleNavigationStateChange = (navState: any) => {
     setCanGoBack(navState.canGoBack);
-    if (navState.url !== initialUrl) {
-      navigation.setOptions({ headerShown: true });
-    } else {
-      navigation.setOptions({ headerShown: false });
-    }
+
+    // 현재 URL이 루트 경로 또는 로그인 페이지인지 확인
+    const isRootOrLoginUrl = 
+      navState.url === initialUrl || 
+      navState.url === `${initialUrl}/` || 
+      navState.url.includes('login');
+    
+    // 루트 경로나 로그인 페이지라면 헤더를 숨기고, 그렇지 않으면 헤더를 표시
+    navigation.setOptions({ headerShown: !isRootOrLoginUrl });
   };
 
   const goBack = () => {
@@ -55,11 +54,7 @@ const MyWebView: React.FC<MyWebViewProps> = ({ initialUrl, children }) => {
 
   useEffect(() => {
     navigation.setOptions({
-      headerLeft: () => (
-        <TouchableOpacity onPress={goBack}>
-          <BackButton>{'<'}</BackButton>
-        </TouchableOpacity>
-      ),
+      headerLeft: () => <ArrowBackButton onPress={goBack} />, 
     });
   }, [navigation, canGoBack]);
 
@@ -94,27 +89,24 @@ const MyWebView: React.FC<MyWebViewProps> = ({ initialUrl, children }) => {
           }
           break;
         
-          case "REMOVE_TOKEN":
-            await removeItem('auth');
-            console.log('Token removed from AsyncStorage');
-            
-            if (webviewRef.current) {
-              webviewRef.current.reload();
-            }
-            break;
+        case "REMOVE_TOKEN":
+          await removeItem('auth');
+          console.log('Token removed from AsyncStorage');
+          
+          if (webviewRef.current) {
+            webviewRef.current.reload();
+          }
+          break;
 
-            case "NAVIGATE":
-              if (parsedMessage.destination) {
-                // garbageId가 포함된 경우와 아닌 경우를 처리
-                if (parsedMessage.garbageId) {
-                  // garbageId가 있는 경우
-                  navigation.navigate(parsedMessage.destination, { garbageId: parsedMessage.garbageId });
-                } else {
-                  // garbageId가 없는 경우
-                  navigation.navigate(parsedMessage.destination);
-                }
-              }
-              break;
+        case "NAVIGATE":
+          if (parsedMessage.destination) {
+            if (parsedMessage.garbageId) {
+              navigation.navigate(parsedMessage.destination, { garbageId: parsedMessage.garbageId });
+            } else {
+              navigation.navigate(parsedMessage.destination);
+            }
+          }
+          break;
 
         default:
           console.warn('Unknown message type received:', parsedMessage.type);
@@ -127,18 +119,18 @@ const MyWebView: React.FC<MyWebViewProps> = ({ initialUrl, children }) => {
 
   return (
     <>
-    <Wrapper>
-      <StyledWebView
-        ref={webviewRef}
-        source={{ uri: initialUrl as string }}
-        onNavigationStateChange={handleNavigationStateChange}
-        javaScriptEnabled={true}
-        domStorageEnabled={true}
-        onMessage={handleMessage} // 메시지 수신 핸들러
-      />
-      {children}
-    </Wrapper>
-    <CustomToast message="오류가 발생했습니다. 다시 시도하세요." visible={toastVisible} />
+      <Wrapper>
+        <StyledWebView
+          ref={webviewRef}
+          source={{ uri: initialUrl as string }}
+          onNavigationStateChange={handleNavigationStateChange}
+          javaScriptEnabled={true}
+          domStorageEnabled={true}
+          onMessage={handleMessage} // 메시지 수신 핸들러
+        />
+        {children}
+      </Wrapper>
+      <CustomToast message="Terjadi kesalahan. Silakan coba lagi." visible={toastVisible} />
     </>
   );
 };

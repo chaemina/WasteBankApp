@@ -1,9 +1,8 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import Geolocation from '@react-native-community/geolocation';
 import { collectorLocation } from '../../../service/collector';
 import Loading from '../../common/atoms/Loading';
 import CustomToast from '../../common/atoms/CustomToast';
-
 
 interface ILocation {
   latitude: number;
@@ -18,36 +17,37 @@ interface WatchLocationProps {
 
 const WatchLocation: React.FC<WatchLocationProps> = ({ garbageId, onLocationChange, stopTracking }) => {
   const [location, setLocation] = useState<ILocation | undefined>(undefined);
-  const [isLoading, setIsLoading] = useState(false);
   const [toastVisible, setToastVisible] = useState(false); 
+  const isLoading = useRef(false); // isLoading을 useRef로 관리
 
   const showToast = () => {
     setToastVisible(true);
     setTimeout(() => setToastVisible(false), 5500); 
   };
 
+  const sendLocation = async (location: ILocation) => {
+    if (isLoading.current) return; // 이미 요청 중이면 중복 요청 방지
+    isLoading.current = true; // 요청 시작 시 true로 설정
+
+    try {
+      // 서버로 위치 정보를 전송
+      await collectorLocation({
+        garbageId,
+        latitude: location.latitude,
+        longitude: location.longitude,
+      });
+      console.log(`Location sent: Latitude: ${location.latitude}, Longitude: ${location.longitude}`);
+    } catch (error) {
+      console.error('Failed to send location:', error);
+      showToast();
+    } finally {
+      isLoading.current = false; // 요청 완료 후 false로 설정
+    }
+  };
 
   useEffect(() => {
     let watchId: number | null = null;
     let intervalId: NodeJS.Timeout | null = null;
-
-    const sendLocation = async (location: ILocation) => {
-      try {
-        setIsLoading(true);
-        // 서버로 위치 정보를 전송
-        await collectorLocation({
-          garbageId,
-          latitude: location.latitude,
-          longitude: location.longitude,
-        });
-        console.log(`Location sent: Latitude: ${location.latitude}, Longitude: ${location.longitude}`);
-      } catch (error) {
-        console.error('Failed to send location:', error);
-        showToast();
-      }finally {
-        setIsLoading(false);
-      }
-    };
 
     if (!stopTracking) {
       watchId = Geolocation.watchPosition(
@@ -93,11 +93,7 @@ const WatchLocation: React.FC<WatchLocationProps> = ({ garbageId, onLocationChan
 
   return (
     <>  
-    {isLoading ? (
-      <Loading width={100} height={100} loop={true} />
-    ) : ( null
-      )}
-    <CustomToast message="전송에 실패했습니다." visible={toastVisible} />
+      <CustomToast message="Pengiriman telah gagal." visible={toastVisible} />
     </>
   );
 };
