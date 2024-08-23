@@ -8,6 +8,7 @@ export const UserinputFields: Array<{
   keyboardType?: KeyboardTypeOptions;
   label?: string;
   name: string;
+  secureTextEntry?: boolean;
   rules?: object; // 유효성 검사 규칙 추가
 }> = [
   {
@@ -42,6 +43,7 @@ export const UserinputFields: Array<{
     width: 250,
     label: 'Password',
     name: 'password', 
+    secureTextEntry: true, 
     rules: {
       required: 'Password is required',
       minLength: {
@@ -112,6 +114,7 @@ export const CollectorinputFields: Array<{
   keyboardType?: KeyboardTypeOptions;
   label?: string;
   name: string;
+  secureTextEntry?: boolean;
   rules?: object; // 유효성 검사 규칙 추가
 }> = [
   {
@@ -146,6 +149,7 @@ export const CollectorinputFields: Array<{
     width: 250,
     label: 'Password',
     name: 'password', 
+    secureTextEntry: true, 
     rules: {
       required: 'Password is required',
       minLength: {

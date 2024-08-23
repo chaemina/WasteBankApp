@@ -14,7 +14,7 @@ export type RootStackParam = {
   AdminMapView: undefined;
   CollectorMatched : undefined;
   CollectorNotMatched : undefined;
-  IndividualTrashMapView : { data: GarbageData };
+  IndividualTrashMapView : { data: GarbageData, garbageId?: number};
   CollectorLocation : {garbageId: number};
 };
 

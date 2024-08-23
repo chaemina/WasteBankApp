@@ -13,6 +13,7 @@ type CustomInputProps = {
   name: string;
   control: any;
   defaultValue?: string;
+  secureTextEntry?: boolean; 
   keyboardType?: TextInputProps['keyboardType'];
   label?: string;
   labelColor?: string;
@@ -47,6 +48,7 @@ const CustomInput: React.FC<CustomInputProps> = ({
   name,
   control,
   defaultValue = '',
+  secureTextEntry = false,
   keyboardType,
   label,
   labelColor = '#000',
@@ -73,6 +75,7 @@ const CustomInput: React.FC<CustomInputProps> = ({
               placeholder={placeholder}
               autoFocus={autoFocus}
               keyboardType={keyboardType}
+              secureTextEntry={secureTextEntry} 
             />
             {error && <CustomText size='caption' color='red'>{`${error.message}`}</CustomText>}
           </>

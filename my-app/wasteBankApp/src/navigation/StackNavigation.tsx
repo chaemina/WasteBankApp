@@ -8,7 +8,6 @@ import SignupScreen from '../screens/commoon/SignupScreen';
 import AuthenticationSelectScreen from '../screens/commoon/AuthenticationSelectScreen';
 import AuthenticationScreen from '../screens/commoon/AuthenticationScreen';
 import TrashInfoScreen from '../screens/collector/TrashInfoScreen';
-import GarbagebinScreen from '../screens/user/GarbagebinScreen';
 import MainScreen from '../screens/commoon/MainScreen';
 import AdminMapScreen from '../screens/admin/AdminMapScreen';
 import CollectorNotMatchedMapScreen from '../screens/collector/CollectorNotMatchedMapScreen';
@@ -52,7 +51,6 @@ function StackNavigation() {
         <Stack.Screen name="Main" component={MainScreen} />
 
           {/* user */}
-        <Stack.Screen name="Garbagebin" component={GarbagebinScreen as React.ComponentType<any>} />
         <Stack.Screen name="CollectorLocation" component={CollectorLocationScreen} />
 
           {/* collector */}

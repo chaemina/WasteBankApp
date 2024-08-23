@@ -54,4 +54,8 @@ export const adminGarbagesList = async () => {
   return response.data;
 };
 
-
+// 쓰레기 위치 
+export const garbageLocation = async ({ garbageId }: { garbageId: number }) => {
+  const response = await instance.get(`/api/garbages/${garbageId}/garbageLocation`);
+  return response.data;
+};

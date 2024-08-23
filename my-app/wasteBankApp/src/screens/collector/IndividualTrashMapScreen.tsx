@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { View } from 'react-native';
 import IndividualTrashMapTemplate from '../../components/collector/templates/IndividualTrashMapTemplate';
 import WatchLocation from '../../components/collector/organisms/WatchLocation';
@@ -8,11 +8,19 @@ import CustomButton from '../../components/common/atoms/CustomButton';
 import styled from 'styled-components';
 import { scale } from '../../utils/Scale';
 import { collectDone } from '../../service/collector';
+import { garbageLocation } from '../../service/garbage';
 import { useNav } from '../../hooks/useNav';
-import { useRoute } from '@react-navigation/native';
+import { useRoute, RouteProp } from '@react-navigation/native';
 import { GarbageData } from '../../types/type';
 import Loading from '../../components/common/atoms/Loading';
 import CustomToast from '../../components/common/atoms/CustomToast';
+
+type RouteParams = {
+  IndividualTrashMapView: {
+    data?: GarbageData;
+    garbageId?: number;
+  };
+};
 
 const CustomBox = styled(View)`
   width: 100%;
@@ -24,42 +32,64 @@ const CustomBox = styled(View)`
 const IndividualTrashMapScreen = () => {
   const { userLocation, handleLocationChange } = useCollectorLocation();
   const navigation = useNav();
-  const route = useRoute();
-  const [isTracking, setIsTracking] = useState(true); // 위치 추적 상태 관리 추가
-
-  const params = route.params as { data?: GarbageData };
-
-  if (!params || !params.data) {
-    console.error("No data found in route parameters");
-    return (
-      <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-        <CustomText>Data not available</CustomText>
-      </View>
-    );
-  }
-
-  const { data } = params;
-
+  const route = useRoute<RouteProp<RouteParams, 'IndividualTrashMapView'>>();
+  const [isTracking, setIsTracking] = useState(true);
   const [isLoading, setIsLoading] = useState(false);
-  const [toastVisible, setToastVisible] = useState(false); 
+  const [toastVisible, setToastVisible] = useState(false);
+  const [data, setData] = useState<GarbageData | null>(
+    route.params?.data || null
+  );
+
+  useEffect(() => {
+    const fetchGarbageData = async () => {
+      const garbageId = route.params?.garbageId;
+      
+      if (garbageId && !data) {  // 데이터가 없는 경우에만 API 요청을 보냄
+        try {
+          setIsLoading(true);
+          const response = await garbageLocation({ garbageId });
+          if (response.success && response.response) {
+            const fetchedData: GarbageData = {
+              garbageId: response.response.garbageId,
+              location: response.response.location,
+              latitude: response.response.latitude,
+              longitude: response.response.longitude,
+              matched: true,
+              daysSinceRegistration: 0,
+            };
+            setData(fetchedData);  // 응답 데이터를 상태로 설정
+          } else {
+            showToast();
+            console.error('Invalid API response structure:', response);
+          }
+        } catch (error) {
+          showToast();
+          console.error('Failed to fetch garbage location:', error);
+        } finally {
+          setIsLoading(false);
+        }
+      }
+    };
+
+    fetchGarbageData();
+  }, [route.params, data]);  // 데이터가 변할 때마다 useEffect 실행
 
   const showToast = () => {
     setToastVisible(true);
-    setTimeout(() => setToastVisible(false), 5500); // 토스트를 5.5초 동안 표시
+    setTimeout(() => setToastVisible(false), 5500);
   };
 
-
   const handleOnPress = async () => {
-    if (data.garbageId) {
+    if (data?.garbageId) {
       try {
         setIsLoading(true);
         await collectDone({ garbageId: data.garbageId });
-        setIsTracking(false);  // 위치 전송 멈춤
-        navigation.push("Main");  
+        setIsTracking(false);
+        navigation.push("Main");
       } catch (error) {
         showToast();
         console.error('Failed to complete collect:', error);
-      }finally {
+      } finally {
         setIsLoading(false);
       }
     } else {
@@ -68,8 +98,7 @@ const IndividualTrashMapScreen = () => {
     }
   };
 
-  const combinedData = userLocation ? [userLocation, data] : [data];
-
+  const combinedData = [userLocation, data].filter((item): item is GarbageData => item !== null);
 
   return (
     <>
@@ -77,21 +106,29 @@ const IndividualTrashMapScreen = () => {
         <Loading width={100} height={100} loop={true} />
       ) : (
         <>
-      <IndividualTrashMapTemplate data={combinedData} />
-      {isTracking && (
-        <WatchLocation 
-          onLocationChange={handleLocationChange} 
-          garbageId={data.garbageId}
-          stopTracking={!isTracking}  // stopTracking 속성 추가
-        />
+          {data ? (
+            <>
+              <IndividualTrashMapTemplate data={combinedData} />
+              {isTracking && (
+                <WatchLocation 
+                  onLocationChange={handleLocationChange} 
+                  garbageId={data.garbageId}
+                  stopTracking={!isTracking}
+                />
+              )}
+              <CustomBox>
+                <CustomButton size="sm" label="Selesai" onPress={handleOnPress} /> 
+              </CustomBox>
+            </>
+          ) : (
+            <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+              <CustomText>Data not available</CustomText>
+            </View>
+          )}
+        </>
       )}
-      <CustomBox>
-        <CustomButton size="sm" label="Selesai" onPress={handleOnPress} /> 
-      </CustomBox>
-      </>
-    )}
-  <CustomToast message="Terjadi kesalahan." visible={toastVisible} />
-</>
+      <CustomToast message="Terjadi kesalahan." visible={toastVisible} />
+    </>
   );
 };
 

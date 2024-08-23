@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { View } from 'react-native';
 import CustomInput from '../atoms/CustomInput';
 import CustomButton from '../atoms/CustomButton';
-import CustomText from '../atoms/CustomText';
+import CustomText from '../atoms/CustomText'; // CustomText를 import
 import CountryPicker from 'react-native-country-picker-modal';
 import { CountryCode, Country } from 'react-native-country-picker-modal';
 import { useFormContext, useWatch } from 'react-hook-form';
@@ -19,15 +19,17 @@ type InputBoxProps = {
     keyboardType?: React.ComponentProps<typeof CustomInput>['keyboardType'];
     label?: string;
     name: string;
+    secureTextEntry?: boolean;
     rules?: object; 
   }>;
-  setEmailVerified: (verified: boolean) => void; // 이메일 중복 검사 결과를 전달하는 함수
+  setEmailVerified: (verified: boolean) => void; 
 };
 
 const InputBox: React.FC<InputBoxProps> = ({ inputs, setEmailVerified }) => {
   const { control } = useFormContext(); 
   const [countryCode, setCountryCode] = useState<CountryCode>('ID');
   const [callingCode, setCallingCode] = useState('+62');
+  const [emailVerifiedTextVisible, setEmailVerifiedTextVisible] = useState(false); 
   const [toastVisible, setToastVisible] = useState(false); 
   const [toastMessage, setToastMessage] = useState(''); 
 
@@ -48,12 +50,15 @@ const InputBox: React.FC<InputBoxProps> = ({ inputs, setEmailVerified }) => {
       const response = await emailCheck(email);
       if (response.response === "email available") {
         setEmailVerified(true); 
+        setEmailVerifiedTextVisible(true); 
       } else {
         setEmailVerified(false);
+        setEmailVerifiedTextVisible(false);
         showToast('Ini adalah email yang sudah digunakan.'); 
       }
     } catch (error) {
       setEmailVerified(false);
+      setEmailVerifiedTextVisible(false); 
       showToast('Terjadi kesalahan saat memeriksa email.'); 
     }
   };
@@ -81,6 +86,9 @@ const InputBox: React.FC<InputBoxProps> = ({ inputs, setEmailVerified }) => {
                 rules={input.rules} 
               />
               <CustomButton size="sm" label="Periksa duplikat" onPress={onCheckEmail} />
+              {emailVerifiedTextVisible && (
+                <CustomText color='green' size='caption'>Email yang tersedia.</CustomText>
+              )}
             </View>
           ) : input.label === 'Phone Number' ? (
             <View style={{ alignItems: 'center' }}>
@@ -120,6 +128,7 @@ const InputBox: React.FC<InputBoxProps> = ({ inputs, setEmailVerified }) => {
               keyboardType={input.keyboardType}
               label={input.label}
               rules={input.rules} 
+              secureTextEntry={input.secureTextEntry} 
             />
           )}
         </View>

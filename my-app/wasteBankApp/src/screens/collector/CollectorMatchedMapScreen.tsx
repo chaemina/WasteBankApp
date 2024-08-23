@@ -36,7 +36,7 @@ const CollectorMatchedMapScreen = () => {
   if (!data?.response || data.response.length === 0) {
     return  ( 
       <Container>
-                <CustomText>수락한 쓰레기가 없습니다.</CustomText>
+                <CustomText>Tidak ada sampah yang diterima.</CustomText>
       </Container>
     )
   }
