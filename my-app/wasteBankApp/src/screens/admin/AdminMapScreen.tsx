@@ -36,7 +36,7 @@ const AdminMapScreen = () => {
   if (!data?.response || data.response.length === 0) {
     return  ( 
       <Container>
-                <CustomText>등록된 쓰레기가 없습니다.</CustomText>
+                <CustomText>Tidak ada sampah yang diunggah.</CustomText>
       </Container>
     )
   }
