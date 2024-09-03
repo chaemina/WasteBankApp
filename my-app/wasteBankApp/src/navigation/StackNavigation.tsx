@@ -9,6 +9,7 @@ import AuthenticationSelectScreen from '../screens/commoon/AuthenticationSelectS
 import AuthenticationScreen from '../screens/commoon/AuthenticationScreen';
 import TrashInfoScreen from '../screens/collector/TrashInfoScreen';
 import GarbagebinScreen from '../screens/user/GarbagebinScreen';
+import CollectorLocationCheckScreen from '../screens/user/CollectorLocationCheckScreen';
 import MainScreen from '../screens/commoon/MainScreen';
 import AdminMapScreen from '../screens/admin/AdminMapScreen';
 import CollectorMapScreen from '../screens/collector/CollectorMapScreen';
@@ -33,7 +34,7 @@ function StackNavigation() {
   return (
     <NavigationContainer theme={navTheme}>
       <Stack.Navigator
-        initialRouteName="IndividualTrashMapView"
+        initialRouteName="CollectorLocationUserView"
         screenOptions={({ route }) => ({
           ...customStackNavigationOptions,
           headerShown: !(route.name === 'Login') && !(route.name === 'IndividualTrashMapView')
@@ -50,7 +51,7 @@ function StackNavigation() {
 
           {/* user */}
         <Stack.Screen name="Garbagebin" component={GarbagebinScreen as React.ComponentType<any>} />
-          {/* 수거관 위치 확인 Map View 필요  */}
+        <Stack.Screen name="CollectorLocationUserView" component={CollectorLocationCheckScreen} />
 
           {/* collector */}
         <Stack.Screen name="CollectorMapView" component={CollectorMapScreen} />

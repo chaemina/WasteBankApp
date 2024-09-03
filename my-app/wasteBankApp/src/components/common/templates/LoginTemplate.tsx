@@ -8,7 +8,7 @@ const LoginTemplate = () => {
   return (
     <>
       {/* 웹뷰 */}
-      <MyWebView initialUrl='http://localhost:5173/home'>
+      <MyWebView initialUrl='https://waste-bank-web-git-featmina-chae-minas-projects.vercel.app/'>
       </MyWebView>
     </>
   );

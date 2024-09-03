@@ -10,6 +10,7 @@ export type RootStackParam = {
   Authentication: { method: string };
   TrashInfo: { matched: boolean }; 
   Garbagebin : { url: string };
+  CollectorLocationCheckScreen: undefined;
   AdminMapView: undefined;
   CollectorMapView : undefined;
   IndividualTrashMapView : undefined;
