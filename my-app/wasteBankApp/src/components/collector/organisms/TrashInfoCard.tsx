@@ -22,14 +22,16 @@ const RightContainer = styled.View`
 
 type TrashInfoCardProps = {
   data: {
-    RP: string;
-    Breat: string;
+    rp: number;
+    breat: number;
   };
   type: string;
 };
 
 const TrashInfoCard: React.FC<TrashInfoCardProps> = ({ data, type }) => {
-  const { RP, Breat } = data;
+  console.log(data)
+  const breat = data?.breat;
+  const RP = data?.rp;
   return (
     <Card>
        <TrashCanImage height={scale(40)}/>
@@ -38,7 +40,7 @@ const TrashInfoCard: React.FC<TrashInfoCardProps> = ({ data, type }) => {
         <CustomText color='white'>{`RP. ${RP}`}</CustomText>
       </LeftContainer>
       <RightContainer>
-        <CustomText color='white'>{`Berat: ${Breat}`}</CustomText>
+        <CustomText color='white'>{`Berat: ${breat}`}</CustomText>
       </RightContainer>
     </Card>
   );

@@ -13,10 +13,12 @@ type CustomInputProps = {
   name: string;
   control: any;
   defaultValue?: string;
+  secureTextEntry?: boolean; 
   keyboardType?: TextInputProps['keyboardType'];
   label?: string;
   labelColor?: string;
   inputColor?: string;
+  rules?: object; // rules 속성 추가
 };
 
 const Container = styled.View`
@@ -33,6 +35,11 @@ const StyledInput = styled.TextInput<{ inputWidth: number; inputColor: string }>
   background-color: ${({ inputColor }) => inputColor};
 `;
 
+const ErrorText = styled(CustomText)`
+  color: red;
+  margin-top: ${scale(5)}px;
+`;
+
 const CustomInput: React.FC<CustomInputProps> = ({
   placeholder,
   width = 250,
@@ -41,31 +48,38 @@ const CustomInput: React.FC<CustomInputProps> = ({
   name,
   control,
   defaultValue = '',
+  secureTextEntry = false,
   keyboardType,
   label,
   labelColor = '#000',
   inputColor = '#fff',
+  rules,
 }) => {
   return (
     <Container>
       {label && <CustomText color={labelColor}>{label}</CustomText>}
       <Controller
         control={control}
-        render={({ field: { onChange, onBlur, value } }) => (
-          <StyledInput
-            style={style}
-            inputWidth={width}
-            inputColor={inputColor}
-            onBlur={onBlur}
-            onChangeText={onChange}
-            value={value}
-            placeholder={placeholder}
-            autoFocus={autoFocus}
-            keyboardType={keyboardType}
-          />
-        )}
         name={name}
         defaultValue={defaultValue}
+        rules={rules}
+        render={({ field: { onChange, onBlur, value }, fieldState: { error } }) => (
+          <>
+            <StyledInput
+              style={style}
+              inputWidth={width}
+              inputColor={inputColor}
+              onBlur={onBlur}
+              onChangeText={onChange}
+              value={value}
+              placeholder={placeholder}
+              autoFocus={autoFocus}
+              keyboardType={keyboardType}
+              secureTextEntry={secureTextEntry} 
+            />
+            {error && <CustomText size='caption' color='red'>{`${error.message}`}</CustomText>}
+          </>
+        )}
       />
     </Container>
   );

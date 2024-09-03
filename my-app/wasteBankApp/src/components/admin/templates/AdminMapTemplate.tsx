@@ -9,10 +9,13 @@ interface AdminMapTemplateProps {
 }
 
 const AdminMapTemplate: React.FC<AdminMapTemplateProps> = ({ data }) => {
+  const handleAdminNavigation = (location: string, matched: boolean) => {
+    
+  };
   return (
     <>
       <CustomTitle>Hello Admin</CustomTitle>
-      <MyMap data={data} />
+      <MyMap data={data} navigationHook={handleAdminNavigation} />
       <StateBox />
     </>
   );

@@ -1,6 +1,6 @@
 import { instance } from "./instance";
 
-// 매칭 X 쓰레기 리스트 (collector, admin)
+// 매칭 X 쓰레기 리스트 (collector)
 // 1. 사용자1 쓰레기 위치 : 북구 
 // 2. 사용자2 쓰레기 위치 : 광산구 
 // 3. 수거관  관할 구역: 광산구 
@@ -10,6 +10,14 @@ export const garbagesWaitingList = async () => {
       return response.data;
 };
   
+
+// 매칭 O 쓰레기 리스트 (collector)
+export const garbagesList = async () => {
+  const response = await instance.get('/api/garbages/accepted');
+  return response.data;
+};
+
+
 // 개별 쓰레기 정보 (collector)
 export const garbageDetail = async ({ garbageId }: { garbageId: number }) => {
     try {
@@ -40,9 +48,14 @@ export const garbageAccept = async ({ garbageId, collectionDate }: { garbageId: 
     }
 };
 
-// 매칭 O 쓰레기 리스트 (collector)
-export const garbagesList = async () => {
-    const response = await instance.get('/api/garbages/accepted');
-    return response.data;
+// 관리자 쓰레기 리스트
+export const adminGarbagesList = async () => {
+  const response = await instance.get('/api/admin/status');
+  return response.data;
 };
 
+// 쓰레기 위치 
+export const garbageLocation = async ({ garbageId }: { garbageId: number }) => {
+  const response = await instance.get(`/api/garbages/${garbageId}/garbageLocation`);
+  return response.data;
+};

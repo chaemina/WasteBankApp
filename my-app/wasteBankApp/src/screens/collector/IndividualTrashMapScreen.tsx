@@ -1,33 +1,133 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
+import { View } from 'react-native';
 import IndividualTrashMapTemplate from '../../components/collector/templates/IndividualTrashMapTemplate';
 import WatchLocation from '../../components/collector/organisms/WatchLocation';
-import { useUserLocation } from '../../hooks/useCollectorLoaction';
+import { useCollectorLocation } from '../../hooks/useCollectorLoaction';
+import CustomText from '../../components/common/atoms/CustomText';
+import CustomButton from '../../components/common/atoms/CustomButton';
+import styled from 'styled-components';
+import { scale } from '../../utils/Scale';
+import { collectDone } from '../../service/collector';
+import { garbageLocation } from '../../service/garbage';
+import { useNav } from '../../hooks/useNav';
+import { useRoute, RouteProp } from '@react-navigation/native';
+import { GarbageData } from '../../types/type';
+import Loading from '../../components/common/atoms/Loading';
+import CustomToast from '../../components/common/atoms/CustomToast';
 
+type RouteParams = {
+  IndividualTrashMapView: {
+    data?: GarbageData;
+    garbageId?: number;
+  };
+};
+
+const CustomBox = styled(View)`
+  width: 100%;
+  align-items: center;
+  justify-content: center;
+  margin-top: ${scale(30)}px;
+`;
 
 const IndividualTrashMapScreen = () => {
-  const { userLocation, handleLocationChange } = useUserLocation();
+  const { userLocation, handleLocationChange } = useCollectorLocation();
+  const navigation = useNav();
+  const route = useRoute<RouteProp<RouteParams, 'IndividualTrashMapView'>>();
+  const [isTracking, setIsTracking] = useState(true);
+  const [isLoading, setIsLoading] = useState(false);
+  const [toastVisible, setToastVisible] = useState(false);
+  const [data, setData] = useState<GarbageData | null>(
+    route.params?.data || null
+  );
 
-  const data = {
-    success: true,
-    response: [
-      {
-        garbageId: 3,
-        location: '광주광역시 북구 123로 45',
-        latitude: 37.4219984,
-        longitude: -122.083,
-        matched: true,
-        daysSinceRegistration: 2,
-      },
-    ],
-    error: null,
+  useEffect(() => {
+    const fetchGarbageData = async () => {
+      const garbageId = route.params?.garbageId;
+      
+      if (garbageId && !data) {  // 데이터가 없는 경우에만 API 요청을 보냄
+        try {
+          setIsLoading(true);
+          const response = await garbageLocation({ garbageId });
+          if (response.success && response.response) {
+            const fetchedData: GarbageData = {
+              garbageId: response.response.garbageId,
+              location: response.response.location,
+              latitude: response.response.latitude,
+              longitude: response.response.longitude,
+              matched: true,
+              daysSinceRegistration: 0,
+            };
+            setData(fetchedData);  // 응답 데이터를 상태로 설정
+          } else {
+            showToast();
+            console.error('Invalid API response structure:', response);
+          }
+        } catch (error) {
+          showToast();
+          console.error('Failed to fetch garbage location:', error);
+        } finally {
+          setIsLoading(false);
+        }
+      }
+    };
+
+    fetchGarbageData();
+  }, [route.params, data]);  // 데이터가 변할 때마다 useEffect 실행
+
+  const showToast = () => {
+    setToastVisible(true);
+    setTimeout(() => setToastVisible(false), 5500);
   };
 
-  const combinedData = userLocation ? [...data.response, userLocation] : data.response;
+  const handleOnPress = async () => {
+    if (data?.garbageId) {
+      try {
+        setIsLoading(true);
+        await collectDone({ garbageId: data.garbageId });
+        setIsTracking(false);
+        navigation.push("Main");
+      } catch (error) {
+        showToast();
+        console.error('Failed to complete collect:', error);
+      } finally {
+        setIsLoading(false);
+      }
+    } else {
+      showToast();
+      console.error('Garbage ID is missing');
+    }
+  };
+
+  const combinedData = [userLocation, data].filter((item): item is GarbageData => item !== null);
 
   return (
     <>
-      <IndividualTrashMapTemplate data={combinedData} />
-      <WatchLocation onLocationChange={handleLocationChange} />
+      {isLoading ? (
+        <Loading width={100} height={100} loop={true} />
+      ) : (
+        <>
+          {data ? (
+            <>
+              <IndividualTrashMapTemplate data={combinedData} />
+              {isTracking && (
+                <WatchLocation 
+                  onLocationChange={handleLocationChange} 
+                  garbageId={data.garbageId}
+                  stopTracking={!isTracking}
+                />
+              )}
+              <CustomBox>
+                <CustomButton size="sm" label="Selesai" onPress={handleOnPress} /> 
+              </CustomBox>
+            </>
+          ) : (
+            <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+              <CustomText>Data not available</CustomText>
+            </View>
+          )}
+        </>
+      )}
+      <CustomToast message="Terjadi kesalahan." visible={toastVisible} />
     </>
   );
 };

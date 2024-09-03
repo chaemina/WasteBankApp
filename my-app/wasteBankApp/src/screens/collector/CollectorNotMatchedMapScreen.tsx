@@ -1,18 +1,18 @@
 import React from 'react';
 import CustomText from '../../components/common/atoms/CustomText';
+import CollectorMapTemplate from '../../components/collector/templates/CollectorMapTemplate';
 import { useQuery } from '@tanstack/react-query';
-import AdminMapTemplate from '../../components/admin/templates/AdminMapTemplate';
-import { adminGarbagesList } from '../../service/garbage';
+import { garbagesWaitingList } from '../../service/garbage';
 import { GarbageData } from '../../types/type';
 import Loading from '../../components/common/atoms/Loading';
 import Container from '../../components/common/atoms/Container';
 import CustomButton from '../../components/common/atoms/CustomButton';
 
-const AdminMapScreen = () => {
+const CollectorNotMatchedMapScreen = () => {
 
   const { data, isError, isLoading, refetch } = useQuery({
-    queryKey: ['admingarbages'],
-    queryFn: adminGarbagesList,
+    queryKey: ['waitinggarbages'],
+    queryFn: garbagesWaitingList,
   });
 
   if (isLoading) {
@@ -40,11 +40,11 @@ const AdminMapScreen = () => {
       </Container>
     )
   }
+
   return (
     <>
-       <AdminMapTemplate data={data.response as GarbageData[]} />
+      <CollectorMapTemplate data={data.response as GarbageData[]} />
     </>
   );
 };
-
-export default AdminMapScreen;
+export default CollectorNotMatchedMapScreen;
