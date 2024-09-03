@@ -59,19 +59,21 @@ const MyWebView: React.FC<MyWebViewProps> = ({ initialUrl, children }) => {
   }, [navigation, canGoBack]);
 
   const backPress = useCallback(() => {
-    if (webviewRef.current) {
-      webviewRef.current.goBack();
-      return true; // prevent default behavior (exit app)
+    if (canGoBack && webviewRef.current) {
+        webviewRef.current.goBack();
+        return true; // 기본 동작(앱 종료)을 방지
+    } else {
+        navigation.goBack();
+        return true; // 기본 동작(앱 종료)을 방지
     }
-    return false;
-  }, []);
+}, [canGoBack]);
 
-  useEffect(() => {
+useEffect(() => {
     BackHandler.addEventListener('hardwareBackPress', backPress);
     return () => {
-      BackHandler.removeEventListener('hardwareBackPress', backPress);
+        BackHandler.removeEventListener('hardwareBackPress', backPress);
     };
-  }, [backPress]);
+}, [backPress]);
 
   const handleMessage = async (event: any) => {
     const message = event.nativeEvent.data;

@@ -39,7 +39,7 @@ function StackNavigation() {
         initialRouteName="Main"
         screenOptions={({ route }) => ({
           ...customStackNavigationOptions,
-          headerShown: !(route.name === 'Login') && !(route.name === 'IndividualTrashMapView')
+          headerShown: !(route.name === 'Login')
         })}>
         <Stack.Screen name="Login" component={LoginScreen} />
         <Stack.Screen name="RoleSelect" component={RoleSelectScreen} />
