@@ -15,13 +15,13 @@ const MainScreen = () => {
         const token = await getItem('auth');
         
         if (token) {
-          setUrl("http://localhost:5173/"); 
+          setUrl("https://waste-bank-web-eight.vercel.app/"); 
         } else {
-          setUrl("http://localhost:5173/login"); 
+          setUrl("https://waste-bank-web-eight.vercel.app/login"); 
         }
       } catch (error) {
         console.error('Error loading token from AsyncStorage:', error);
-        setUrl("http://localhost:5173/login");
+        setUrl("https://waste-bank-web-eight.vercel.app/login");
       }
     };
 
