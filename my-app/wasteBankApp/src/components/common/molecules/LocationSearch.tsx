@@ -17,8 +17,8 @@ const LocationSearch: React.FC = () => {
                 placeholder="Cari lokasi!"
                 query={{
                     key: 'AIzaSyAqcGBl-o7vEpBZSv03qzrKLq4zGVl7zA4',
-                    language: 'id',
-                    components: 'country:id',
+                    language: 'ko', //id
+                    components: 'country:kr', //country:id 
                 }}
                 keyboardShouldPersistTaps={'handled'}
                 fetchDetails={true}

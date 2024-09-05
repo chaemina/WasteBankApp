@@ -1,11 +1,11 @@
-import React, { useState, useEffect, useRef } from 'react';
-import Geolocation from '@react-native-community/geolocation';
-import { collectorLocation } from '../../../service/collector';
+import React from 'react';
 import CustomToast from '../../common/atoms/CustomToast';
+import useWatchLocation from '../../../hooks/useWatchLocation';
+import useSendLocation from '../../../hooks/useSendLocation';
 
 interface ILocation {
   latitude: number;
-  longitude: number;
+  longitude : number;
 }
 
 interface WatchLocationProps {
@@ -15,74 +15,18 @@ interface WatchLocationProps {
 }
 
 const WatchLocation: React.FC<WatchLocationProps> = ({ garbageId, onLocationChange, stopTracking }) => {
-  const [location, setLocation] = useState<ILocation | undefined>(undefined);
-  const [toastVisible, setToastVisible] = useState(false); 
-  const isLoading = useRef(false);
-  const lastSentTime = useRef<number>(Date.now());
+  const location = useWatchLocation({ onLocationChange, stopTracking });
+  const { sendLocation, toastVisible } = useSendLocation(garbageId);
 
-  const showToast = () => {
-    setToastVisible(true);
-    setTimeout(() => setToastVisible(false), 5500);
-  };
-
-  const sendLocation = async (location: ILocation) => {
-    const currentTime = Date.now();
-    const timeSinceLastSend = currentTime - lastSentTime.current;
-
-    if (timeSinceLastSend < 15000 || isLoading.current) return; 
-
-    isLoading.current = true;
-    lastSentTime.current = currentTime;
-
-    try {
-      await collectorLocation({
-        garbageId,
-        latitude: location.latitude,
-        longitude: location.longitude,
-      });
-      console.log(`Location sent: Latitude: ${location.latitude}, Longitude: ${location.longitude}`);
-    } catch (error) {
-      console.error('Failed to send location:', error);
-      showToast();
-    } finally {
-      isLoading.current = false;
+  // 위치가 변경될 때마다 위치 전송
+  React.useEffect(() => {
+    if (location) {
+      sendLocation(location);
     }
-  };
-
-  useEffect(() => {
-    let watchId: number | null = null;
-
-    if (!stopTracking) {
-      watchId = Geolocation.watchPosition(
-        position => {
-          const { latitude, longitude } = position.coords;
-          const newLocation = { latitude, longitude };
-          setLocation(newLocation);
-          onLocationChange(newLocation);
-          sendLocation(newLocation); 
-        },
-        error => {
-          console.log(error);
-        },
-        {
-          enableHighAccuracy: true,
-          distanceFilter: 0,
-          interval: 5000,
-          fastestInterval: 2000,
-        },
-      );
-    }
-
-    return () => {
-      if (watchId !== null) {
-        Geolocation.clearWatch(watchId);
-        watchId = null;
-      }
-    };
-  }, [location, garbageId, onLocationChange, stopTracking]);
+  }, [location, sendLocation]);
 
   return (
-    <>  
+    <>
       <CustomToast message="Pengiriman telah gagal." visible={toastVisible} />
     </>
   );

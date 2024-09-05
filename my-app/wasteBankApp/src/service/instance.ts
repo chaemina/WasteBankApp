@@ -1,8 +1,9 @@
 import axios from 'axios';
 import { getItem, setItem } from '../hooks/useAsyncStorage';
+import { BASE_URL } from '@env';  
 
 export const instance = axios.create({
-  baseURL: 'http://ec2-43-202-58-157.ap-northeast-2.compute.amazonaws.com:8090',
+  baseURL: BASE_URL, 
   timeout: 50000,
   headers: {
     'Content-Type': 'application/json; charset=utf-8',

@@ -17,6 +17,8 @@ export type RootStackParam = {
   CollectorNotMatched : undefined;
   IndividualTrashMapView : { data: GarbageData, garbageId?: number};
   CollectorLocation : {garbageId: number};
+  LocationTest : undefined;
+  SplashScreen : undefined;
 };
 
 export const useNav = () => {
