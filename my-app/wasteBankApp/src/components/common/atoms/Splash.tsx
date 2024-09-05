@@ -4,13 +4,14 @@ import styled from "styled-components";
 import { moderateScale } from "../../../utils/Scale";
 import { View } from "react-native";
 
-// const SpinnerWrapper = styled(View)`
-//   display: flex;
-//   justify-content: center;
-//   align-items: center;
-//   height: 100%;
-//   width: 100%;
-// `;
+const Wrapper = styled(View)`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  width: 100%;
+  background-color : #e9f8f0;
+`;
 
 interface SplashProps {
   width: number;
@@ -21,7 +22,7 @@ interface SplashProps {
 
 const Splash: React.FC<SplashProps> = ({ width, height, loop = true, onAnimationFinish }) => {
   return (
-    <>
+    <Wrapper>
       <LottieView
         style={{
           width: moderateScale(width, 0.3),
@@ -32,7 +33,7 @@ const Splash: React.FC<SplashProps> = ({ width, height, loop = true, onAnimation
         loop={loop}
         onAnimationFinish={onAnimationFinish}
       />
-    </>
+    </Wrapper>
   );
 };
 
