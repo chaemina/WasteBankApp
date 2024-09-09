@@ -10,7 +10,7 @@ import { scale } from '../../utils/Scale';
 import { collectDone } from '../../service/collector';
 import { garbageLocation } from '../../service/garbage';
 import { useNav } from '../../hooks/useNav';
-import { useRoute, RouteProp, CurrentRenderContext } from '@react-navigation/native';
+import { useRoute, RouteProp } from '@react-navigation/native';
 import { GarbageData } from '../../types/type';
 import Loading from '../../components/common/atoms/Loading';
 import CustomToast from '../../components/common/atoms/CustomToast';
@@ -35,33 +35,32 @@ const IndividualTrashMapScreen = () => {
   const route = useRoute<RouteProp<RouteParams, 'IndividualTrashMapView'>>();
   const [isLoading, setIsLoading] = useState(false);
   const [toastVisible, setToastVisible] = useState(false);
+  const [isCollecting, setIsCollecting] = useState(true);  // 수거 중인 동안 true
   const [data, setData] = useState<GarbageData | null>(
     route.params?.data || null
   );
-  const currentLocation = useWatchLocation();
+  const currentLocation = useWatchLocation(isCollecting);  // isCollecting 전달
   const { userLocation, handleLocationChange } = useCollectorLocation();
   const garbageId = data?.garbageId || route.params?.garbageId;
-
-
 
   if (garbageId !== undefined) {
     const { sendLocation } = useSendLocation(garbageId);
   
     useEffect(() => {
-      if (currentLocation?.latitude && currentLocation?.longitude) {
+      if (currentLocation?.latitude && currentLocation?.longitude && isCollecting) {
         handleLocationChange({
           latitude: currentLocation.latitude,
           longitude: currentLocation.longitude,
         });
-        sendLocation(currentLocation); // garbageId가 있을 때만 실행
+        sendLocation(currentLocation);
       }
-    }, [currentLocation]);
+    }, [currentLocation, isCollecting]); 
   }
 
   useEffect(() => {
     const fetchGarbageData = async () => {
       const garbageId = route.params?.garbageId;
-      if (garbageId && !data) {  // 데이터가 없는 경우에만 API 요청을 보냄 (수거중인 쓰레기 위치 확인)
+      if (garbageId && !data && isCollecting) {  
         try {
           setIsLoading(true);
           const response = await garbageLocation({ garbageId });
@@ -74,7 +73,7 @@ const IndividualTrashMapScreen = () => {
               matched: true,
               daysSinceRegistration: 0,
             };
-            setData(fetchedData);  // 응답 데이터를 상태로 설정
+            setData(fetchedData);
           } else {
             showToast();
             console.error('Invalid API response structure:', response);
@@ -89,7 +88,7 @@ const IndividualTrashMapScreen = () => {
     };
 
     fetchGarbageData();
-  }, [route.params, data]);  // 데이터가 변할 때마다 useEffect 실행
+  }, [route.params, data]);
 
   const showToast = () => {
     setToastVisible(true);
@@ -100,8 +99,8 @@ const IndividualTrashMapScreen = () => {
     if (data?.garbageId) {
       try {
         setIsLoading(true);
+        setIsCollecting(false);  // 수거 완료 시 수집 중지
         await collectDone({ garbageId: data.garbageId });
-       
         navigation.push("Main");
       } catch (error) {
         showToast();
@@ -115,10 +114,7 @@ const IndividualTrashMapScreen = () => {
     }
   };
 
-  currentLocation?.latitude
-  currentLocation?.longitude
-
-  const combinedData = [userLocation,data].filter((item): item is GarbageData => item !== null);
+  const combinedData = [userLocation, data].filter((item): item is GarbageData => item !== null);
 
   return (
     <>
@@ -131,7 +127,11 @@ const IndividualTrashMapScreen = () => {
               <IndividualTrashMapTemplate data={combinedData} />
               <CustomBox>
                 <CustomButton size="sm" label="Selesai" onPress={handleOnPress} /> 
-                <CustomText color='green' size='caption'>Diperlukan waktu 30 detik untuk mengambil lokasi Anda...</CustomText>
+                {isCollecting && (
+                  <CustomText color='green' size='caption'>
+                    Diperlukan waktu 30 detik untuk mengambil lokasi Anda...
+                  </CustomText>
+                )}
               </CustomBox>
             </>
           ) : (

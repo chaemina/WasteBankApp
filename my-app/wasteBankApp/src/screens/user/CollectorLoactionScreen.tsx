@@ -28,7 +28,7 @@ const CollectorLocationScreen = () => {
   useEffect(() => {
     const intervalId = setInterval(() => {
       refetch();
-    }, 5000); // 5초마다 요청
+    }, 30000); // 30초마다 요청
 
     return () => {
       clearInterval(intervalId); // 컴포넌트 언마운트 시 인터벌 클리어
