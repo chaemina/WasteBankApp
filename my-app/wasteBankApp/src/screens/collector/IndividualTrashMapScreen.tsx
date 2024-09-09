@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { View } from 'react-native';
 import IndividualTrashMapTemplate from '../../components/collector/templates/IndividualTrashMapTemplate';
-import WatchLocation from '../../components/collector/organisms/WatchLocation';
+import useSendLocation from '../../hooks/useSendLocation';
 import { useCollectorLocation } from '../../hooks/useCollectorLoaction';
 import CustomText from '../../components/common/atoms/CustomText';
 import CustomButton from '../../components/common/atoms/CustomButton';
@@ -10,10 +10,11 @@ import { scale } from '../../utils/Scale';
 import { collectDone } from '../../service/collector';
 import { garbageLocation } from '../../service/garbage';
 import { useNav } from '../../hooks/useNav';
-import { useRoute, RouteProp } from '@react-navigation/native';
+import { useRoute, RouteProp, CurrentRenderContext } from '@react-navigation/native';
 import { GarbageData } from '../../types/type';
 import Loading from '../../components/common/atoms/Loading';
 import CustomToast from '../../components/common/atoms/CustomToast';
+import { useWatchLocation } from '../../hooks/useWatchLocation';
 
 type RouteParams = {
   IndividualTrashMapView: {
@@ -30,21 +31,37 @@ const CustomBox = styled(View)`
 `;
 
 const IndividualTrashMapScreen = () => {
-  const { userLocation, handleLocationChange } = useCollectorLocation();
   const navigation = useNav();
   const route = useRoute<RouteProp<RouteParams, 'IndividualTrashMapView'>>();
-  const [isTracking, setIsTracking] = useState(true);
   const [isLoading, setIsLoading] = useState(false);
   const [toastVisible, setToastVisible] = useState(false);
   const [data, setData] = useState<GarbageData | null>(
     route.params?.data || null
   );
+  const currentLocation = useWatchLocation();
+  const { userLocation, handleLocationChange } = useCollectorLocation();
+  const garbageId = data?.garbageId || route.params?.garbageId;
+
+
+
+  if (garbageId !== undefined) {
+    const { sendLocation } = useSendLocation(garbageId);
+  
+    useEffect(() => {
+      if (currentLocation?.latitude && currentLocation?.longitude) {
+        handleLocationChange({
+          latitude: currentLocation.latitude,
+          longitude: currentLocation.longitude,
+        });
+        sendLocation(currentLocation); // garbageId가 있을 때만 실행
+      }
+    }, [currentLocation]);
+  }
 
   useEffect(() => {
     const fetchGarbageData = async () => {
       const garbageId = route.params?.garbageId;
-      
-      if (garbageId && !data) {  // 데이터가 없는 경우에만 API 요청을 보냄
+      if (garbageId && !data) {  // 데이터가 없는 경우에만 API 요청을 보냄 (수거중인 쓰레기 위치 확인)
         try {
           setIsLoading(true);
           const response = await garbageLocation({ garbageId });
@@ -84,7 +101,7 @@ const IndividualTrashMapScreen = () => {
       try {
         setIsLoading(true);
         await collectDone({ garbageId: data.garbageId });
-        setIsTracking(false);
+       
         navigation.push("Main");
       } catch (error) {
         showToast();
@@ -98,7 +115,10 @@ const IndividualTrashMapScreen = () => {
     }
   };
 
-  const combinedData = [userLocation, data].filter((item): item is GarbageData => item !== null);
+  currentLocation?.latitude
+  currentLocation?.longitude
+
+  const combinedData = [userLocation,data].filter((item): item is GarbageData => item !== null);
 
   return (
     <>
@@ -109,15 +129,9 @@ const IndividualTrashMapScreen = () => {
           {data ? (
             <>
               <IndividualTrashMapTemplate data={combinedData} />
-              {isTracking && (
-                <WatchLocation 
-                  onLocationChange={handleLocationChange} 
-                  garbageId={data.garbageId}
-                  stopTracking={!isTracking}
-                />
-              )}
               <CustomBox>
                 <CustomButton size="sm" label="Selesai" onPress={handleOnPress} /> 
+                <CustomText color='green' size='caption'>Diperlukan waktu 30 detik untuk mengambil lokasi Anda...</CustomText>
               </CustomBox>
             </>
           ) : (

@@ -1,33 +1,80 @@
-import React, { useState } from 'react';
-import useWatchLocation from '../hooks/useWatchLocation';
-import {View, Text } from 'react-native';
+import React, { useEffect, useState } from "react";
+import { View, Text, StyleSheet, PermissionsAndroid, Platform } from "react-native";
+import Geolocation from "react-native-geolocation-service";
 
-const LocationTest = () => {
-  const [userLocation, setUserLocation] = useState<{ latitude: number; longitude: number } | null>(null);
+interface Location {
+  latitude: number;
+  longitude: number;
+}
 
-  // 위치 변경 시 호출되는 콜백 함수
-  const handleLocationChange = (location: { latitude: number; longitude: number }) => {
-    setUserLocation(location);
-  };
+const LocationTest: React.FC = () => {
+  const [currentLocation, setCurrentLocation] = useState<Location | null>(null);
 
-  // useWatchLocation 훅을 사용하여 위치 추적
-  useWatchLocation({
-    onLocationChange: handleLocationChange,
-    stopTracking: false, // 추적을 멈추려면 true로 변경
-  });
+  useEffect(() => {
+    const requestLocationPermission = async () => {
+      if (Platform.OS === "android") {
+        try {
+          const granted = await PermissionsAndroid.request(
+            PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION
+          );
+          if (granted !== PermissionsAndroid.RESULTS.GRANTED) {
+            console.log("Location permission denied");
+          }
+        } catch (err) {
+          console.warn(err);
+        }
+      }
+    };
+    requestLocationPermission();
+  }, []);
+
+  useEffect(() => {
+    const intervalId = setInterval(() => {
+      Geolocation.getCurrentPosition(
+        (position) => {
+          const { latitude, longitude } = position.coords;
+          setCurrentLocation({ latitude, longitude });
+          // 위치가 갱신될 때마다 콘솔에 출력
+          console.log(`Updated Location: Latitude: ${latitude}, Longitude: ${longitude}`);
+        },
+        (error) => {
+          console.log(error);
+        },
+        {
+          enableHighAccuracy: true,
+          timeout: 20000,
+          maximumAge: 1000,
+        }
+      );
+    }, 5000); // 5초마다 위치 업데이트
+
+    return () => {
+      clearInterval(intervalId);
+    };
+  }, []);
 
   return (
     <View>
-      <Text>사용자 위치 테스트</Text>
-      {userLocation ? (
-        <Text>
-          현재 위치: 위도 {userLocation.latitude}, 경도 {userLocation.longitude}
+      <Text style={styles.title}>Geolocation Tutorial</Text>
+      {currentLocation ? (
+        <Text style={styles.title}>
+          {currentLocation.latitude} / {currentLocation.longitude}
         </Text>
       ) : (
-        <Text>위치 정보를 가져오는 중...</Text>
+        <Text style={styles.title}>location undefined</Text>
       )}
     </View>
   );
 };
+
+const styles = StyleSheet.create({
+  title: {
+    textAlign: "center",
+    fontSize: 25,
+    margin: 15,
+    color: "black",
+    fontWeight: "600",
+  },
+});
 
 export default LocationTest;

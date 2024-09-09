@@ -1,51 +1,58 @@
-import { useState, useEffect } from 'react';
-import Geolocation from '@react-native-community/geolocation';
+import { useEffect, useState } from "react";
+import { PermissionsAndroid, Platform } from "react-native";
+import Geolocation from "react-native-geolocation-service";
 
-interface ILocation {
+interface Location {
   latitude: number;
   longitude: number;
 }
 
-interface UseWatchLocationProps {
-  onLocationChange: (location: ILocation) => void;
-  stopTracking: boolean;
-}
-
-const useWatchLocation = ({ onLocationChange, stopTracking }: UseWatchLocationProps) => {
-  const [location, setLocation] = useState<ILocation | undefined>(undefined);
+export const useWatchLocation = () => {
+  const [currentLocation, setCurrentLocation] = useState<Location | null>(null);
 
   useEffect(() => {
-    let watchId: number | null = null;
+    const requestLocationPermission = async () => {
+      if (Platform.OS === "android") {
+        try {
+          const granted = await PermissionsAndroid.request(
+            PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION
+          );
+          if (granted !== PermissionsAndroid.RESULTS.GRANTED) {
+            console.log("Location permission denied");
+          }
+        } catch (err) {
+          console.warn(err);
+        }
+      }
+    };
 
-    if (!stopTracking) {
-      watchId = Geolocation.watchPosition(
-        position => {
+    requestLocationPermission();
+  }, []);
+
+  useEffect(() => {
+    const intervalId = setInterval(() => {
+      Geolocation.getCurrentPosition(
+        (position) => {
           const { latitude, longitude } = position.coords;
-          const newLocation = { latitude, longitude };
-          setLocation(newLocation);
-          onLocationChange(newLocation);
+          setCurrentLocation({ latitude, longitude });
+          // 위치가 갱신될 때마다 콘솔에 출력
+          console.log(`Updated Location: Latitude: ${latitude}, Longitude: ${longitude}`);
         },
-        error => {
+        (error) => {
           console.log(error);
         },
         {
           enableHighAccuracy: true,
-          distanceFilter: 0,
-          interval: 5000,
-          fastestInterval: 2000,
-        },
+          timeout: 20000,
+          maximumAge: 1000,
+        }
       );
-    }
+    }, 30000); // 30초마다 위치 업데이트
 
     return () => {
-      if (watchId !== null) {
-        Geolocation.clearWatch(watchId);
-        watchId = null;
-      }
+      clearInterval(intervalId);
     };
-  }, [onLocationChange, stopTracking]);
+  }, []);
 
-  return location;
+  return currentLocation;
 };
-
-export default useWatchLocation;
