@@ -17,6 +17,7 @@
 이 어플리케이션은 하이브리드 어플리케이션으로, 프론트엔드는 웹 개발 (React)과 앱 개발 (React Native)로 나누어 이루어졌습니다.  
 앱에서는 모바일 디바이스의 네이티브 기능이 필요한 (사용자 위치 감지, 회원가입, 지도 출력) 화면을 개발하였으며, 그 외의 화면은 웹으로 개발해 웹뷰로 출력하였습니다. 
 
+- **이경민 Web FrontEnd Development**  [Github Link](https://github.com/chaemina/WasteBankWEB)
 - **채민아 APP FrontEnd Development**  
 1. React Native 프로젝트 환경 설정  
 2. 앱에서 구현할 화면의 프로토타입 및 기능 개발  
@@ -40,9 +41,7 @@
    - React Native Maps 라이브러리로 Google Maps를 사용해 쓰레기 위치와 사용자의 위치를 띄움  
    - 실제 디바이스에서 수거원의 실시간 위치를 감지할 수 있도록 `react-native-geolocation-service` 라이브러리 사용  
    - 앱에서 React Native WebView로 띄우기 위해 Vercel에서 웹 배포 진행  
-   - 웹뷰로 띄운 React 코드에서 postmessage를 보내고, React Native에서 타입과 내용을 전달 받아 토큰 저장 혹은 네비게이션 이동 등을 관리  
-
-- **이경민 Web FrontEnd Development**  [Github Link](https://github.com/chaemina/WasteBankWEB)
+   - 웹뷰로 띄운 React 코드에서 postmessage를 보내고, React Native에서 타입과 내용을 전달 받아 토큰 저장 혹은 네비게이션 이동 등의 웹뷰 통신 구현
 
 ---
 
@@ -58,13 +57,12 @@
 <div align="center">
 <img src="https://github.com/user-attachments/assets/212ff93f-a709-455d-96a4-63d09f984fa4" alt="Frame 7" width="800"/>
 </div>
----
+
 
 ### ⏰ Develop Period
 
 - 2024.06.01 - 2024.09.13
 
----
 
 ## 🚀 How to Start?
 
@@ -113,13 +111,14 @@ Reason why
 
 ## 💡 Main Function
 
-<img src="https://github.com/user-attachments/assets/fcf2aa21-087a-42c5-950f-a68ae7b60c23" alt="Frame 8" width="500"/>
+<div align="center">
+<img src="https://github.com/user-attachments/assets/fcf2aa21-087a-42c5-950f-a68ae7b60c23" alt="Frame 8" width="800"/>
 
-<img src="https://github.com/user-attachments/assets/03472133-74ca-4e71-af9d-57e00092a804" alt="Frame 9" width="500"/>
+<img src="https://github.com/user-attachments/assets/03472133-74ca-4e71-af9d-57e00092a804" alt="Frame 9" width="800"/>
 
-<img src="https://github.com/user-attachments/assets/871307e3-e059-4cef-b4ce-bf1abc280b17" alt="Frame 10" width="500"/>
+<img src="https://github.com/user-attachments/assets/871307e3-e059-4cef-b4ce-bf1abc280b17" alt="Frame 10" width="800"/>
 
-
+</div>
 
 
 
