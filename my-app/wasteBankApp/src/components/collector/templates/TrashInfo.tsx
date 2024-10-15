@@ -1,8 +1,13 @@
-import React, { useState } from 'react';
+import React from 'react';
 import CustomTitle from '../../common/atoms/CustomTitle';
 import CustomText from '../../common/atoms/CustomText';
 import TrashInfoCard from '../organisms/TrashInfoCard';
 import styled from 'styled-components/native';
+import { garbageDetail } from '../../../service/garbage';
+import { useQuery } from '@tanstack/react-query';
+import Loading from '../../common/atoms/Loading';
+import Container from '../../common/atoms/Container';
+import CustomButton from '../../common/atoms/CustomButton';
 
 const CardBox = styled.View`
   width: 100%;
@@ -14,22 +19,33 @@ const TotalBox = styled.View`
   margin-top: 20px;
 `;
 
+interface TrashInfoProps {
+  garbageId: number;
+}
 
-const TrashInfo = () => {
+const TrashInfo: React.FC<TrashInfoProps> = ({ garbageId }) => {
+  const { data, isError, isLoading,refetch } = useQuery({
+    queryKey: ['garbageinfo', garbageId],
+    queryFn: () => garbageDetail({ garbageId }), 
+  });
 
-  const data = {
-    organic: {
-      RP: '60.000',
-      Breat: '1.0kg',
-    },
-    non_organic: {
-      RP: '60.000',
-      Breat: '1.0kg',
-    },
-    totalWeight: 2.0,
-    totalValue: 140.0,
-  };
+  if (isLoading) {
+    return  <Loading width={100} height={100} loop={true} />;
+  }
 
+  if (isError) {
+    return (
+      <Container>
+        <CustomText>Terjadi kesalahan saat memuat data.</CustomText>
+        <CustomText>Silakan coba lagi.</CustomText>
+        <CustomButton 
+          label='Refresh' 
+          size='lg' 
+          onPress={() => refetch()}  
+        />
+      </Container>
+    );
+  }
 
   return (
     <>
@@ -40,7 +56,8 @@ const TrashInfo = () => {
       </CardBox>
       <TotalBox>
         <CustomText>Total yang didapatkan</CustomText>
-        <CustomText size='title' bold>{`RP. ${data.totalValue}`}</CustomText>
+        <CustomText size="title" bold>{`RP. ${data.totalValue}`}</CustomText>
+        <CustomText size="title" bold>{`Total Weight : ${data.totalWeight}`}</CustomText>
       </TotalBox>
     </>
   );

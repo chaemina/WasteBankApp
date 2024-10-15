@@ -1,8 +1,9 @@
 import axios from 'axios';
 import { getItem, setItem } from '../hooks/useAsyncStorage';
+import { BASE_URL } from '@env';  
 
 export const instance = axios.create({
-  baseURL: 'http://ec2-43-202-58-157.ap-northeast-2.compute.amazonaws.com:8090',
+  baseURL: BASE_URL, 
   timeout: 50000,
   headers: {
     'Content-Type': 'application/json; charset=utf-8',
@@ -13,7 +14,7 @@ instance.interceptors.request.use(
   async config => {
     console.log('[API REQUEST]', config);
 
-    const token = await getItem('token');
+    const token = await getItem('auth');
     if (token) {
       config.headers['Authorization'] = `${token}`;
     } else {
@@ -34,7 +35,7 @@ instance.interceptors.response.use(
     
     const token = response.headers['authorization'];
     if (token) {
-      await setItem('token', token); 
+      await setItem('auth', token); 
     }
     
     return response;

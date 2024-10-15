@@ -29,3 +29,15 @@ export const data = {
     "error": null
   };
   
+
+  export const LocationData = {
+    "success": true,
+    "response": 
+      {
+        "latitude": 37.541,
+        "longitude": 126.985,
+        "daysSinceRegistration": -1
+      },
+    "error": null
+  };
+  

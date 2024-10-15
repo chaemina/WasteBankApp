@@ -18,16 +18,16 @@ const RoleSelectTemplate = () => {
 
   return (
     <ScrollContainer>
-      <CustomTitle>Select Your Role</CustomTitle>
+      <CustomTitle>DAFTAR SEBAGAI</CustomTitle>
       {/* 이때 클릭한 버튼에 따라 "user" 혹은 "collector"를 전역 상태로 따로 저장 */}
       <CustomButton 
         size='lg' 
-        label='User' 
+        label='ANGGOTA' 
         onPress={() => handleRoleSelection('user')}
       />
       <CustomButton 
         size='lg' 
-        label='Collector' 
+        label='PETUGAS' 
         onPress={() => handleRoleSelection('collector')}
       />
     </ScrollContainer>

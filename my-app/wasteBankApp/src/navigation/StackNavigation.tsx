@@ -8,11 +8,15 @@ import SignupScreen from '../screens/commoon/SignupScreen';
 import AuthenticationSelectScreen from '../screens/commoon/AuthenticationSelectScreen';
 import AuthenticationScreen from '../screens/commoon/AuthenticationScreen';
 import TrashInfoScreen from '../screens/collector/TrashInfoScreen';
-import GarbagebinScreen from '../screens/user/GarbagebinScreen';
 import MainScreen from '../screens/commoon/MainScreen';
 import AdminMapScreen from '../screens/admin/AdminMapScreen';
-import CollectorMapScreen from '../screens/collector/CollectorMapScreen';
+import CollectorNotMatchedMapScreen from '../screens/collector/CollectorNotMatchedMapScreen';
+import CollectorMatchedMapScreen from '../screens/collector/CollectorMatchedMapScreen';
 import IndividualTrashMapScreen from '../screens/collector/IndividualTrashMapScreen';
+import CollectorLocationScreen from '../screens/user/CollectorLoactionScreen';
+import LocationTest from '../screens/LocationTest';
+import SplashScreen from '../screens/commoon/SplashScreen';
+
 
 const Stack = createNativeStackNavigator();
 
@@ -33,10 +37,10 @@ function StackNavigation() {
   return (
     <NavigationContainer theme={navTheme}>
       <Stack.Navigator
-        initialRouteName="RoleSelect"
+        initialRouteName="Splash"
         screenOptions={({ route }) => ({
           ...customStackNavigationOptions,
-          headerShown: !(route.name === 'Login') && !(route.name === 'IndividualTrashMapView')
+          headerShown: !(route.name === 'Login') && !(route.name === 'Splash')
         })}>
         <Stack.Screen name="Login" component={LoginScreen} />
         <Stack.Screen name="RoleSelect" component={RoleSelectScreen} />
@@ -47,18 +51,22 @@ function StackNavigation() {
         />
         <Stack.Screen name="Authentication" component={AuthenticationScreen} />
         <Stack.Screen name="Main" component={MainScreen} />
+        <Stack.Screen name="Splash" component={SplashScreen} />
 
           {/* user */}
-        <Stack.Screen name="Garbagebin" component={GarbagebinScreen as React.ComponentType<any>} />
-          {/* 수거관 위치 확인 Map View 필요  */}
+        <Stack.Screen name="CollectorLocation" component={CollectorLocationScreen} />
 
           {/* collector */}
-        <Stack.Screen name="CollectorMapView" component={CollectorMapScreen} />
+        <Stack.Screen name="CollectorNotMatched" component={CollectorNotMatchedMapScreen} />
+        <Stack.Screen name="CollectorMatched" component={CollectorMatchedMapScreen} />
         <Stack.Screen name="TrashInfo" component={TrashInfoScreen} />
         <Stack.Screen name="IndividualTrashMapView" component={IndividualTrashMapScreen} />
 
           {/* admin */}
         <Stack.Screen name="AdminMapView" component={AdminMapScreen} />
+
+          {/* test */}
+          <Stack.Screen name="LocationTest" component={LocationTest} />
       </Stack.Navigator>
     </NavigationContainer>
   );

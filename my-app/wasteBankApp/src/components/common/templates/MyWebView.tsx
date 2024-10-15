@@ -1,9 +1,11 @@
 import React, { useRef, useState, useEffect, useCallback } from 'react';
 import { WebView } from 'react-native-webview';
 import styled from 'styled-components/native';
-import { useNavigation } from '@react-navigation/native';
-import { TouchableOpacity, Text, BackHandler } from 'react-native';
+import { TouchableOpacity, BackHandler, View } from 'react-native';
+import { setItem, removeItem } from '../../../hooks/useAsyncStorage';
 import { useNav } from '../../../hooks/useNav';
+import CustomToast from '../atoms/CustomToast';
+import ArrowBackButton from '../atoms/ArrowBackButton';
 
 interface MyWebViewProps {
   initialUrl: string;
@@ -18,24 +20,28 @@ const StyledWebView = styled(WebView)`
   flex: 1;
 `;
 
-const BackButton = styled.Text`
-  font-size: 25px;
-  color: #000;
-  padding-left: 10px;
-`;
-
 const MyWebView: React.FC<MyWebViewProps> = ({ initialUrl, children }) => {
   const webviewRef = useRef<WebView>(null);
   const navigation = useNav();
   const [canGoBack, setCanGoBack] = useState(false);
+  const [toastVisible, setToastVisible] = useState(false); 
+
+  const showToast = () => {
+    setToastVisible(true);
+    setTimeout(() => setToastVisible(false), 5500); // 토스트를 5.5초 동안 표시
+  };
 
   const handleNavigationStateChange = (navState: any) => {
     setCanGoBack(navState.canGoBack);
-    if (navState.url !== initialUrl) {
-      navigation.setOptions({ headerShown: true });
-    } else {
-      navigation.setOptions({ headerShown: false });
-    }
+
+    // 현재 URL이 루트 경로 또는 로그인 페이지인지 확인
+    const isRootOrLoginUrl = 
+      navState.url === initialUrl || 
+      navState.url === `${initialUrl}/` || 
+      navState.url.includes('login');
+    
+    // 루트 경로나 로그인 페이지라면 헤더를 숨기고, 그렇지 않으면 헤더를 표시
+    navigation.setOptions({ headerShown: !isRootOrLoginUrl });
   };
 
   const goBack = () => {
@@ -48,48 +54,86 @@ const MyWebView: React.FC<MyWebViewProps> = ({ initialUrl, children }) => {
 
   useEffect(() => {
     navigation.setOptions({
-      headerLeft: () => (
-        <TouchableOpacity onPress={goBack}>
-          <BackButton>{'<'}</BackButton>
-        </TouchableOpacity>
-      ),
+      headerLeft: () => <ArrowBackButton onPress={goBack} />, 
     });
   }, [navigation, canGoBack]);
 
   const backPress = useCallback(() => {
-    if (webviewRef.current) {
-      webviewRef.current.goBack();
-      return true; // prevent default behavior (exit app)
+    if (canGoBack && webviewRef.current) {
+        webviewRef.current.goBack();
+        return true; // 기본 동작(앱 종료)을 방지
+    } else {
+        navigation.goBack();
+        return true; // 기본 동작(앱 종료)을 방지
     }
-    return false;
-  }, []);
+}, [canGoBack]);
 
-  // 애니메이션 효과나 다른 방법 생각 필요 
-  useEffect(() => {
-     BackHandler.addEventListener('hardwareBackPress', backPress);
+useEffect(() => {
+    BackHandler.addEventListener('hardwareBackPress', backPress);
     return () => {
-      BackHandler.removeEventListener('hardwareBackPress', backPress);
+        BackHandler.removeEventListener('hardwareBackPress', backPress);
     };
-  }, [backPress]);
+}, [backPress]);
 
-  const handleMessage = (event: any) => {
+  const handleMessage = async (event: any) => {
     const message = event.nativeEvent.data;
-    console.log("Received message:", message); // 콘솔 로그 출력
-    navigation.push(message);  // 이동하지 않는 경우도 생각해봐야함, navigate라는 문자열 포함 혹은 token 문자열 포함 여부.. 등등
+    console.log("Received message:", message);
+
+    try {
+      const parsedMessage = JSON.parse(message);
+
+      switch (parsedMessage.type) {
+        case "TOKEN":
+          if (parsedMessage.token) {
+            await setItem('auth', parsedMessage.token);
+            console.log('Token saved to AsyncStorage');
+            navigation.push("Main");
+          }
+          break;
+        
+        case "REMOVE_TOKEN":
+          await removeItem('auth');
+          console.log('Token removed from AsyncStorage');
+          
+          if (webviewRef.current) {
+            webviewRef.current.reload();
+          }
+          break;
+
+        case "NAVIGATE":
+          if (parsedMessage.destination) {
+            if (parsedMessage.garbageId) {
+              navigation.navigate(parsedMessage.destination, { garbageId: parsedMessage.garbageId });
+            } else {
+              navigation.navigate(parsedMessage.destination);
+            }
+          }
+          break;
+
+        default:
+          console.warn('Unknown message type received:', parsedMessage.type);
+      }
+    } catch (error) {
+      showToast(); 
+      console.error('Failed to process message:', error);
+    }
   };
 
   return (
-    <Wrapper>
-      <StyledWebView
-        ref={webviewRef}
-        source={{ uri: initialUrl as string }}
-        onNavigationStateChange={handleNavigationStateChange}
-        javaScriptEnabled={true}
-        domStorageEnabled={true}
-        onMessage={handleMessage} // 메시지 수신 핸들러
-      />
-      {children}
-    </Wrapper>
+    <>
+      <Wrapper>
+        <StyledWebView
+          ref={webviewRef}
+          source={{ uri: initialUrl as string }}
+          onNavigationStateChange={handleNavigationStateChange}
+          javaScriptEnabled={true}
+          domStorageEnabled={true}
+          onMessage={handleMessage} // 메시지 수신 핸들러
+        />
+        {children}
+      </Wrapper>
+      <CustomToast message="Terjadi kesalahan. Silakan coba lagi." visible={toastVisible} />
+    </>
   );
 };
 

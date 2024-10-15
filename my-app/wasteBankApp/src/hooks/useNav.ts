@@ -1,5 +1,6 @@
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { useNavigation } from '@react-navigation/native';
+import { GarbageData } from '../types/type';
 
 export type RootStackParam = {
   Login: undefined;
@@ -8,11 +9,16 @@ export type RootStackParam = {
   Signup: undefined;
   AuthenticationSelect: undefined;
   Authentication: { method: string };
-  TrashInfo: { matched: boolean }; 
+  TrashInfo: { matched: boolean; garbageId: number };
   Garbagebin : { url: string };
+  CollectorLocationCheckScreen: undefined;
   AdminMapView: undefined;
-  CollectorMapView : undefined;
-  IndividualTrashMapView : undefined;
+  CollectorMatched : undefined;
+  CollectorNotMatched : undefined;
+  IndividualTrashMapView : { data: GarbageData, garbageId?: number};
+  CollectorLocation : {garbageId: number};
+  LocationTest : undefined;
+  SplashScreen : undefined;
 };
 
 export const useNav = () => {
