@@ -153,6 +153,31 @@ Reason why
 
 ### 4. 홈 화면 
 
+- user : 폐기물 입력, 입력 정보 확인, 매칭 된 픽업 정보 확인, 저축 현황 확인
+- collector : 매칭 되지 않은 폐기물 확인, 매칭 된 폐기물 픽업 정보 확인, 픽업 중인 폐기물 확인
+- admin : 폐기물 전체 현황 확인 
+
 | user | collector | admin |
 |---|---|---|
 | <img width="241" alt="Image" src="https://github.com/user-attachments/assets/59de297c-0036-4580-baf0-5da39bb4f065" /> | <img width="241" alt="Image" src="https://github.com/user-attachments/assets/fb503905-ef81-49dc-a179-758be2bdecc3" /> | <img width="241" alt="Image" src="https://github.com/user-attachments/assets/7bfbe3bd-ad46-479b-8f4b-88016d3a27e5" /> |
+
+
+### user 
+
+(1) 폐기물 입력 
+
+| 폐기물 입력 | 입력 정보 확인 | 
+|---|---|
+|  | ![Image](https://github.com/user-attachments/assets/df7a5459-1be7-42d4-aa29-d4063f6e4098) | 
+
+(2) 매칭 된 픽업 정보 확인 
+
+![Image](https://github.com/user-attachments/assets/65a41755-edfd-43e2-b947-cd855fa14dc0)
+
+**픽업 중인 수거관 위치 확인**
+
+| ![Image](https://github.com/user-attachments/assets/7ea5c869-513a-4504-a5a7-91e1f7785e1a) |  | 
+
+
+### collector 
+
