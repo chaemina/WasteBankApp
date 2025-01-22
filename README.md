@@ -86,19 +86,21 @@ npm run android
 
 
 #### FrontEnd stack
+<img src="https://img.shields.io/badge/Typescript-3178C6?style=flat-square&logo=Typescript&logoColor=white"/>
+<img src="https://img.shields.io/badge/React Native-61DAFB?style=flat-square&logo=React&logoColor=black"/>
+<img src="https://img.shields.io/badge/styled components-DB7093?style=flat-square&logo=styled-components&logoColor=white"/>
 <img src="https://img.shields.io/badge/Axios-5A29E4?style=flat-square&logo=axios&logoColor=white"/>
-<img src="https://img.shields.io/badge/ReactQuery-FF4154?style=flat-square&logo=reactquery&logoColor=white"/>
 <img src="https://img.shields.io/badge/NPM-CB3837?style=flat-square&logo=npm&logoColor=white"/>
 <img src="https://img.shields.io/badge/Redux-764ABC?style=flat-square&logo=Redux-toolkit&logoColor=white"/>
+<img src="https://img.shields.io/badge/ReactQuery-FF4154?style=flat-square&logo=reactquery&logoColor=white"/>
 <img src="https://img.shields.io/badge/Lottie-68BC71?style=flat-square&logo=&logoColor=white"/>
 
 #### React Native Library 
 <a title="Facebook, Public domain, via Wikimedia Commons" href="https://commons.wikimedia.org/wiki/File:React-icon.svg"><img width="256" alt="React-icon" src="https://upload.wikimedia.org/wikipedia/commons/thumb/a/a7/React-icon.svg/256px-React-icon.svg.png?20220125121207"></a>
 
-
 <img src="https://img.shields.io/badge/AsyncStorage-61DAFB?style=flat-square&logo=&logoColor=white"/>
 <img src="https://img.shields.io/badge/Webview-61DAFB?style=flat-square&logo=&logoColor=white"/>
-
+<img src="https://img.shields.io/badge/geolocation-61DAFB?style=flat-square&logo=&logoColor=white"/>
 
 #### Cowork tools
 
@@ -128,7 +130,12 @@ Reason why
 ## 📱 User Interface 
 
 ### 1. 시작 화면 
+
+<div align="center">
+   
 ![Image](https://github.com/user-attachments/assets/b8eb30e8-999c-47d5-85b6-83698cb67c14)
+
+</div>
 
 ### 2. 회원 가입 
 
@@ -142,7 +149,11 @@ Reason why
 
 - **계정 인증**
 
+<div align="center">
+
 ![Image](https://github.com/user-attachments/assets/20f6cea2-951c-41f2-9653-02c32faec4b4)
+
+</div>
 
 | email | whatsapp |
 |---|---|
@@ -176,7 +187,11 @@ Reason why
 
 - 픽업 리스트 
 
-![Image](https://github.com/user-attachments/assets/65a41755-edfd-43e2-b947-cd855fa14dc0) 
+<div align="center">
+
+   ![Image](https://github.com/user-attachments/assets/65a41755-edfd-43e2-b947-cd855fa14dc0) 
+
+</div>
 
 - 픽업 중인 수거관 위치 확인 
 
@@ -184,7 +199,11 @@ Reason why
 
 - 픽업 끝난 수거관 평가 
 
-![Image](https://github.com/user-attachments/assets/1607cb9e-76ad-4189-998d-e1eaef413b31)
+<div align="center">
+
+   ![Image](https://github.com/user-attachments/assets/1607cb9e-76ad-4189-998d-e1eaef413b31)
+
+</div>
 
 
 ### 6. Collector Menu 
@@ -195,6 +214,12 @@ Reason why
 | 폐기물 확인 | 픽업 할 폐기물 선택 | 
 |---|---|
 | ![Image](https://github.com/user-attachments/assets/79590ea5-1306-4a15-9e16-91bafa6093df)| ![Image](https://github.com/user-attachments/assets/e286dcce-9cbd-4fa7-92ee-711b1e3f5371) | 
+
+### 매칭 된 폐기물 확인 
+
+| 폐기물 픽업 시작 | 픽업 중인 폐기물 확인 | 폐기물 픽업 종료 | 
+|---|---|---|
+| ![Image](https://github.com/user-attachments/assets/1ace0c8e-102d-4dfb-889e-90d03e1e9bbc) | ![Image](https://github.com/user-attachments/assets/50fd8028-b102-4615-875c-e1d08d65bd15) |  ![Image](https://github.com/user-attachments/assets/b15a5bf8-3112-42cc-9958-c66e70a257a1) |
 
 
 
