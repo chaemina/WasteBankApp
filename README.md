@@ -195,7 +195,11 @@ Reason why
 
 - 픽업 중인 수거관 위치 확인 
 
-![Image](https://github.com/user-attachments/assets/7ea5c869-513a-4504-a5a7-91e1f7785e1a) ![Image](https://github.com/user-attachments/assets/7b4e7297-15da-4046-89ce-4857a1ca0afb) 
+<div align="row">
+   
+   ![Image](https://github.com/user-attachments/assets/7ea5c869-513a-4504-a5a7-91e1f7785e1a) ![Image](https://github.com/user-attachments/assets/7b4e7297-15da-4046-89ce-4857a1ca0afb) 
+
+</div>
 
 - 픽업 끝난 수거관 평가 
 
