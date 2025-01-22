@@ -2,9 +2,14 @@
 
 실시간 모니터링 시스템을 활용해 Waste Bank 운영의 효율을 향상시키는 **Waste Bank Application**입니다. 
 
-## 💻 Project
+## 🏆 성과 
+### Springer LNNS & ICICT 2025 
+본 프로젝트는 국제 학술 대회인 **ICICT 2025 (International Conference on Information and Communication Technology)** 에서 구두 발표(Oral Presentation)로 선정되었으며, **Springer LNNS (Lecture Notes in Networks and Systems)** 시리즈에 게재 승인을 받음으로써 연구 및 개발의 가치를 국제적으로 인정받았습니다.
+자세한 정보는 ICICT 2025 공식 웹사이트를 참조하세요. [ICICT 2025](https://icict.co.uk/home.php)
 
-이 프로젝트는 Waste Bank 운영의 효율성을 높이기 위한 실시간 모니터링 애플리케이션입니다. 폐기물 수거 과정을 실시간으로 모니터링하고, 운영 투명성을 높이기 위해 설계되었습니다.
+## 💻 Project
+2024 WKF ICT 팀 홀씨의 프로젝트로, 수혜 기관인 인도네시아의 다르마자야 대학의 요청으로 기획 및 개발되었습니다.
+이 어플리케이션은 Waste Bank 운영의 효율성을 높이기 위한 실시간 모니터링 애플리케이션이며, 폐기물 수거 과정을 실시간으로 모니터링하고 운영 투명성을 높이는 것을 목적으로 합니다.
 
 ### 🔎 Purpose
 
@@ -120,6 +125,7 @@ Reason why
 
 </div>
 
+## 📱 User Interface 
 
 
 
