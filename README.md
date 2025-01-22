@@ -142,6 +142,8 @@ Reason why
 
 - **계정 인증**
 
+![Image](https://github.com/user-attachments/assets/20f6cea2-951c-41f2-9653-02c32faec4b4)
+
 | email | whatsapp |
 |---|---|
 | <img width="539" alt="Image" src="https://github.com/user-attachments/assets/2d4ef1c0-a0fe-4ae2-a182-636e8190f324" /> | <img width="476" alt="Image" src="https://github.com/user-attachments/assets/b424836e-dc08-4306-b7f7-43527f1149a8" /> | 
@@ -162,22 +164,38 @@ Reason why
 | <img width="241" alt="Image" src="https://github.com/user-attachments/assets/59de297c-0036-4580-baf0-5da39bb4f065" /> | <img width="241" alt="Image" src="https://github.com/user-attachments/assets/fb503905-ef81-49dc-a179-758be2bdecc3" /> | <img width="241" alt="Image" src="https://github.com/user-attachments/assets/7bfbe3bd-ad46-479b-8f4b-88016d3a27e5" /> |
 
 
-### user 
+### 5. User Menu 
 
-(1) 폐기물 입력 
+### 폐기물 입력 
 
 | 폐기물 입력 | 입력 정보 확인 | 
 |---|---|
-|  | ![Image](https://github.com/user-attachments/assets/df7a5459-1be7-42d4-aa29-d4063f6e4098) | 
+| ![Image](https://github.com/user-attachments/assets/0002a667-834f-4043-bb3a-0d9e8439d040) | ![Image](https://github.com/user-attachments/assets/df7a5459-1be7-42d4-aa29-d4063f6e4098) | 
 
-(2) 매칭 된 픽업 정보 확인 
+### 픽업 정보 확인 
 
-![Image](https://github.com/user-attachments/assets/65a41755-edfd-43e2-b947-cd855fa14dc0)
+- 픽업 리스트 
 
-**픽업 중인 수거관 위치 확인**
+![Image](https://github.com/user-attachments/assets/65a41755-edfd-43e2-b947-cd855fa14dc0) 
 
-| ![Image](https://github.com/user-attachments/assets/7ea5c869-513a-4504-a5a7-91e1f7785e1a) |  | 
+- 픽업 중인 수거관 위치 확인 
+
+![Image](https://github.com/user-attachments/assets/7ea5c869-513a-4504-a5a7-91e1f7785e1a) ![Image](https://github.com/user-attachments/assets/7b4e7297-15da-4046-89ce-4857a1ca0afb) 
+
+- 픽업 끝난 수거관 평가 
+
+![Image](https://github.com/user-attachments/assets/1607cb9e-76ad-4189-998d-e1eaef413b31)
 
 
-### collector 
+### 6. Collector Menu 
+
+### 매칭 되지 않은 폐기물
+수거관 관활 구역에 있는 폐기물만 출력
+
+| 폐기물 확인 | 픽업 할 폐기물 선택 | 
+|---|---|
+| ![Image](https://github.com/user-attachments/assets/79590ea5-1306-4a15-9e16-91bafa6093df)| ![Image](https://github.com/user-attachments/assets/e286dcce-9cbd-4fa7-92ee-711b1e3f5371) | 
+
+
+
 
