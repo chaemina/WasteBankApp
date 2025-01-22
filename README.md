@@ -127,5 +127,32 @@ Reason why
 
 ## 📱 User Interface 
 
+### 1. 시작 화면 
+![Image](https://github.com/user-attachments/assets/b8eb30e8-999c-47d5-85b6-83698cb67c14)
+
+### 2. 회원 가입 
+
+- **공통 기입 내용** : 이름, 이메일(중복확인), 비밀번호, 전화번호, 주소
+
+- **user 추가 기입 내용** : 계좌 번호, 은행 
+
+| user | collector |
+|---|---|
+| ![Image](https://github.com/user-attachments/assets/7ca058e7-4895-4402-a97c-875a713fd6c7) | ![Image](https://github.com/user-attachments/assets/2280a8c2-2233-4c70-8731-0150491f086a) | 
+
+- **계정 인증**
+
+| email | whatsapp |
+|---|---|
+| <img width="539" alt="Image" src="https://github.com/user-attachments/assets/2d4ef1c0-a0fe-4ae2-a182-636e8190f324" /> | <img width="476" alt="Image" src="https://github.com/user-attachments/assets/b424836e-dc08-4306-b7f7-43527f1149a8" /> | 
 
 
+### 3. 로그인 
+
+관리자는 고정 아이디와 비밀번호를 사용함 
+
+### 4. 홈 화면 
+
+| user | collector | admin |
+|---|---|---|
+| <img width="241" alt="Image" src="https://github.com/user-attachments/assets/59de297c-0036-4580-baf0-5da39bb4f065" /> | <img width="241" alt="Image" src="https://github.com/user-attachments/assets/fb503905-ef81-49dc-a179-758be2bdecc3" /> | <img width="241" alt="Image" src="https://github.com/user-attachments/assets/7bfbe3bd-ad46-479b-8f4b-88016d3a27e5" /> |
