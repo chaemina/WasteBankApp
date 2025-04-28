@@ -4,8 +4,7 @@
 
 ## 🏆 성과 
 ### Springer LNNS & ICICT 2025 
-본 프로젝트는 국제 학술 대회인 **ICICT 2025 (International Conference on Information and Communication Technology)** 에서 구두 발표(Oral Presentation)로 선정되었으며, **Springer LNNS (Lecture Notes in Networks and Systems)** 시리즈에 게재 승인을 받음으로써 연구 및 개발의 가치를 국제적으로 인정받았습니다.
-자세한 정보는 ICICT 2025 공식 웹사이트를 참조하세요. [ICICT 2025](https://icict.co.uk/home.php)
+본 프로젝트는 국제 학술 대회인 **ICICT 2025 (International Conference on Information and Communication Technology)** 에서 구두 발표로 선정되었으며, **Springer LNNS (Lecture Notes in Networks and Systems)** 시리즈에 게재 승인을 받음으로써 연구 및 개발의 가치를 국제적으로 인정받았습니다. [ICICT 2025](https://icict.co.uk/home.php)
 
 ## 💻 Project
 2024 WKF ICT 팀 홀씨의 프로젝트로, 수혜 기관인 인도네시아의 다르마자야 대학의 요청으로 기획 및 개발되었습니다.
@@ -15,7 +14,7 @@
 
 **Waste Bank 협동조합**은 인도네시아 북자카르타 지역의 환경문제를 해결하는 경제적 참여 방식입니다. 이 협동조합은 지역의 폐기물을 수거하고, 재활용 가능한 자원을 판매해 수익을 창출하고 있습니다.
 
-그러나, 기존의 수동 방식으로는 증가하는 고객 수와 폐기물 처리를 효과적으로 관리하기 어려워져, 실시간 모니터링 시스템을 도입하게 되었습니다. 이 시스템을 통해 Waste Bank는 더 효율적이고 투명하게 운영될 수 있습니다.
+그러나, 기존의 수동 방식으로는 증가하는 고객 수와 폐기물 처리를 효과적으로 관리하기 어려워져, 실시간 모니터링 시스템을 도입하게 되었습니다. 
 
 ### 🧑🏻‍🤝‍🧑🏻 FE Developer Roles
 
@@ -110,11 +109,6 @@ npm run android
 </div>
 <br/>
 
-
-```
-Reason why
-
-```
 
 ## 💡 Main Function
 
