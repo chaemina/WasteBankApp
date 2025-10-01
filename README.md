@@ -4,7 +4,7 @@
 
 ## 🏆 성과 
 ### Springer LNNS & ICICT 2025 
-본 프로젝트는 국제 학술 대회인 **ICICT 2025 (International Conference on Information and Communication Technology)** 에서 구두 발표로 선정되었으며, **Springer LNNS (Lecture Notes in Networks and Systems)** 시리즈에 게재 승인을 받음으로써 연구 및 개발의 가치를 국제적으로 인정받았습니다. [ICICT 2025](https://icict.co.uk/home.php)
+본 프로젝트는 국제 학술 대회인 **ICICT 2025 (International Conference on Information and Communication Technology)** 에서 구두 발표로 선정되었으며, **Springer LNNS (Lecture Notes in Networks and Systems)** 시리즈에 게재 승인을 받음으로써 연구 및 개발의 가치를 국제적으로 인정받았습니다. [Development of a Waste Bank Application with Real-Time Monitoring Dashboard for Sustainable Waste Management](https://link.springer.com/chapter/10.1007/978-981-96-6432-0_40)
 
 ## 💻 Project
 2024 WKF ICT 팀 홀씨의 프로젝트로, 수혜 기관인 인도네시아의 다르마자야 대학의 요청으로 기획 및 개발되었습니다.
